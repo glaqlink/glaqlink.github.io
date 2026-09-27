@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06090c">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="GL-AQLINK — Automação sem fio para bombeamento">
+<meta property="og:description" content="A caixa enche e o sistema de bombeamento desliga sozinho. Rádio 920 MHz, de 10 a 20 km, sem fio e sem mensalidade.">
+<meta property="og:image" content="https://glaqlink.github.io/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://glaqlink.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<title>GL-AQLINK — Automação sem fio para bombeamento</title>
+<meta name="description" content="GL-AQLINK — automação sem fio para sistemas de bombeamento. Rádio criptografado de 10 a 20 km, projetado para falhar em estado seguro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>:root{
+  --ink:#f4f6f7; --soft:#a8b2bb; --faint:#78838d;
+  --deep:#06090c; --deep2:#0b1116;
+  --line:rgba(244,246,247,.16); --line2:rgba(244,246,247,.08);
+  --accent:#6fe0ef; --warm:#e8b45e; --alert:#ff8a95;
+  --e:cubic-bezier(.72,0,.16,1);
+  --f-d:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-s:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-m:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --aqua:var(--accent); --azure:#39b6c9; --violet:var(--soft); --magenta:var(--soft);
+  --amber:#e8b45e; --emerald:var(--accent); --rose:var(--alert);
+  --muted:var(--soft); --card-bg:var(--deep); --border:var(--line); --text:var(--ink);
+  --paper:var(--deep);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none;background:var(--deep)}
+body{color:var(--ink);font-family:var(--f-s);font-weight:400;font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-family:var(--f-d);font-weight:600;letter-spacing:-.035em;line-height:1.03}
+p{margin:0} img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+#deck{position:fixed;inset:0;z-index:2}
+.track{display:flex;height:100%;will-change:transform;transition:transform 1.15s var(--e)}
+.slide{position:relative;flex:0 0 100vw;height:100%;overflow:hidden;
+  display:flex;align-items:center;justify-content:center}
+.stage{position:relative;z-index:3;width:min(1200px,90vw);max-height:100vh;
+  padding:84px 0 88px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.stage::-webkit-scrollbar{display:none}
+.photo{position:absolute;inset:-4% -6%;z-index:0;overflow:hidden;
+  transition:transform 1.15s var(--e),opacity 1.15s var(--e)}
+.photo img{width:100%;height:100%;object-fit:cover;
+  animation:kb 30s ease-in-out infinite alternate;transform-origin:center}
+@keyframes kb{from{transform:scale(1.04)}to{transform:scale(1.16)}}
+.scrim{position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(100deg,rgba(4,7,10,.94) 0%,rgba(4,7,10,.82) 38%,rgba(4,7,10,.42) 66%,rgba(4,7,10,.58) 100%),
+    linear-gradient(180deg,rgba(4,7,10,.72) 0%,transparent 26%,transparent 62%,rgba(4,7,10,.85) 100%)}
+.slide.solid .scrim{background:
+    radial-gradient(120% 90% at 20% 0%,rgba(23,38,46,.9),rgba(4,7,10,.97) 62%),
+    linear-gradient(180deg,rgba(4,7,10,.9),rgba(4,7,10,.98))}
+.grain{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.slide [data-r]{opacity:0;filter:blur(7px);
+  transform:translate3d(calc(var(--dir,1) * 54px),22px,0);
+  transition:opacity 1.05s var(--e),transform 1.2s var(--e),filter 1.05s var(--e);
+  transition-delay:calc(var(--i,0) * 80ms)}
+.slide.active [data-r]{opacity:1;filter:none;transform:none}
+.slide [data-rule]{transform:scaleX(0);transform-origin:left;
+  transition:transform 1.3s var(--e);transition-delay:calc(var(--i,0) * 80ms)}
+.slide.active [data-rule]{transform:scaleX(1)}
+.mask{display:block;overflow:hidden;padding-bottom:.1em}
+.mask>span{display:block;transform:translateY(115%);
+  transition:transform 1.35s var(--e);transition-delay:calc(var(--i,0) * 80ms + 70ms)}
+.slide.active .mask>span{transform:none}
+.top{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;
+  justify-content:space-between;padding:26px clamp(20px,5vw,60px);pointer-events:none}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--f-m);font-size:.7rem;
+  letter-spacing:.34em;text-transform:uppercase}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 0 rgba(111,224,239,.6);animation:ping 3.2s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(111,224,239,.55)}70%,100%{box-shadow:0 0 0 14px rgba(111,224,239,0)}}
+.topright{text-shadow:0 1px 10px rgba(0,0,0,.7);display:flex;align-items:center;gap:20px;font-family:var(--f-m);font-size:.66rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.topright .sec{min-width:150px;text-align:right}
+.idx b{color:var(--ink);font-weight:400}
+.pbar{position:fixed;top:0;left:0;height:1.5px;z-index:7;width:0;
+  background:linear-gradient(90deg,transparent,var(--accent));transition:width 1.15s var(--e)}
+.dots{position:fixed;left:clamp(20px,5vw,60px);bottom:34px;z-index:6;display:flex;gap:8px;align-items:center}
+.dots button{width:18px;height:1px;background:var(--line);padding:9px 0;background-clip:content-box;
+  transition:.6s var(--e)}
+.dots button.on{width:40px;background:var(--accent);background-clip:content-box}
+.ctrl{position:fixed;right:clamp(20px,5vw,60px);bottom:26px;z-index:6;display:flex;gap:10px}
+.ctrl button{width:46px;height:46px;border:1px solid var(--line);border-radius:50%;display:grid;
+  place-items:center;color:var(--soft);backdrop-filter:blur(6px);transition:.5s var(--e)}
+.ctrl button:hover:not(:disabled){color:var(--deep);background:var(--ink);border-color:var(--ink)}
+.ctrl button:disabled{opacity:.25;cursor:default}
+.hint{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:6;font-family:var(--f-m);
+  font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);transition:opacity .7s}
+.hint.hide{opacity:0}
+@media(max-width:700px){.dots button{width:11px}.dots button.on{width:24px}}
+.label{font-family:var(--f-m);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
+.label.dim{color:var(--faint)}
+.display{font-size:clamp(2.5rem,6.6vw,5.4rem);line-height:1.01;letter-spacing:-.04em}
+.display em{font-style:normal;color:var(--accent)}
+h2.title{font-size:clamp(1.8rem,4.2vw,3.1rem);letter-spacing:-.04em}
+h2.title em{font-style:normal;color:var(--accent)}
+.body{color:var(--soft);font-weight:300;font-size:clamp(.96rem,1.4vw,1.06rem);max-width:54ch}
+.rule{display:block;height:1px;background:var(--line);width:100%}
+.mono{font-family:var(--f-m)}
+.head{display:flex;align-items:baseline;gap:20px;margin-bottom:clamp(18px,3vw,36px)}
+.head .rule{flex:1}
+.col{display:grid;gap:clamp(16px,2.4vw,26px);max-width:760px}
+.kicker{display:flex;flex-wrap:wrap;gap:0;font-family:var(--f-m);font-size:.64rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.kicker span{padding-right:16px;margin-right:16px;border-right:1px solid var(--line)}
+.kicker span:last-child{border:0;margin:0;padding:0}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.steps>div{padding:24px 22px 26px;border-left:1px solid var(--line2);transition:background .6s var(--e)}
+.steps>div:first-child{padding-left:0;border-left:0}
+.steps>div:hover{background:rgba(255,255,255,.035)}
+.steps h3{font-family:var(--f-s);font-size:.96rem;font-weight:500;margin:12px 0 7px;letter-spacing:0}
+.steps p{color:var(--soft);font-weight:300;font-size:.86rem}
+.n{font-family:var(--f-m);font-size:.64rem;letter-spacing:.2em;color:var(--accent)}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}
+  .steps>div:nth-child(3){padding-left:0;border-left:0}}
+@media(max-width:560px){.steps{grid-template-columns:1fr}
+  .steps>div{padding:16px 0;border-left:0;border-top:1px solid var(--line2)}
+  .steps>div:first-child{border-top:0}}
+.lines{display:grid;gap:0}
+.lines>div{display:grid;grid-template-columns:54px 1fr;gap:clamp(16px,3vw,38px);
+  padding:15px 0;border-top:1px solid var(--line2);align-items:start;transition:.55s var(--e)}
+.lines>div:hover{border-top-color:var(--accent);transform:translateX(7px)}
+.lines h3{font-family:var(--f-s);font-size:.98rem;font-weight:500;letter-spacing:0;margin-bottom:4px}
+.lines p{color:var(--soft);font-weight:300;font-size:.86rem;max-width:74ch}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,60px)}
+@media(max-width:840px){.mods{grid-template-columns:1fr;gap:44px}}
+.mod{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,32px);align-items:start}
+@media(max-width:520px){.mod{grid-template-columns:1fr}}
+.shot{position:relative;width:clamp(128px,17vw,200px);flex:0 0 auto}
+.shot img,.shot svg{width:100%;height:auto;display:block;image-rendering:-webkit-optimize-contrast;
+  filter:drop-shadow(0 34px 44px rgba(0,0,0,.62));animation:sway 11s ease-in-out infinite}
+.shot.b img,.shot.b svg{animation-delay:-5.5s}
+@keyframes sway{0%,100%{transform:translateY(-7px)}50%{transform:translateY(8px)}}
+.shot::after{content:"";position:absolute;left:8%;right:8%;bottom:-16px;height:22px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.55),transparent 70%)}
+.mod h3{font-size:clamp(1.2rem,2.2vw,1.6rem);margin:8px 0 8px}
+.mod .body{font-size:.9rem;margin-bottom:14px}
+.dl{display:grid;gap:0;margin:0}
+.dl div{display:flex;gap:16px;justify-content:space-between;align-items:baseline;
+  padding:9px 0;border-top:1px solid var(--line2);font-size:.84rem;transition:.5s var(--e)}
+.dl div:hover{border-top-color:var(--accent)}
+.dl dt{font-family:var(--f-m);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint);white-space:nowrap;margin:0}
+.dl dd{margin:0;text-align:right;font-weight:300;color:var(--ink)}
+.range{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+@media(max-width:840px){.range{grid-template-columns:1fr}}
+.bignum{font-family:var(--f-d);font-weight:600;font-size:clamp(3.4rem,10vw,7.6rem);line-height:.9;
+  letter-spacing:-.06em;white-space:nowrap}
+.bignum sup{font-size:.22em;vertical-align:super;font-family:var(--f-m);letter-spacing:.1em;
+  margin-left:10px;color:var(--soft);font-weight:400}
+.dimline{position:relative;margin:26px 0 10px;height:1px;background:var(--line)}
+.dimline::before,.dimline::after{content:"";position:absolute;top:-4px;width:1px;height:9px;background:var(--soft)}
+.dimline::before{left:0}.dimline::after{right:0}
+.dimdot{position:absolute;top:-2.5px;left:0;width:6px;height:6px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 12px var(--accent);animation:travel 6s var(--e) infinite}
+@keyframes travel{0%{left:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:calc(100% - 6px);opacity:0}}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(28px,5vw,64px);margin:0}
+@media(max-width:840px){.spec{grid-template-columns:1fr}}
+.spec div{display:flex;justify-content:space-between;gap:18px;align-items:baseline;
+  padding:11px 0;border-top:1px solid var(--line2);font-size:.88rem}
+.spec dt{font-family:var(--f-m);font-size:.61rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint);margin:0}
+.spec dd{margin:0;font-weight:300;text-align:right}
+.end{text-align:center;display:grid;gap:24px;justify-items:center}
+.pillars .n{letter-spacing:.24em;text-transform:uppercase}
+.pillars>div{border-top:1px solid var(--accent)}
+.pillars>div:first-child{padding-left:22px;border-left:1px solid var(--line2)}
+@media(max-width:900px){.pillars>div{padding-left:0!important;border-left:0!important}}
+.photo.blurbg img{filter:blur(26px) saturate(1.15) brightness(.8)}
+.finale .ftext{display:grid;gap:clamp(16px,2.4vw,24px)}
+.fphoto{margin:0;position:relative;border-radius:20px;overflow:hidden;
+  border:1px solid var(--line);box-shadow:0 50px 100px -36px rgba(0,0,0,.85)}
+.fphoto img{width:100%;height:auto;max-height:70vh;object-fit:cover;object-position:50% 38%;
+  animation:fzoom 22s ease-in-out infinite alternate}
+@keyframes fzoom{from{transform:scale(1)}to{transform:scale(1.05)}}
+.fphoto::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:20px;
+  background:linear-gradient(180deg,transparent 62%,rgba(4,7,10,.35));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+@media(max-width:880px){.finale{grid-template-columns:1fr}}
+.herophoto{position:absolute;top:0;right:0;bottom:0;width:64vw;z-index:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 13%);mask-image:linear-gradient(90deg,transparent 0,#000 13%)}
+.herophoto img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;
+  transform-origin:50% 40%;animation:fzoom 24s ease-in-out infinite alternate}
+.finale-slide .scrim{background:
+  linear-gradient(90deg,rgba(4,7,10,.94) 0%,rgba(4,7,10,.78) 26%,rgba(4,7,10,.18) 46%,rgba(4,7,10,0) 62%),
+  linear-gradient(180deg,rgba(4,7,10,.55) 0%,transparent 16%,transparent 80%,rgba(4,7,10,.55) 100%)}
+.finale-slide .stage{align-self:center}
+.finale{display:block;max-width:min(41vw,560px);margin-right:auto}
+.finale .display{font-size:clamp(2.2rem,4.3vw,3.9rem)}
+.finale .body{max-width:min(36vw,40ch)}
+@media(max-width:880px){.finale .body{max-width:none}}
+@media(max-width:880px){
+  .herophoto{width:100vw;-webkit-mask-image:linear-gradient(180deg,#000 50%,transparent 86%);
+    mask-image:linear-gradient(180deg,#000 50%,transparent 86%)}
+  .herophoto img{object-position:50% 22%}
+  .finale-slide .scrim{background:linear-gradient(180deg,rgba(4,7,10,.35) 0%,transparent 22%,rgba(4,7,10,.2) 45%,rgba(4,7,10,.94) 72%)}
+  .finale{max-width:none;margin-top:44vh}
+}
+.solo{display:grid;grid-template-columns:auto 1fr;gap:clamp(26px,6vw,78px);align-items:center;max-width:1100px}
+.solo.rev{grid-template-columns:1fr auto}
+.solo.rev>.shot{order:2}
+@media(max-width:880px){.solo,.solo.rev{grid-template-columns:1fr;gap:18px}.solo.rev>.shot{order:0}}
+.solo .dl div{padding:8px 0}
+@media(max-height:760px){.solo .body{font-size:.88rem}.solo .dl div{padding:6px 0;font-size:.8rem}.solo .kicker{display:none}}
+.shot.big{width:auto;height:clamp(250px,calc(100vh - 250px),640px);aspect-ratio:723/1440;margin:10px 0 24px}
+.shot.big img{width:100%;height:100%;object-fit:contain}
+@media(max-width:880px){.shot.big{height:34vh;margin:0 auto 14px}}
+.mod-svg .pnl{font-family:var(--f-s);font-size:11px;font-weight:600;letter-spacing:.06em;fill:#e8edf2}
+.mod-svg .wordmark{font-family:var(--f-d);font-size:34px;font-weight:700;letter-spacing:-.01em;fill:#f2f6f9}
+.mod-svg .sub{font-family:var(--f-m);font-size:11px;letter-spacing:.4em;fill:#9fb0bd}
+.mod-svg .sub2{font-family:var(--f-m);font-size:10px;letter-spacing:.22em;fill:#7d8b97}
+.shot.big::after{bottom:-22px;height:30px}
+.ctrl button.on{color:#06090c;background:var(--accent);border-color:var(--accent)}
+.plantwrap{position:relative}
+.plant{display:block;width:100%;height:auto;max-height:min(46vh,430px);margin-inline:auto}
+@media(max-height:860px){.plant{max-height:38vh}.readout div{padding-top:9px}.simctl{margin-top:10px}.logline{margin-top:8px}}
+@media(max-height:860px){.lines>div{padding:10px 0}.lines p{font-size:.82rem}}
+@media(max-height:860px){.codes>div{padding:11px 18px 12px}.codes h3{font-size:.9rem;margin-bottom:2px}.codes p{font-size:.78rem}.codes .act{margin-top:5px}.codehead{margin-bottom:8px}.codes .who{margin-bottom:4px}}
+.plant text{font-family:var(--f-m);font-size:10px;letter-spacing:.18em;fill:var(--faint)}
+.plant .mk{font-size:8.6px;letter-spacing:.16em}
+.plant .cap{font-size:9.6px;letter-spacing:.24em;fill:var(--soft)}
+.plant .big{font-size:15px;letter-spacing:.06em;fill:var(--accent);font-family:var(--f-m)}
+.frame{fill:none;stroke:var(--line2);stroke-width:1}
+.tick{fill:none;stroke:var(--line);stroke-width:1.2;stroke-linecap:round}
+.tbox{fill:none;stroke:var(--line);stroke-width:1}
+.ground{stroke:var(--line);stroke-width:1.2;stroke-linecap:round}
+.hatch line{stroke:var(--line2);stroke-width:1}
+.steel{fill:none;stroke:var(--soft);stroke-width:1;opacity:.6}
+.brace{fill:none;stroke:var(--soft);stroke-width:.9;opacity:.4}
+.tankwall{fill:none;stroke:var(--soft);stroke-width:1.4;opacity:.75}
+.tankcap{fill:none;stroke:var(--soft);stroke-width:1.2;opacity:.7}
+.glass{fill:none}
+.modbox{fill:none;stroke-width:1.2}
+.pipe{fill:none;stroke:var(--soft);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.22}
+.pipeIn{fill:none;stroke:#0c1218;stroke-width:4.4;stroke-linecap:round;stroke-linejoin:round}
+.flow{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:8 18;opacity:0;transition:opacity .5s}
+.flow.on{opacity:.9;animation:dashmove 1.2s linear infinite}
+@keyframes dashmove{to{stroke-dashoffset:-52}}
+.flowOut{fill:none;stroke:var(--soft);stroke-width:3;stroke-linecap:round;stroke-dasharray:6 14;
+  opacity:.5;animation:dashmove2 2.6s linear infinite}
+@keyframes dashmove2{to{stroke-dashoffset:-40}}
+.ray{stroke:var(--warm);stroke-width:1.2;stroke-linecap:round;stroke-dasharray:3 5;opacity:.45;
+  animation:raypulse 4s ease-in-out infinite}
+@keyframes raypulse{0%,100%{opacity:.16}50%{opacity:.6}}
+#waveG{animation:waveShift 6s linear infinite}
+@keyframes waveShift{to{transform:translateX(240px)}}
+#jet{transition:opacity .45s}
+#jetLine{animation:dashmove3 .6s linear infinite}
+@keyframes dashmove3{to{stroke-dashoffset:-18}}
+#splash ellipse{transform-box:fill-box;transform-origin:center;animation:splashpulse 1.8s ease-out infinite}
+#splash ellipse:last-child{animation-delay:.6s}
+@keyframes splashpulse{0%{transform:scale(.4);opacity:.5}100%{transform:scale(1.25);opacity:0}}
+#rotor{transform-box:fill-box;transform-origin:center}
+#rotor.run{animation:spinfast .6s linear infinite}
+@keyframes spinfast{to{transform:rotate(360deg)}}
+#relaySw{transform-box:fill-box;transform-origin:left center;transition:transform .4s var(--e)}
+#brk{transition:opacity .35s}
+.rw{fill:none;stroke:var(--accent);stroke-width:1.4;opacity:0;stroke-linecap:round;
+  transform-box:fill-box;transform-origin:left center}
+.rw.go{animation:rwave 1.5s ease-out}
+.rw.d2{animation-delay:.18s} .rw.d3{animation-delay:.36s}
+@keyframes rwave{0%{opacity:.8;transform:scale(.45)}100%{opacity:0;transform:scale(1.6)}}
+#airline{animation:march2 2.4s linear infinite;opacity:.4}
+@keyframes march2{to{stroke-dashoffset:-32}}
+#pktA,#pktB{opacity:0;transform-box:fill-box}
+#pktA.go{animation:pktGo 1.4s var(--e)}
+#pktB.go{animation:pktBack 1.1s var(--e)}
+@keyframes pktGo{0%{opacity:0;transform:translateX(0)}12%,88%{opacity:1}100%{opacity:0;transform:translateX(296px)}}
+@keyframes pktBack{0%{opacity:0;transform:translateX(0)}12%,88%{opacity:1}100%{opacity:0;transform:translateX(-296px)}}
+.svgled{transition:opacity .16s}
+.readout{display:flex;flex-wrap:wrap;gap:0;margin-top:18px;border-top:1px solid var(--line)}
+.readout div{padding:13px 22px 3px 0;margin-right:22px;border-right:1px solid var(--line2);
+  font-family:var(--f-m);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.readout div:last-child{border-right:0;margin-right:0}
+.readout b{display:block;font-weight:400;color:var(--ink);font-size:.82rem;letter-spacing:.08em;margin-top:3px}
+.readout b.ok{color:var(--accent)} .readout b.warn{color:var(--warm)} .readout b.err{color:var(--alert)}
+.simctl{display:flex;flex-wrap:wrap;gap:0;margin-top:16px}
+.simctl button{font-family:var(--f-m);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--soft);padding:9px 20px;border:1px solid var(--line);margin:0 -1px -1px 0;transition:.35s var(--e)}
+.simctl button:hover{color:#06090c;background:var(--ink);border-color:var(--ink)}
+.logline{margin-top:14px;font-family:var(--f-m);font-size:.66rem;letter-spacing:.06em;color:var(--faint);
+  height:1.5em;overflow:hidden}
+.logline span{display:block;animation:lineIn .5s var(--e)}
+@keyframes lineIn{from{opacity:0;transform:translateY(8px)}}
+.codes{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.codes>div{padding:18px 22px 20px;border-left:1px solid var(--line2);border-top:1px solid var(--line2)}
+.codes>div:nth-child(3n+1){padding-left:0;border-left:0}
+@media(max-width:900px){.codes{grid-template-columns:repeat(2,1fr)}
+  .codes>div:nth-child(3n+1){padding-left:24px;border-left:1px solid var(--line2)}
+  .codes>div:nth-child(2n+1){padding-left:0;border-left:0}}
+@media(max-width:600px){.codes{grid-template-columns:1fr}
+  .codes>div{padding-left:0!important;border-left:0!important}}
+.codehead{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.bigled{width:9px;height:9px;border-radius:50%;flex:0 0 9px;background:var(--accent);opacity:.16;
+  transition:opacity .06s}
+.bigled.lit{opacity:1}
+.strip{flex:1;height:9px;display:flex;gap:2px;align-items:stretch}
+.strip span{background:var(--line);border-radius:1px}
+.strip span.s{background:var(--accent)}
+.codes h3{font-family:var(--f-s);font-size:.95rem;font-weight:500;letter-spacing:0;margin-bottom:5px}
+.codes p{color:var(--soft);font-weight:300;font-size:.82rem}
+.codes .who{font-family:var(--f-m);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  margin-bottom:8px;display:block}
+.codes .act{margin-top:9px;font-family:var(--f-m);font-size:.66rem;letter-spacing:.04em;color:var(--accent)}
+.alertled{--accent:var(--alert)}
+.warmled{--accent:var(--warm)}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(30px,5vw,70px)}
+@media(max-width:840px){.spec{grid-template-columns:1fr}}
+.spec div{display:flex;justify-content:space-between;gap:20px;align-items:baseline;
+  padding:12px 0;border-top:1px solid var(--line2);font-size:.9rem}
+.spec dt{font-family:var(--f-m);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0}
+.spec dd{margin:0;font-weight:300;text-align:right}
+.end{text-align:center;display:grid;gap:26px;justify-items:center}
+.end .display{font-size:clamp(2.4rem,6.4vw,4.6rem)}
+.ctrl{position:fixed;z-index:6;;right:clamp(20px,5vw,56px);bottom:28px;z-index:6;display:flex;gap:10px}
+.ctrl button{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;
+  color:var(--soft);transition:.45s var(--e)}
+.ctrl button:hover:not(:disabled){color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.ctrl button:disabled{opacity:.28;cursor:default}
+.dots{position:fixed;left:clamp(20px,5vw,56px);bottom:34px;z-index:6;display:flex;gap:7px;align-items:center}
+.dots button{width:16px;height:1px;background:var(--line);transition:.5s var(--e);padding:8px 0;
+  background-clip:content-box}
+.dots button.on{width:34px;background:var(--ink);background-clip:content-box}
+.hint{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:6;font-family:var(--f-m);
+  font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);
+  transition:opacity .6s var(--e)}
+.hint.hide{opacity:0}
+@media(max-width:640px){.hint{display:none}.dots button{width:10px}.dots button.on{width:22px}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .slide [data-r]{opacity:1;transform:none}
+  .slide [data-rule]{transform:none}
+}
+@media(max-height:860px){
+  .plant{max-height:36vh}
+  .codes>div{padding:10px 18px 10px}
+  .codes h3{font-size:.88rem;margin-bottom:2px}
+  .codes p{font-size:.76rem;line-height:1.45}
+  .codes .act{margin-top:4px;font-size:.6rem}
+  .codes .who{margin-bottom:3px}
+  .codehead{margin-bottom:7px}
+  .codes + *{margin-top:0}
+}
+@media(max-height:800px){
+  #codigos .body, .slide[data-label="Códigos"] .body{display:none}
+}
+@media(max-height:740px){
+  .stage{padding:74px 0 80px}
+  .display{font-size:clamp(2.2rem,5.6vw,4.4rem)}
+  .plant{max-height:32vh}
+  .lines>div{padding:8px 0}
+  .col{gap:14px}
+}
+@media(max-height:920px){.plant{max-height:min(36vh,400px)}}
+@media(max-height:740px){.plant{max-height:32vh}}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:999px;text-decoration:none;
+  font-family:var(--f-m);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:#06090c;background:var(--accent);border:1px solid var(--accent);transition:.45s var(--e)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px -14px rgba(111,224,239,.7)}
+.btn.ghost{background:rgba(6,9,12,.35);color:var(--ink);border-color:var(--line);backdrop-filter:blur(6px)}
+.btn.ghost:hover{border-color:var(--ink);box-shadow:none}
+.ig{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;color:var(--soft);text-decoration:none;
+  padding:6px 12px;border:1px solid var(--line);border-radius:999px;transition:.4s var(--e)}
+.ig:hover{color:var(--ink);border-color:var(--ink)}
+@media(max-width:700px){.ig span,.topright .sec{display:none}.ig{padding:7px}}
+@supports(height:100dvh){ .stage{max-height:100dvh} }
+@media(max-width:700px){
+  .stage{padding:70px 0 96px;width:88vw}
+  .display{font-size:clamp(2.1rem,10vw,3rem)}
+  h2.title{font-size:clamp(1.7rem,8vw,2.3rem)}
+  .ctrl{bottom:max(18px,env(safe-area-inset-bottom))}
+  .dots{bottom:max(26px,calc(env(safe-area-inset-bottom) + 8px))}
+  .btn{padding:12px 18px}
+}
+@media(max-width:700px){
+  .finale{margin-top:36vh}
+  .finale .ftext{gap:12px}
+  .finale .kicker{display:none}
+  .finale .body{font-size:.9rem}
+  .finale .display{font-size:clamp(1.9rem,8.6vw,2.5rem)}
+  .herophoto{-webkit-mask-image:linear-gradient(180deg,#000 40%,transparent 70%);mask-image:linear-gradient(180deg,#000 40%,transparent 70%)}
+  .herophoto img{object-position:50% 12%}
+  .finale-slide .scrim{background:linear-gradient(180deg,rgba(4,7,10,.3) 0%,transparent 20%,rgba(4,7,10,.25) 38%,rgba(4,7,10,.95) 62%)}
+  .slide .stage{padding-bottom:104px}
+  .ctrl button{width:40px;height:40px}
+  .hint{display:block;bottom:auto;top:auto;bottom:calc(max(18px,env(safe-area-inset-bottom)) + 54px);
+    left:50%;font-size:.56rem}
+}
+@media(max-width:700px){
+  .photo img{object-position:72% 50%}
+  .photo img[alt^="Produtor observando"]{object-position:56% 50%}
+  .photo img[alt^="Terra rachada"]{object-position:80% 50%}
+  .photo img[alt^="Vista aérea"]{object-position:84% 50%}
+  .photo img[alt^="Painel solar"]{object-position:80% 50%}
+  .photo img[alt^="Caixa d'água metálica"]{object-position:66% 50%}
+  .photo img[alt^="Sede de fazenda"]{object-position:68% 50%}
+  .photo img[alt^="Amanhecer"]{object-position:86% 50%}
+  .herophoto{top:0;left:0;right:0;bottom:auto;width:100vw;height:calc(100vw * 2398 / 2624);
+    -webkit-mask-image:linear-gradient(180deg,#000 74%,transparent 100%);
+    mask-image:linear-gradient(180deg,#000 74%,transparent 100%)}
+  .herophoto img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;animation:none;transform:none}
+  .finale-slide .scrim{background:linear-gradient(180deg,rgba(4,7,10,.35) 0,transparent 70px,
+    transparent calc(91vw - 70px),rgba(4,7,10,.94) calc(91vw + 30px))}
+  .finale{margin-top:calc(91vw - 128px)}
+}
+@media(max-width:700px){
+  .slide:not(.finale-slide) .scrim{background:
+    linear-gradient(180deg,rgba(4,7,10,.62) 0%,rgba(4,7,10,.74) 30%,rgba(4,7,10,.82) 60%,rgba(4,7,10,.9) 100%)}
+  .slide.solid .scrim{background:linear-gradient(180deg,rgba(4,7,10,.88),rgba(4,7,10,.95))}
+}
+.readygrid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(26px,5vw,64px);align-items:center}
+@media(max-width:880px){.readygrid{grid-template-columns:1fr}}
+.box{border:1px solid var(--line);border-radius:18px;padding:20px 24px;background:rgba(6,9,12,.5);backdrop-filter:blur(8px)}
+.boxshots{display:flex;justify-content:center;gap:30px;margin-bottom:14px}
+.boxshots img{height:clamp(110px,19vh,180px);width:auto;filter:drop-shadow(0 16px 22px rgba(0,0,0,.6))}
+.boxlist{list-style:none;margin:8px 0 0;padding:0}
+.boxlist li{padding:7px 0 7px 22px;border-top:1px solid var(--line2);font-size:.86rem;font-weight:300;position:relative}
+.boxlist li::before{content:"";position:absolute;left:2px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;border:1.5px solid var(--accent)}
+.box .note{margin-top:10px;color:var(--soft);font-size:.8rem;font-weight:300}
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(18px,3vw,36px);margin-top:10px}
+.apps>div{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start;padding:15px 0;border-top:1px solid var(--line2);transition:.5s var(--e)}
+.apps>div:hover{border-top-color:var(--accent)}
+.apps svg{width:28px;height:28px;color:var(--accent)}
+.apps h3{font-family:var(--f-s);font-size:.96rem;font-weight:500;letter-spacing:0;margin-bottom:3px}
+.apps p{color:var(--soft);font-weight:300;font-size:.84rem}
+@media(max-width:900px){.apps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.apps{grid-template-columns:1fr}}
+@media(min-width:1101px){
+  .codes{grid-template-columns:repeat(4,1fr)}
+  .codes>div:nth-child(3n+1){padding-left:22px;border-left:1px solid var(--line2)}
+  .codes>div:nth-child(4n+1){padding-left:0;border-left:0}
+}
+@media(max-height:860px){ .box{padding:14px 20px} .boxlist li{padding:5px 0 5px 22px;font-size:.8rem} .apps>div{padding:11px 0} }
+@media(max-height:740px){ .boxshots img{height:14vh} .readygrid .lines>div{padding:6px 0} .apps p{font-size:.78rem} }
+@media(min-width:1000px){
+  .slide[data-label="Proteções"] .lines{grid-template-columns:1fr 1fr;column-gap:clamp(28px,4vw,56px)}
+}
+.slide.deep .scrim{background:
+  linear-gradient(100deg,rgba(4,7,10,.95) 0%,rgba(4,7,10,.88) 45%,rgba(4,7,10,.74) 75%,rgba(4,7,10,.76) 100%),
+  linear-gradient(180deg,rgba(4,7,10,.55) 0%,transparent 30%,transparent 70%,rgba(4,7,10,.8) 100%)}
+.boxshots img{height:clamp(120px,22vh,210px)}
+@media(max-height:740px){ .boxshots img{height:15vh} }
+.prodgrid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(20px,4vw,56px);align-items:center}
+.prodgrid.rev{grid-template-columns:auto minmax(0,1fr)}
+.prodgrid.rev>.prodtext{order:2}
+.prodtext{display:grid;gap:14px;align-content:center;max-width:42ch}
+.prodtext .title{margin:2px 0 2px}
+.prodtext .kicker{margin-top:4px}
+.onlymob{display:none}
+.prod{display:flex;align-items:center;justify-content:center;
+  padding:0 clamp(96px,11vw,164px);position:relative}
+.prodin{position:relative;height:clamp(260px,calc(100vh - 290px),560px);aspect-ratio:723/1440;
+  perspective:1200px;perspective-origin:50% 45%}
+.modlayer{position:absolute;inset:0;transform-style:preserve-3d;
+  transform:rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));
+  transition:transform .5s cubic-bezier(.22,.8,.3,1)}
+.modimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(0 34px 44px rgba(0,0,0,.62));
+  animation:prodfloat 12s ease-in-out infinite}
+@keyframes prodfloat{0%,100%{transform:translateY(-7px)}50%{transform:translateY(8px)}}
+.sheen{position:absolute;inset:0;pointer-events:none;opacity:0;
+  -webkit-mask-image:var(--m);mask-image:var(--m);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  background-image:linear-gradient(108deg,transparent 40%,rgba(255,255,255,.30) 48%,rgba(255,255,255,.06) 53%,transparent 60%);
+  background-size:300% 100%;background-repeat:no-repeat;background-position:190% 0}
+.slide.active .sheen{animation:sheensweep 8s cubic-bezier(.5,0,.5,1) 1.1s infinite}
+@keyframes sheensweep{
+  0%{background-position:190% 0;opacity:0}
+  4%{opacity:1}
+  30%{background-position:-90% 0;opacity:1}
+  36%,100%{background-position:-90% 0;opacity:0}}
+.rw{position:absolute;left:var(--x);top:var(--y);width:0;height:0;pointer-events:none}
+.rw i{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;
+  border-radius:50%;border:1px solid var(--accent);opacity:0}
+.slide.active .rw i{animation:rwpulse 3.4s cubic-bezier(.2,.6,.3,1) infinite}
+.slide.active .rw i:nth-child(2){animation-delay:.34s}
+.slide.active .rw i:nth-child(3){animation-delay:.68s}
+@keyframes rwpulse{0%{transform:scale(.25);opacity:0}
+  12%{opacity:.85}70%{opacity:0}100%{transform:scale(3.4);opacity:0}}
+.led{position:absolute;left:var(--x);top:var(--y);width:5.6%;aspect-ratio:1;
+  border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0}
+.led::after{content:"";position:absolute;inset:14%;border-radius:50%;background:#fff;opacity:.5}
+.slide.active .led{opacity:1;transition:opacity .5s var(--e) 1.6s}
+.led.pw{background:#34d399;box-shadow:0 0 14px 3px rgba(52,211,153,.75)}
+.led.st{background:#38bdf8;box-shadow:0 0 14px 3px rgba(56,189,248,.8)}
+.led.ot{background:#fb7185;box-shadow:0 0 10px 2px rgba(251,113,133,.35)}
+.slide.active .led.st{animation:ledhb 2s steps(1,end) 2.1s infinite}
+.slide.active .led.ot{animation:ledrelay 16s ease-in-out 2.4s infinite}
+@keyframes ledhb{0%,6%{opacity:1}7%,100%{opacity:.16}}
+@keyframes ledrelay{0%,44%{opacity:.16}50%,94%{opacity:1}100%{opacity:.16}}
+.hs{position:absolute;left:var(--x);top:var(--y);width:0;height:0}
+.hs .dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 24%,transparent);
+  transform:scale(0);transition:transform .5s cubic-bezier(.3,1.5,.5,1) var(--d)}
+.slide.active .hs .dot{transform:scale(1)}
+.hs .ln{position:absolute;top:0;height:1px;width:var(--ln);
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 35%,transparent));
+  transform:scaleX(0);transition:transform .55s cubic-bezier(.6,0,.3,1) calc(var(--d) + 140ms)}
+.slide.active .hs .ln{transform:scaleX(1)}
+.hs .lbl{position:absolute;top:-9px;display:block;width:max-content;max-width:158px;
+  font-family:var(--f-s);font-weight:500;font-size:.8rem;line-height:1.25;color:var(--ink);
+  opacity:0;transition:opacity .6s var(--e) calc(var(--d) + 300ms),transform .6s var(--e) calc(var(--d) + 300ms)}
+.hs .lbl em{display:block;font-style:normal;font-weight:300;font-size:.72rem;color:var(--soft);margin-top:2px}
+.slide.active .hs .lbl{opacity:1;transform:none}
+.hs.right .ln{left:0;transform-origin:left}
+.hs.right .lbl{left:calc(var(--ln) + 10px);transform:translateX(-12px)}
+.hs.left .ln{right:0;transform-origin:right}
+.hs.left .lbl{right:calc(var(--ln) + 10px);text-align:right;transform:translateX(12px)}
+@media(max-height:820px){
+  .hs .lbl{font-size:.75rem;max-width:140px}
+  .hs .lbl em{font-size:.68rem}
+  .prod{padding:0 clamp(84px,9.5vw,140px)}
+}
+@media(max-width:900px){
+  .prodgrid,.prodgrid.rev{grid-template-columns:1fr;gap:18px;justify-items:center}
+  .prodgrid.rev>.prodtext{order:0}
+  .prodtext{max-width:none}
+  .prod{padding:0}
+  .prodin{height:min(30vh,240px)}
+  .hs{display:none}
+  .onlymob{display:grid}
+  .prodtext .kicker{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .modimg,.sheen,.rw i,.led{animation:none!important}
+  .sheen{opacity:0}
+  .slide .hs .dot{transform:scale(1)}
+  .slide .hs .ln{transform:scaleX(1)}
+  .slide .hs .lbl{opacity:1;transform:none}
+  .slide .led{opacity:1}
+}
+.hs .lbl{text-shadow:0 1px 3px rgba(4,7,10,.98),0 0 14px rgba(4,7,10,.92),0 0 30px rgba(4,7,10,.75)}
+.hs .lbl em{text-shadow:0 1px 3px rgba(4,7,10,.98),0 0 12px rgba(4,7,10,.9)}
+.hs .dot{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 24%,transparent),0 0 12px 3px rgba(4,7,10,.8)}
+.prodslide .scrim{background:
+  linear-gradient(180deg,rgba(4,7,10,.72) 0%,rgba(4,7,10,.5) 22%,rgba(4,7,10,.52) 60%,rgba(4,7,10,.82) 100%),
+  radial-gradient(120% 78% at 50% 50%,rgba(4,7,10,.3),rgba(4,7,10,.66) 80%)}
+.prodin{height:clamp(270px,calc(100vh - 252px),596px)}
+@media(max-height:760px){.prodin{height:calc(100vh - 228px)}}
+@media(max-width:900px){.prodin{height:min(30vh,240px)}}
+@media(max-width:900px){
+  .prodgrid,.prodgrid.rev{grid-template-columns:1fr;grid-auto-rows:min-content;gap:14px}
+  .prodgrid>.prod{order:0}
+  .prodgrid>.prodtext,.prodgrid.rev>.prodtext{order:1}
+  .prodin{height:min(26vh,210px)}
+  .prodtext{gap:10px}
+  .prodtext .body{font-size:.92rem}
+  .onlymob div{padding:7px 0}
+}
+.boxshots{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  justify-items:center;gap:clamp(6px,1.4vw,18px);margin-bottom:6px}
+.bs{display:block}
+.bs img{height:clamp(120px,22vh,210px);width:auto;display:block;
+  filter:drop-shadow(0 16px 22px rgba(0,0,0,.6))}
+.bs.tx{transform:translateX(-46px) scale(.9);opacity:0;
+  transition:transform 1.1s cubic-bezier(.2,.9,.24,1) .5s,opacity .9s var(--e) .5s}
+.bs.rx{transform:translateX(46px) scale(.9);opacity:0;
+  transition:transform 1.1s cubic-bezier(.2,.9,.24,1) .62s,opacity .9s var(--e) .62s}
+.slide.active .bs.tx,.slide.active .bs.rx{transform:none;opacity:1}
+.bs.tx img{animation:prodfloat 11s ease-in-out infinite}
+.bs.rx img{animation:prodfloat 11s ease-in-out -5.5s infinite}
+.bslink{position:relative;width:clamp(34px,5vw,62px);height:34px;display:block}
+.bslink i{position:absolute;top:50%;left:50%;width:14px;height:14px;margin:-7px 0 0 -7px;
+  border-radius:50%;border:1px solid var(--accent);opacity:0}
+.slide.active .bslink i{animation:rwpulse 3s cubic-bezier(.2,.6,.3,1) 1.5s infinite}
+.slide.active .bslink i:nth-child(2){animation-delay:1.8s}
+.slide.active .bslink i:nth-child(3){animation-delay:2.1s}
+.bslink::before{content:"";position:absolute;top:50%;left:4%;right:4%;height:1px;
+  background:repeating-linear-gradient(90deg,var(--accent) 0 4px,transparent 4px 9px);
+  opacity:0;transform:scaleX(0);
+  transition:opacity .5s var(--e) 1.3s,transform .7s cubic-bezier(.6,0,.3,1) 1.3s}
+.slide.active .bslink::before{opacity:.5;transform:scaleX(1)}
+.bslink .pk{position:absolute;top:50%;left:4%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 9px 2px var(--accent);opacity:0}
+.slide.active .bslink .pk{animation:pkcross 3s cubic-bezier(.45,0,.55,1) 1.9s infinite}
+@keyframes pkcross{0%{left:4%;opacity:0}14%{opacity:1}72%{opacity:1}
+  80%,100%{left:calc(92% - 5px);opacity:0}}
+.pairnote{text-align:center;font-family:var(--f-m);font-size:.64rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--soft);margin:2px 0 12px;opacity:0;
+  transition:opacity .8s var(--e) 1.8s}
+.pairnote em{font-style:normal;color:var(--accent)}
+.slide.active .pairnote{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .bs.tx,.bs.rx{transform:none;opacity:1}
+  .bslink i,.bslink .pk{animation:none}
+  .bslink::before{opacity:.5;transform:none}
+  .pairnote{opacity:1}
+  .bs img{animation:none}
+}
+@media(max-height:780px){ .bs img{height:15vh} .pairnote{margin-bottom:8px} }
+.bs img{height:clamp(140px,26vh,246px)}
+.bslink{width:clamp(52px,7.5vw,96px)}
+.pairnote{margin:10px 0 0;padding-bottom:13px;border-bottom:1px solid var(--line2)}
+.boxshots{margin-bottom:0}
+.pairnote + .label{display:block;margin-top:13px}
+@media(max-height:780px){ .bs img{height:18vh} .pairnote{padding-bottom:9px} }
+@media(max-width:900px){ .bs img{height:min(17vh,150px)} }
+.modimg{animation:none}
+.prodin{animation:prodfloat 12s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){ .prodin{animation:none} }
+.onlymob{display:grid}
+.prod{padding:0 clamp(8px,2vw,28px)}
+.prodin{height:clamp(280px,calc(100vh - 210px),640px)}
+.prodtext .dl{margin-top:2px}
+@media(max-height:760px){
+  .prodin{height:calc(100vh - 196px)}
+  .prodtext{gap:10px}
+  .prodtext .dl div{padding:7px 0;font-size:.82rem}
+  .prodtext .body{font-size:.92rem}
+}
+@media(max-width:900px){ .prod{padding:0} .prodin{height:min(26vh,210px)} }
+@media(min-width:901px){
+  .apps{grid-template-columns:repeat(6,1fr)}
+  .apps>div{grid-column:span 2}
+  .apps>div:nth-child(4){grid-column:2 / span 2}
+}
+.dmhelp{margin-top:14px;font-size:.82rem;color:var(--soft)}
+.dmhelp b{color:var(--ink);font-weight:500}
+.sv{display:grid;grid-template-columns:minmax(0,1fr) clamp(190px,17vw,228px);gap:16px;align-items:stretch}
+.svview{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  background:
+    radial-gradient(90% 70% at 28% 18%,rgba(111,224,239,.07),transparent 60%),
+    radial-gradient(70% 60% at 80% 30%,rgba(111,224,239,.05),transparent 60%),
+    linear-gradient(180deg,rgba(10,16,22,.72),rgba(6,10,14,.86));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 30px 60px -30px rgba(0,0,0,.8)}
+.svplant{display:block;width:100%;height:auto;max-height:calc(100vh - 300px)}
+.svplant text{font-family:var(--f-m);letter-spacing:.16em}
+.sv-ground{stroke:rgba(255,255,255,.14);stroke-width:1.2}
+.sv-tower path{fill:none;stroke:url(#svMetal);stroke-width:7;stroke-linecap:round}
+.sv-tower path.brace{stroke:#2a333d;stroke-width:2.2}
+.sv-tower .pad{fill:#1c232b;stroke:#0c1117}
+.sv-tank{fill:rgba(14,22,30,.55)}
+.sv-tankline{fill:none;stroke:rgba(190,215,232,.34);stroke-width:2}
+.sv-pipe{fill:none;stroke:#2c3642;stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
+.sv-pipein{fill:none;stroke:#0d141b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.sv-pipe.thin{stroke-width:9}.sv-pipein.thin{stroke-width:5}
+.sv-flow{fill:none;stroke:#5fd4f5;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:10 16;opacity:0;transition:opacity .6s}
+.svplant.on .sv-flow{opacity:.95;animation:svdash 1s linear infinite}
+@keyframes svdash{to{stroke-dashoffset:-52}}
+.sv-flowout{fill:none;stroke:#9aa6b2;stroke-width:3;stroke-linecap:round;stroke-dasharray:5 11;
+  opacity:.55;animation:svdash2 2.6s linear infinite}
+@keyframes svdash2{to{stroke-dashoffset:-32}}
+#svWave1{animation:svwave 6s linear infinite}
+#svWave2{animation:svwave 9s linear infinite reverse}
+@keyframes svwave{to{transform:translateX(220px)}}
+.sv-bubbles circle{fill:#dff6ff;opacity:0}
+.svplant.on .sv-bubbles circle{animation:svbub 2.8s ease-in infinite}
+.svplant.on .sv-bubbles circle:nth-child(2){animation-delay:.6s}
+.svplant.on .sv-bubbles circle:nth-child(3){animation-delay:1.2s}
+.svplant.on .sv-bubbles circle:nth-child(4){animation-delay:1.7s}
+.svplant.on .sv-bubbles circle:nth-child(5){animation-delay:2.2s}
+@keyframes svbub{0%{transform:translateY(40px);opacity:0}20%{opacity:.7}100%{transform:translateY(-10px);opacity:0}}
+.sv-jet{opacity:0;transition:opacity .5s}
+.svplant.on .sv-jet{opacity:1}
+#svJetLine{fill:none;stroke:#8fe3fb;stroke-width:4.5;stroke-linecap:round;stroke-dasharray:6 9;
+  animation:svdash3 .5s linear infinite}
+@keyframes svdash3{to{stroke-dashoffset:-15}}
+#svSplash ellipse{fill:none;stroke:#e6f9ff;stroke-width:1.3;transform-box:fill-box;transform-origin:center;
+  animation:svsplash 1.6s ease-out infinite}
+#svSplash ellipse:last-child{animation-delay:.55s}
+@keyframes svsplash{0%{transform:scale(.4);opacity:.7}100%{transform:scale(1.3);opacity:0}}
+.sv-marks line{stroke-width:1;stroke-dasharray:4 5}
+.sv-marks line.m-hi{stroke:rgba(244,114,182,.7)}
+.sv-marks line.m-lo{stroke:rgba(245,165,36,.75)}
+.sv-marks text{font-size:9.5px;letter-spacing:.14em}
+.sv-marks text.m-hi{fill:rgba(244,114,182,.9)}
+.sv-marks text.m-lo{fill:rgba(245,165,36,.95)}
+.sv-cable{fill:none;stroke:#8793a0;stroke-width:2.2;stroke-linecap:round;transition:stroke .4s,opacity .4s}
+.svplant.wirecut #svCableTop{stroke:#fb7185;stroke-dasharray:4 4;opacity:.8}
+.sv-break{opacity:0;transition:opacity .3s}
+.sv-break path{fill:none;stroke:#fb7185;stroke-width:2.2;stroke-linecap:round}
+.sv-break circle{fill:none;stroke:#fb7185;stroke-width:1.2;opacity:.6}
+.svplant.wirecut .sv-break{opacity:1}
+.sv-arc{fill:none;stroke:rgba(111,224,239,.42);stroke-width:1.4;stroke-dasharray:6 8;
+  animation:svarc 2.4s linear infinite;transition:stroke .5s}
+@keyframes svarc{to{stroke-dashoffset:-28}}
+.svplant.nolink .sv-arc{stroke:rgba(251,113,133,.35);animation:none}
+.sv-radiolbl{font-size:9.5px;fill:rgba(170,190,205,.75);transition:fill .5s}
+.svplant.nolink .sv-radiolbl{fill:rgba(251,113,133,.9)}
+.sv-cut{opacity:0;transition:opacity .4s}
+.sv-cut circle{fill:rgba(6,9,12,.85);stroke:#fb7185;stroke-width:1.4}
+.sv-cut path{stroke:#fb7185;stroke-width:2.2;stroke-linecap:round}
+.svplant.nolink .sv-cut{opacity:1}
+.sv-pkt{fill:#6fe0ef;opacity:0}
+.sv-pkt.ack{fill:#34d399}
+.sv-pkt.fail{fill:#fb7185}
+.sv-rip circle{fill:none;stroke:#6fe0ef;stroke-width:1.3;opacity:0;transform-box:fill-box;transform-origin:center}
+.sv-rip.go circle{animation:svrip 1.3s cubic-bezier(.2,.6,.3,1)}
+.sv-rip.go circle:nth-child(2){animation-delay:.18s}
+.sv-rip.go circle:nth-child(3){animation-delay:.36s}
+.sv-rip.ack circle{stroke:#34d399}
+@keyframes svrip{0%{transform:scale(.3);opacity:.9}100%{transform:scale(3.4);opacity:0}}
+.sv-wire{fill:none;stroke:#11171e;stroke-width:3;stroke-linecap:round}
+.sv-relay{fill:#1b222a;stroke:#0d1217;stroke-width:1;transition:fill .3s}
+.svplant.on .sv-relay{fill:#34d399}
+.sv-led{opacity:0;transition:opacity .25s}
+.sv-led.pw{fill:#34d399;opacity:1}
+.sv-led.st{fill:#38bdf8}
+.sv-led.ot{fill:#fb7185}
+.svplant.on .sv-led.ot{opacity:1}
+.svplant[data-st="hb"] .sv-led.st{animation:svhb 2s steps(1,end) infinite}
+.svplant[data-st="e2"] .sv-led.st{animation:sve2 2.4s steps(1,end) infinite}
+.svplant[data-st="e4"] .sv-led.st{animation:sve4 3.2s steps(1,end) infinite}
+@keyframes svhb{0%{opacity:1}7%,100%{opacity:0}}
+@keyframes sve2{0%{opacity:1}8%{opacity:0}17%{opacity:1}25%,100%{opacity:0}}
+@keyframes sve4{0%{opacity:1}6%{opacity:0}12%{opacity:1}18%{opacity:0}24%{opacity:1}30%{opacity:0}36%{opacity:1}42%,100%{opacity:0}}
+.sv-rotor{transform-box:fill-box;transform-origin:center;fill:#4b5866}
+.sv-rotor circle{fill:#8793a0}
+.svplant.on .sv-rotor{fill:#6fe0ef;animation:svspin .55s linear infinite}
+@keyframes svspin{to{transform:rotate(360deg)}}
+.sv-pumpglow{fill:#6fe0ef;opacity:0;transition:opacity .6s}
+.svplant.on .sv-pumpglow{opacity:.18}
+.sv-cap text{font-size:9.5px;fill:rgba(160,176,190,.72);letter-spacing:.2em}
+.svcards{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:10px}
+.svc{position:relative;border:1px solid var(--line);border-radius:16px;padding:12px 14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  display:flex;flex-direction:column;justify-content:center;gap:4px;overflow:hidden;transition:border-color .5s}
+.svc .k{font-family:var(--f-m);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.svc .v{font-family:var(--f-d);font-weight:600;font-size:1.28rem;letter-spacing:-.02em;line-height:1.1;color:var(--ink)}
+.svc .s{font-size:.72rem;font-weight:300;color:var(--soft);line-height:1.3}
+.svc .bar{height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px}
+.svc .bar i{display:block;height:100%;width:40%;border-radius:2px;
+  background:linear-gradient(90deg,#1e8fc4,#6fe0ef);transition:width .6s}
+.svc .sig{display:inline-flex;gap:2px;align-items:flex-end;height:12px;margin-left:8px;vertical-align:middle}
+.svc .sig i{width:3px;border-radius:1px;background:#6fe0ef;transition:background .4s,opacity .4s}
+.svc .sig i:nth-child(1){height:4px}.svc .sig i:nth-child(2){height:7px}
+.svc .sig i:nth-child(3){height:10px}.svc .sig i:nth-child(4){height:12px}
+.svc .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#3a4450;margin-right:8px;
+  vertical-align:middle;transition:background .4s,box-shadow .4s}
+.svc.ok{border-color:rgba(52,211,153,.35)}
+.svc.ok .dot{background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.18)}
+.svc.warn{border-color:rgba(245,165,36,.45)}
+.svc.bad{border-color:rgba(251,113,133,.5)}
+.svc.bad .v{color:#fda4af}
+.svc.bad .sig i{background:#fb7185;opacity:.35}
+.svc.bad .sig i:first-child{opacity:1}
+.svbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 20px;margin-top:14px}
+.svbtns{display:flex;flex-wrap:wrap;gap:8px}
+.svbtns button{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-m);font-size:.62rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--soft);padding:9px 15px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.02);transition:.35s var(--e)}
+.svbtns button svg{width:13px;height:13px;flex:0 0 13px}
+.svbtns button:hover{color:#06090c;background:var(--ink);border-color:var(--ink)}
+.svbtns button.act{color:#06090c;background:#fb7185;border-color:#fb7185}
+.svbtns button.act.cyan{background:var(--accent);border-color:var(--accent)}
+.svlog{display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 280px;justify-content:flex-end;
+  font-size:.8rem;font-weight:300;color:var(--soft)}
+.svlog i{flex:0 0 7px;width:7px;height:7px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 10px var(--accent)}
+.svlog i.w{background:#f5a524;box-shadow:0 0 10px #f5a524}
+.svlog i.e{background:#fb7185;box-shadow:0 0 10px #fb7185}
+.svlog span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:svlogin .5s var(--e)}
+@keyframes svlogin{from{opacity:0;transform:translateY(6px)}}
+@media(max-height:780px){
+  .svplant{max-height:calc(100vh - 262px)}
+  .svc{padding:9px 12px}.svc .v{font-size:1.1rem}.svc .s{font-size:.68rem}
+  .svbar{margin-top:10px}
+}
+@media(max-width:900px){
+  .sv{grid-template-columns:1fr}
+  .svcards{grid-template-columns:repeat(2,1fr);grid-template-rows:auto}
+  .svplant{max-height:none}
+  .svlog{justify-content:flex-start;flex-basis:100%}
+  .svbtns button{padding:8px 12px}
+}
+@media (prefers-reduced-motion: reduce){
+  #svWave1,#svWave2,.sv-flow,.sv-flowout,#svJetLine,#svSplash ellipse,.sv-arc,.sv-rotor,.sv-bubbles circle{animation:none!important}
+}
+#svWave2{animation:svwave2 9s linear infinite reverse}
+@keyframes svwave2{to{transform:translateX(280px)}}
+.svbar{flex-direction:column;align-items:flex-start;gap:10px}
+.svlog{flex:none;width:100%;justify-content:flex-start;min-height:1.3em}
+.svplant{max-height:calc(100vh - 316px)}
+@media(max-height:780px){ .svplant{max-height:calc(100vh - 282px)} .svbar{gap:8px} }
+.simcol{gap:12px}
+.simcol .head{margin-bottom:0}
+.svbar{margin-top:0}
+.svplant{max-height:calc(100vh - 300px)}
+@media(max-height:780px){ .svplant{max-height:calc(100vh - 300px)} }
+@media(max-width:900px){ .svplant{max-height:none} }
+.svc.bad .dot{background:#fb7185;box-shadow:0 0 0 4px rgba(251,113,133,.18)}
+.sv-stars circle.tw{animation:svtw 4.5s ease-in-out infinite}
+@keyframes svtw{0%,100%{opacity:.15}50%{opacity:.9}}
+.sv-hill.far{fill:color-mix(in srgb,#152833,#5a8a6c calc(var(--d,0)*100%))}
+.sv-hill.mid{fill:color-mix(in srgb,#0f1e27,#3c6a48 calc(var(--d,0)*100%))}
+.sv-ridge{fill:none;stroke:color-mix(in srgb,rgba(150,190,210,.13),rgba(230,245,210,.35) calc(var(--d,0)*100%));stroke-width:1.2}
+.sv-ridge.mid{stroke:rgba(150,190,210,.09)}
+.sv-crops path{fill:none;stroke:color-mix(in srgb,#21422f,#86a64a calc(var(--d,0)*100%));stroke-width:1.8;stroke-dasharray:2 3;opacity:.9}
+.sv-barn .b{fill:color-mix(in srgb,#1a2c36,#8c3b2c calc(var(--d,0)*100%))}
+.sv-barn .rl{fill:none;stroke:color-mix(in srgb,#34495a,#e8ddd0 calc(var(--d,0)*100%));stroke-width:1.1;stroke-linejoin:round}
+.sv-barn .d{fill:color-mix(in srgb,#0e171d,#4a2018 calc(var(--d,0)*100%))}
+.sv-barn .w{fill:color-mix(in srgb,#ffc861,#e8ddd0 calc(var(--d,0)*100%));opacity:.8}
+.sv-mill path{fill:none;stroke:color-mix(in srgb,#2d4453,#6f7c86 calc(var(--d,0)*100%));stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sv-mill .vane{stroke:color-mix(in srgb,#36505f,#8b98a2 calc(var(--d,0)*100%))}
+.sv-mill .blades path{stroke:color-mix(in srgb,#3a5566,#9aa7b0 calc(var(--d,0)*100%));stroke-width:2.6}
+.sv-mill .blades .ring{fill:none;stroke:color-mix(in srgb,#2d4453,#7d8a94 calc(var(--d,0)*100%));stroke-width:1.1}
+.sv-mill .blades{animation:svspin 7s linear infinite}
+.sv-mill .hub{fill:color-mix(in srgb,#4a6778,#c9d2d8 calc(var(--d,0)*100%))}
+.sv-farm .wall{fill:color-mix(in srgb,#223441,#d9c9a8 calc(var(--d,0)*100%))}
+.sv-farm .roof{fill:color-mix(in srgb,#16242d,#9a4a33 calc(var(--d,0)*100%))}
+.sv-farm .roofline{fill:none;stroke:color-mix(in srgb,#3b5263,#6e3021 calc(var(--d,0)*100%));stroke-width:1.4;stroke-linejoin:round}
+.sv-farm .porch{fill:none;stroke:color-mix(in srgb,#2f4555,#8a6a48 calc(var(--d,0)*100%));stroke-width:3}
+.sv-farm .post{fill:none;stroke:color-mix(in srgb,#2c4050,#7a5c3e calc(var(--d,0)*100%));stroke-width:1.6}
+.sv-farm .shed{fill:color-mix(in srgb,#1c2d38,#b09a74 calc(var(--d,0)*100%))}
+.sv-farm .door{fill:color-mix(in srgb,#0d161c,#5a3a26 calc(var(--d,0)*100%))}
+.sv-farm .win{fill:color-mix(in srgb,#ffc861,#9cc3d4 calc(var(--d,0)*100%));opacity:.95}
+.sv-farm .mull{fill:none;stroke:#7a5a1a;stroke-width:.9;opacity:.7}
+.sv-farm .tree{fill:color-mix(in srgb,#10231c,#2f6a3a calc(var(--d,0)*100%))}
+.sv-farm .smoke circle{fill:#9fb3c2;opacity:0;transform-box:fill-box;transform-origin:center;animation:svsmoke 6s ease-out infinite}
+.sv-farm .smoke circle:nth-child(2){animation-delay:2s}
+.sv-farm .smoke circle:nth-child(3){animation-delay:4s}
+@keyframes svsmoke{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:.2}100%{transform:translate(12px,-34px) scale(2.3);opacity:0}}
+.sv-fence rect{fill:color-mix(in srgb,#1d2d36,#8a6c4c calc(var(--d,0)*100%))}
+.sv-flies circle{fill:#ffe27a;opacity:0;filter:drop-shadow(0 0 3px #ffd34d);animation:svfly 3.6s ease-in-out infinite}
+.sv-flies circle:nth-child(2n){animation-duration:4.4s}
+.sv-flies circle:nth-child(3n){animation-duration:5.1s}
+@keyframes svfly{0%,100%{opacity:0;transform:translate(0,0)}35%{opacity:.95}60%{opacity:.2;transform:translate(6px,-5px)}}
+.sv-skyday{opacity:var(--d,0)}
+.sv-stars{opacity:calc(1 - var(--d,0))}
+.sv-flies{opacity:calc(1 - var(--d,0))}
+.sv-farm .glow{opacity:calc(1 - var(--d,0))}
+.sv-clouds{opacity:calc(var(--d,0) * .85)}
+.sv-clouds ellipse{fill:color-mix(in srgb,#5d6178,#f4f8fb calc(var(--d,0)*100%))}
+.sv-clouds .c1{animation:svcloud 70s linear infinite}
+.sv-clouds .c2{animation:svcloud 95s linear infinite -30s}
+.sv-clouds .c3{animation:svcloud 120s linear infinite -60s}
+@keyframes svcloud{0%{transform:translateX(-160px)}50%{transform:translateX(160px)}100%{transform:translateX(-160px)}}
+.sv-cap text,.sv-marks text{paint-order:stroke;stroke:rgba(6,12,18,.5);stroke-width:calc(var(--d,0) * 2.2px);stroke-linejoin:round}
+.sv-cap text{fill:color-mix(in srgb,rgba(160,176,190,.72),rgba(250,252,255,.97) calc(var(--d,0)*100%))}
+.sv-clock{font-size:11px;fill:rgba(220,232,242,.8);paint-order:stroke;stroke:rgba(6,10,14,.45);stroke-width:3px}
+.sv-arc{stroke:color-mix(in srgb,rgba(111,224,239,.42),rgba(255,255,255,.9) calc(var(--d,0)*100%))}
+.sv-radiolbl{fill:color-mix(in srgb,rgba(170,190,205,.75),rgba(245,250,255,.95) calc(var(--d,0)*100%))}
+.sv-radiolbl{paint-order:stroke;stroke:rgba(6,10,14,.55);stroke-width:3px;stroke-linejoin:round}
+.sv-strata{fill:none;stroke:rgba(255,235,210,.08);stroke-width:1}
+.sv-aqwaves path{fill:none;stroke:rgba(125,211,252,.22);stroke-width:1}
+.sv-pebbles ellipse{fill:#3d3229;opacity:.55}
+.sv-grass path{fill:none;stroke:color-mix(in srgb,#2a4a3a,#5c9a4a calc(var(--d,0)*100%));stroke-width:1.4;stroke-linecap:round}
+.sv-ground{stroke:color-mix(in srgb,#2b4d3b,#5c9a4a calc(var(--d,0)*100%));stroke-width:2}
+.sv-footing rect{fill:#353a40;stroke:#1d2125;stroke-width:.8}
+.sv-well .casing{fill:none;stroke:#5c6570;stroke-width:3}
+.sv-well .brk{fill:none;stroke:#1a1510;stroke-width:3.4;stroke-linejoin:round}
+.sv-wellwater{transition:transform 1.4s ease-in-out}
+.svplant.on .sv-wellwater{transform:translateY(8px)}
+.sv-cap.soil text{fill:rgba(220,195,165,.75)}
+.sv-cap.aq text{fill:rgba(125,211,252,.8)}
+@media (prefers-reduced-motion: reduce){
+  .sv-mill .blades,.sv-stars circle.tw,.sv-clouds g,.sv-farm .smoke circle,.sv-flies circle{animation:none!important}
+}
+.svcards{grid-template-rows:repeat(4,minmax(0,1fr)) auto}
+.svnow{justify-content:flex-start}
+.svnow .svlog{display:flex;align-items:flex-start;gap:9px;justify-content:flex-start;flex:none;width:auto;min-height:3.9em;
+  font-size:.76rem;line-height:1.35;color:var(--ink);font-weight:300}
+.svnow .svlog i{margin-top:5px}
+.svnow .svlog span{white-space:normal;overflow:visible}
+.svbar{margin-top:0}
+.simhead{align-items:center;flex-wrap:wrap;row-gap:10px}
+.simhead .rule{min-width:40px}
+.svplant{max-height:calc(100vh - 226px)}
+@media(max-height:780px){ .svplant{max-height:calc(100vh - 222px)} .svnow .svlog{min-height:3.6em;font-size:.72rem} }
+@media(max-width:1180px){ .simhead .svbtns button span{letter-spacing:.1em} .simhead .svbtns button{padding:8px 12px} }
+@media(max-width:900px){ .simhead .rule{display:none} .svnow{grid-column:1/-1} .svnow .svlog{min-height:0} .svplant{max-height:none} }
+#simFS{position:fixed;inset:0;z-index:2000;background:radial-gradient(120% 90% at 50% 0%,#0d1a24 0%,var(--deep) 70%);
+  display:flex;overflow:auto;-webkit-overflow-scrolling:touch}
+#simFS .simcol{width:100%;max-width:none!important;padding:clamp(12px,2.2vw,32px) clamp(12px,2.6vw,40px);margin:auto}
+#simFS [data-r]{opacity:1!important;filter:none!important;transform:none!important}
+#simFS [data-rule]{transform:none!important}
+#simFS .svplant{max-height:calc(100vh - 118px);max-height:calc(100dvh - 118px)}
+#simFS .sv{align-items:stretch}
+.svbtns button.fs{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent)}
+.svbtns button.fs:hover{color:#06090c;background:var(--accent);border-color:var(--accent)}
+html.simfs-on .nav, html.simfs-on header, html.simfs-on .dots{visibility:hidden}
+.svbtns button.fs.act{color:#06090c}
+#simFS .fshint{display:none}
+@media(max-width:900px) and (orientation:portrait){
+  #simFS .simcol{margin:0 auto auto} #simFS .svplant{max-height:none}
+  #simFS .fshint{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-family:var(--f-m);font-size:.62rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+  #simFS .fshint svg{width:16px;height:16px;flex:0 0 16px;color:var(--accent)}
+}
+@media(max-height:520px){
+  #simFS .simcol{padding:8px 12px}
+  #simFS .simhead .label,#simFS .simhead .rule{display:none}
+  #simFS .svplant{max-height:calc(100vh - 64px);max-height:calc(100dvh - 64px)}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="pbar" id="pbar"></div>
+<header class="top">
+  <div class="brand"><i></i>GL&#8239;&#183;&#8239;AQLINK</div>
+  <div class="topright">
+    <span class="sec" id="secLabel">Capa</span>
+    <a class="ig" href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener" aria-label="Instagram @gl_aqlink"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg><span>@gl_aqlink</span></a>
+    <span class="idx"><b id="idxNow">01</b> &#8202;/&#8202; <span id="idxAll">14</span></span>
+  </div>
+</header>
+<main id="deck">
+  <div class="track" id="track">
+    
+    <section class="slide" data-label="Capa">
+      <div class="photo"><img src="capa-produtor.jpg" alt="Produtor observando a lavoura ao amanhecer, com caixa d'água ao fundo"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col">
+          <span class="label" data-r>Automação de bombeamento &#183; sem fio</span>
+          <h1 class="display">
+            <span class="mask"><span>A água sobe sozinha.</span></span>
+            <span class="mask"><span><em>Você fica com o dia.</em></span></span>
+          </h1>
+          <span class="rule" data-rule></span>
+          <p class="body" data-r>Um módulo fica na caixa e vê o nível. O outro fica no quadro elétrico de bombeamento e faz o serviço. Entre os dois, só rádio: nada de cabo, de internet ou de mensalidade.</p>
+          <div class="kicker" data-r>
+            <span>Rádio 920 MHz</span><span>Criptografado</span><span>10&#8211;20 km</span><span>IP65</span><span>Sem mensalidade</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide" data-label="O problema">
+      <div class="photo"><img src="seca.jpg" alt="Terra rachada e caixa d'água em propriedade rural na seca"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col">
+          <span class="label" data-r>01 &#8202;/&#8202; O problema</span>
+          <h2 class="title"><span class="mask"><span>Ou transborda,<br><em>ou falta água</em></span></span></h2>
+          <p class="body" data-r>A gente lembra da caixa quando ela já derramou a noite inteira, ou quando a
+          torneira seca no meio da lida. Olhar todo dia, na hora certa, é a primeira coisa que se esquece.</p>
+          <div class="lines" style="margin-top:12px">
+            <div data-r><span class="n">01</span><div><h3>Ver a caixa derramando</h3><p>Água e energia escorrendo ladeira abaixo enquanto o bombeamento continua ligado.</p></div></div>
+            <div data-r><span class="n">02</span><div><h3>Esquecer de ligar</h3><p>Aí a casa, o curral e a horta ficam sem água justo no pior horário do dia.</p></div></div>
+            <div data-r><span class="n">03</span><div><h3>Puxar cabo até a caixa</h3><p>Caro de instalar e frágil de manter: sol, roedor, poste caído, raio na tempestade.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide" data-label="Como funciona">
+      <div class="photo"><img data-src="fazenda-aerea.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Vista aérea de fazenda com caixa d'água, pastos e estrada de terra"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1000px">
+          <div class="head"><span class="label" data-r>02 &#8202;/&#8202; Como funciona</span><span class="rule" data-rule></span></div>
+          <h2 class="title"><span class="mask"><span>Dois módulos, <em>um enlace</em></span></span></h2>
+          <p class="body" data-r>O ciclo roda sozinho, sem aplicativo e sem sinal de celular. Quatro passos, repetidos o ano inteiro.</p>
+          <div class="steps" style="margin-top:14px">
+            <div data-r><span class="n">01</span><h3>Mede o nível</h3><p>A boia manda o aviso e o módulo confere antes de agir, sem falso alarme.</p></div>
+            <div data-r><span class="n">02</span><h3>Transmite</h3><p>A mensagem vai criptografada e repetida, e só termina quando é confirmada.</p></div>
+            <div data-r><span class="n">03</span><h3>Aciona</h3><p>Fecha o contato do quadro elétrico, do mesmo jeito que uma chave faria.</p></div>
+            <div data-r><span class="n">04</span><h3>Vigia</h3><p>Os dois se chamam de tempos em tempos. Se um sumir, o bombeamento desliga.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide prodslide" data-label="Módulo TX">
+      <div class="photo"><img data-src="painel-solar.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Painel solar no campo com caixa d'água ao fundo"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col prodgrid" style="max-width:1180px">
+          <div class="prodtext">
+            <span class="label" data-r>03 &#8202;/&#8202; O que fica na caixa</span>
+            <h2 class="title"><span class="mask"><span>Módulo <em>TX</em></span></span></h2>
+            <p class="body" data-r>Preso na parede do reservatório, ligado só na boia. O painel solar mantém a bateria carregada o ano inteiro, então não precisa de tomada, de fio de energia nem de troca de pilha.</p>
+            <div class="kicker" data-r><span>Sem tomada</span><span>Sem mensalidade</span><span>Instala em minutos</span></div>
+            <dl class="dl" data-r>
+              <div><dt>Antena</dt><dd>40 cm, inclusa</dd></div>
+              <div><dt>Fixação</dt><dd>Parede ou poste</dd></div>
+              <div><dt>Energia</dt><dd>Painel solar e bateria</dd></div>
+              <div><dt>Consumo</dt><dd>Dorme entre as leituras</dd></div>
+              <div><dt>Entrada</dt><dd>Boia de nível comum</dd></div>
+              <div><dt>Proteção</dt><dd>IP65, feito para o tempo</dd></div>
+            </dl>
+          </div>
+            <div class="prod" data-r>
+              <div class="prodin">
+                <div class="modlayer" style="--m:url(modulo-tx.webp)">
+                  <img class="modimg" data-src="modulo-tx.webp" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Módulo TX do GL-AQLINK, com painel solar e antena" width="723" height="1440" decoding="async">
+                  <span class="sheen"></span>
+                  <span class="rw" style="--x:98.8%;--y:2.6%"><i></i><i></i><i></i></span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide prodslide" data-label="Módulo RX">
+      <div class="photo"><img data-src="torre-metalica.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Caixa d'água metálica sobre torre em propriedade rural"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col prodgrid rev" style="max-width:1180px">
+          <div class="prodtext">
+            <span class="label" data-r>04 &#8202;/&#8202; O que fica no quadro elétrico</span>
+            <h2 class="title"><span class="mask"><span>Módulo <em>RX</em></span></span></h2>
+            <p class="body" data-r>Fica no quadro elétrico de bombeamento. Recebe o comando, aciona a saída e conta pelos três LEDs do painel o que está acontecendo — inclusive quando alguma coisa sai do lugar.</p>
+            <div class="kicker" data-r><span>POWER aceso + STATUS a cada 2 s = tudo certo</span></div>
+            <dl class="dl" data-r>
+              <div><dt>Antena</dt><dd>40 cm, inclusa</dd></div>
+              <div><dt>Fixação</dt><dd>Parede ou poste</dd></div>
+              <div><dt>Alimentação</dt><dd>9 a 60 Vdc</dd></div>
+              <div><dt>Saída</dt><dd>Relé de 10 A</dd></div>
+              <div><dt>Saída 2</dt><dd>Estado sólido, isolada</dd></div>
+              <div><dt>Proteção</dt><dd>IP65, feito para o tempo</dd></div>
+            </dl>
+          </div>
+            <div class="prod" data-r>
+              <div class="prodin">
+                <div class="modlayer" style="--m:url(modulo-rx.webp)">
+                  <img class="modimg" data-src="modulo-rx.webp" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Módulo RX do GL-AQLINK, com painel de LEDs e antena" width="723" height="1440" decoding="async">
+                  <span class="sheen"></span>
+                  <span class="rw" style="--x:98.8%;--y:2.6%"><i></i><i></i><i></i></span>
+                  <i class="led pw" style="--x:21.1%;--y:58.3%"></i>
+                  <i class="led st" style="--x:31.9%;--y:58.4%"></i>
+                  <i class="led ot" style="--x:42.2%;--y:58.3%"></i>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide solid" data-label="Pronto para usar">
+      <div class="photo"><img data-src="lavoura.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Sede de fazenda com caixa d'água, painel solar e lavoura"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1120px">
+          <div class="head"><span class="label" data-r>05 &#8202;/&#8202; Pronto para usar</span><span class="rule" data-rule></span></div>
+          <div class="readygrid">
+            <div>
+              <h2 class="title"><span class="mask"><span>Tira da caixa<br><em>e funciona</em></span></span></h2>
+              <p class="body" data-r style="margin-top:14px">Os dois módulos saem de fábrica já pareados entre si. Sem configuração,
+              sem aplicativo, sem cadastro: fixou, ligou, está funcionando.</p>
+              <div class="lines" style="margin-top:14px">
+                <div data-r><span class="n">01</span><div><h3>Módulo TX na caixa</h3><p>Na borda do reservatório, com a boia ligada em três fios.</p></div></div>
+                <div data-r><span class="n">02</span><div><h3>Módulo RX no quadro elétrico</h3><p>Aciona o sistema de bombeamento direto ou pela contatora.</p></div></div>
+                <div data-r><span class="n">03</span><div><h3>Liga a energia</h3><p>Em cinco segundos o painel mostra que está tudo certo.</p></div></div>
+              </div>
+            </div>
+            <div class="box" data-r>
+              <div class="boxshots">
+                <span class="bs tx"><img data-src="modulo-tx.webp" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Módulo TX" width="723" height="1440"></span>
+                <span class="bslink" aria-hidden="true"><i></i><i></i><i></i><b class="pk"></b></span>
+                <span class="bs rx"><img data-src="modulo-rx.webp" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Módulo RX" width="723" height="1440"></span>
+              </div>
+              <div class="pairnote">Saem de fábrica <em>já pareados</em></div>
+              <span class="label">O que vem na caixa</span>
+              <ul class="boxlist">
+                <li>Módulo TX com painel solar e bateria</li>
+                <li>Módulo RX com relé de 10 A e saída isolada</li>
+                <li>Chave-boia de nível com contrapeso</li>
+                <li>Duas antenas</li>
+                <li>Parafusos e suportes de fixação</li>
+              </ul>
+              <p class="note">Encher caixa ou esvaziar reservatório: a mesma boia serve para os dois — é só inverter dois fios.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide solid" data-label="Em movimento">
+      <div class="photo"><img data-src="lavoura.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Sede de fazenda com caixa d'água, painel solar e lavoura"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col simcol" style="max-width:1200px">
+          <div class="head simhead"><span class="label" data-r>06 &#8202;/&#8202; A instalação, em movimento</span><span class="rule" data-rule></span>
+            <div class="svbtns" data-r>
+              <button id="bSpeed" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a6 6 0 1 1 10 0"/><path d="M8 9l3-3"/></svg><span>Acelerar consumo</span></button>
+              <button id="bCut" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4.5 6.5a5 5 0 0 1 7 0M6.3 8.6a2.4 2.4 0 0 1 3.4 0"/><circle cx="8" cy="11.4" r="1" fill="currentColor"/><path d="M2.5 2.5l11 11"/></svg><span>Cortar o sinal</span></button>
+              <button id="bWire" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 8h4M10 8h4"/><path d="M6.5 5.5l3 5M9.5 5.5l-3 5"/></svg><span>Romper o cabo</span></button>
+              <button id="bReset" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a5 5 0 1 0 1.6-3.7"/><path d="M3 2.5v2.5h2.5"/></svg><span>Reiniciar</span></button>
+              <button id="bFull" class="fs" type="button" title="Tela cheia (F)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg><span>Tela cheia</span></button>
+            </div>
+          </div>
+          <div class="sv">
+            <div class="svview" data-r>
+<svg class="svplant" id="svPlant" viewBox="0 0 1000 600" role="img"
+     aria-label="Simulação: caixa d'água com o módulo TX na tampa, rádio até o módulo RX no quadro elétrico, que aciona a motorbomba">
+  <defs>
+    <linearGradient id="svWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6ad9f7" stop-opacity=".82"/>
+      <stop offset=".16" stop-color="#2aa3d6" stop-opacity=".88"/>
+      <stop offset=".42" stop-color="#0c5586" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#062c48" stop-opacity=".98"/>
+    </linearGradient>
+    <linearGradient id="svSurf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b9ecff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#5fd4f5" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="svGlass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity=".10"/>
+      <stop offset=".18" stop-color="#fff" stop-opacity=".02"/>
+      <stop offset=".78" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".93" stop-color="#fff" stop-opacity=".07"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".02"/>
+    </linearGradient>
+    <linearGradient id="svMetal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1d242d"/><stop offset=".35" stop-color="#4a5664"/>
+      <stop offset=".6" stop-color="#2d3641"/><stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="svMetalV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5664"/><stop offset=".5" stop-color="#2a333d"/><stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="svLid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b6877"/><stop offset="1" stop-color="#232b34"/>
+    </linearGradient>
+    <linearGradient id="svMotor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a6b7e"/><stop offset=".45" stop-color="#34414f"/><stop offset="1" stop-color="#1a222b"/>
+    </linearGradient>
+    <radialGradient id="svVolute" cx=".38" cy=".32" r=".75">
+      <stop offset="0" stop-color="#6b7a8b"/><stop offset=".6" stop-color="#34404d"/><stop offset="1" stop-color="#1a2129"/>
+    </radialGradient>
+    <linearGradient id="svPanel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d7a89"/><stop offset=".5" stop-color="#4b5664"/><stop offset="1" stop-color="#2c343e"/>
+    </linearGradient>
+    <linearGradient id="svGround" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".07"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="svFloatGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a4655"/><stop offset=".5" stop-color="#1f2833"/><stop offset="1" stop-color="#0d1218"/>
+    </linearGradient>
+    <clipPath id="svClip"><rect x="78" y="240" width="204" height="156" rx="8"/></clipPath>
+    <filter id="svShadow" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity=".6"/>
+    </filter>
+    <filter id="svGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="svSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+    <linearGradient id="svSky" gradientUnits="userSpaceOnUse" x1="0" y1="-120" x2="0" y2="482">
+      <stop offset="0" stop-color="#050a10"/>
+      <stop offset=".46" stop-color="#0a1621"/>
+      <stop offset=".78" stop-color="#15293a"/>
+      <stop offset="1" stop-color="#20394a"/>
+    </linearGradient>
+    <radialGradient id="svDusk" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#f5a524" stop-opacity=".34"/>
+      <stop offset=".45" stop-color="#e76f51" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#e76f51" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="svMoonGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#e9eef3" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#e9eef3" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="svSoil" gradientUnits="userSpaceOnUse" x1="0" y1="482" x2="0" y2="600">
+      <stop offset="0" stop-color="#2d2219"/>
+      <stop offset=".22" stop-color="#231a13"/>
+      <stop offset=".5" stop-color="#1a1510"/>
+      <stop offset="1" stop-color="#111214"/>
+    </linearGradient>
+    <linearGradient id="svAquifer" gradientUnits="userSpaceOnUse" x1="0" y1="552" x2="0" y2="600">
+      <stop offset="0" stop-color="#0e3a55" stop-opacity="0"/>
+      <stop offset=".35" stop-color="#0e3a55" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#0a2c44" stop-opacity=".9"/>
+    </linearGradient>
+    <linearGradient id="svWellWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4cc3ec"/><stop offset="1" stop-color="#0b4e78"/>
+    </linearGradient>
+    <linearGradient id="svConcrete" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#707882"/><stop offset="1" stop-color="#3a4047"/>
+    </linearGradient>
+    <radialGradient id="svWindowGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffc861" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#ffc861" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="svMoonMask"><rect x="-40" y="-40" width="80" height="80" fill="#fff"/><circle cx="7" cy="-4" r="10.5" fill="#000"/></mask>
+    <linearGradient id="svSkyDay" gradientUnits="userSpaceOnUse" x1="0" y1="-120" x2="0" y2="482">
+      <stop offset="0" stop-color="#1f5f8f"/>
+      <stop offset=".5" stop-color="#4f93c0"/>
+      <stop offset=".8" stop-color="#8fc2dc"/>
+      <stop offset="1" stop-color="#bfe0ec"/>
+    </linearGradient>
+    <radialGradient id="svWarm" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffb347" stop-opacity=".75"/>
+      <stop offset=".35" stop-color="#f4845f" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#e76f51" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="svMeteorGrad" gradientUnits="userSpaceOnUse" x1="-110" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#cfe9ff" stop-opacity="0"/>
+      <stop offset=".75" stop-color="#e6f4ff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+    <radialGradient id="svSunGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff3c4" stop-opacity=".85"/>
+      <stop offset=".25" stop-color="#ffd76a" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#ffd76a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <rect x="-600" y="-200" width="2200" height="682" fill="url(#svSky)"/>
+  <rect class="sv-skyday" x="-600" y="-200" width="2200" height="682" fill="url(#svSkyDay)"/>
+  <ellipse id="svWarmGlow" cx="170" cy="400" rx="520" ry="190" fill="url(#svWarm)" opacity="0"/>
+  <g class="sv-stars" fill="#dfe9f2">
+      <circle class="tw" cx="1150" cy="96" r="0.55" opacity="0.29" style="animation-delay:2.5s"/>
+      <circle cx="1244" cy="158" r="0.8" opacity="0.29" style="animation-delay:3.9s"/>
+      <circle cx="445" cy="21" r="0.65" opacity="0.43" style="animation-delay:2.7s"/>
+      <circle cx="1122" cy="141" r="0.65" opacity="0.57" style="animation-delay:4.4s"/>
+      <circle cx="-72" cy="228" r="0.55" opacity="0.39" style="animation-delay:3.1s"/>
+      <circle class="tw" cx="384" cy="76" r="0.55" opacity="0.69" style="animation-delay:0.2s"/>
+      <circle cx="805" cy="-48" r="0.8" opacity="0.55" style="animation-delay:0.1s"/>
+      <circle cx="1283" cy="-16" r="0.65" opacity="0.32" style="animation-delay:1.1s"/>
+      <circle cx="-228" cy="136" r="0.55" opacity="0.27" style="animation-delay:4.4s"/>
+      <circle cx="-164" cy="142" r="0.55" opacity="0.57" style="animation-delay:0.4s"/>
+      <circle class="tw" cx="1212" cy="88" r="1.2" opacity="0.71" style="animation-delay:0.1s"/>
+      <circle cx="927" cy="250" r="1.0" opacity="0.57" style="animation-delay:4.6s"/>
+      <circle cx="1051" cy="9" r="0.65" opacity="0.42" style="animation-delay:4.5s"/>
+      <circle cx="1283" cy="-12" r="0.55" opacity="0.66" style="animation-delay:1.7s"/>
+      <circle cx="323" cy="184" r="1.0" opacity="0.29" style="animation-delay:4.0s"/>
+      <circle class="tw" cx="1002" cy="-56" r="0.55" opacity="0.61" style="animation-delay:3.2s"/>
+      <circle cx="883" cy="240" r="1.0" opacity="0.41" style="animation-delay:1.9s"/>
+      <circle cx="803" cy="210" r="1.2" opacity="0.69" style="animation-delay:4.8s"/>
+      <circle cx="556" cy="183" r="0.55" opacity="0.48" style="animation-delay:1.8s"/>
+      <circle cx="-89" cy="55" r="1.2" opacity="0.68" style="animation-delay:0.2s"/>
+      <circle class="tw" cx="319" cy="68" r="1.2" opacity="0.53" style="animation-delay:2.0s"/>
+      <circle cx="830" cy="166" r="1.2" opacity="0.75" style="animation-delay:1.4s"/>
+      <circle cx="1060" cy="93" r="1.0" opacity="0.25" style="animation-delay:1.3s"/>
+      <circle cx="563" cy="35" r="1.0" opacity="0.55" style="animation-delay:3.1s"/>
+      <circle cx="788" cy="160" r="0.65" opacity="0.53" style="animation-delay:3.2s"/>
+      <circle class="tw" cx="243" cy="232" r="1.2" opacity="0.33" style="animation-delay:3.2s"/>
+      <circle cx="516" cy="194" r="0.55" opacity="0.71" style="animation-delay:4.3s"/>
+      <circle cx="-93" cy="158" r="0.55" opacity="0.36" style="animation-delay:1.2s"/>
+      <circle cx="905" cy="58" r="1.0" opacity="0.48" style="animation-delay:2.5s"/>
+      <circle cx="126" cy="155" r="1.2" opacity="0.32" style="animation-delay:3.3s"/>
+      <circle class="tw" cx="89" cy="134" r="1.0" opacity="0.45" style="animation-delay:0.5s"/>
+      <circle cx="442" cy="235" r="1.2" opacity="0.46" style="animation-delay:1.2s"/>
+      <circle cx="19" cy="-25" r="1.0" opacity="0.45" style="animation-delay:2.7s"/>
+      <circle cx="463" cy="8" r="0.55" opacity="0.48" style="animation-delay:3.7s"/>
+      <circle cx="-297" cy="-18" r="0.65" opacity="0.51" style="animation-delay:0.5s"/>
+      <circle class="tw" cx="260" cy="-13" r="0.8" opacity="0.74" style="animation-delay:3.9s"/>
+      <circle cx="1115" cy="84" r="1.0" opacity="0.70" style="animation-delay:2.9s"/>
+      <circle cx="-43" cy="106" r="1.2" opacity="0.55" style="animation-delay:4.6s"/>
+      <circle cx="1191" cy="-25" r="1.0" opacity="0.56" style="animation-delay:2.0s"/>
+      <circle cx="1291" cy="43" r="0.55" opacity="0.69" style="animation-delay:2.3s"/>
+      <circle class="tw" cx="803" cy="207" r="0.55" opacity="0.70" style="animation-delay:4.9s"/>
+      <circle cx="67" cy="-43" r="0.55" opacity="0.35" style="animation-delay:2.5s"/>
+      <circle cx="-31" cy="119" r="1.0" opacity="0.63" style="animation-delay:3.3s"/>
+      <circle cx="162" cy="33" r="0.8" opacity="0.53" style="animation-delay:1.4s"/>
+      <circle cx="-209" cy="-54" r="1.0" opacity="0.49" style="animation-delay:0.2s"/>
+      <circle class="tw" cx="-220" cy="101" r="0.65" opacity="0.40" style="animation-delay:2.7s"/>
+  </g>
+  <g id="svMeteor" opacity="0">
+    <line id="svMeteorTail" x1="-110" y1="0" x2="0" y2="0" stroke="url(#svMeteorGrad)" stroke-width="1.7" stroke-linecap="round"/>
+    <circle r="1.9" fill="#fff"/><circle r="5" fill="#e6f4ff" opacity=".25"/>
+  </g>
+  <g id="svMoon" transform="translate(930 56)">
+    <circle r="36" fill="url(#svMoonGlow)"/>
+    <circle r="12" fill="#e9eef3" opacity=".92" mask="url(#svMoonMask)"/>
+  </g>
+  <g id="svSun" transform="translate(-200 600)">
+    <circle r="78" fill="url(#svSunGlow)"/>
+    <circle id="svSunDisc" r="17" fill="#ffd76a"/>
+  </g>
+  <text id="svClock" class="sv-clock" x="16" y="30">— : —</text>
+  <g class="sv-clouds">
+    <g class="c1"><ellipse cx="120" cy="110" rx="46" ry="11"/><ellipse cx="104" cy="102" rx="22" ry="12"/><ellipse cx="134" cy="99" rx="26" ry="15"/></g>
+    <g class="c2"><ellipse cx="560" cy="170" rx="38" ry="9"/><ellipse cx="548" cy="163" rx="18" ry="10"/><ellipse cx="572" cy="160" rx="21" ry="12"/></g>
+    <g class="c3"><ellipse cx="860" cy="226" rx="30" ry="7"/><ellipse cx="852" cy="221" rx="14" ry="8"/><ellipse cx="868" cy="219" rx="16" ry="9"/></g>
+  </g>
+  
+  <path class="sv-hill far" d="M-600 420 C -400 360, -200 380, 0 372 C 120 367, 200 330, 330 345 C 460 360, 520 318, 640 330 C 760 342, 820 300, 940 318 C 1060 336, 1200 350, 1600 360 V 482 H -600 Z"/>
+  <path class="sv-ridge" d="M-600 420 C -400 360, -200 380, 0 372 C 120 367, 200 330, 330 345 C 460 360, 520 318, 640 330 C 760 342, 820 300, 940 318 C 1060 336, 1200 350, 1600 360"/>
+  <g class="sv-crops"><path d="M740 356 C 830 344, 930 338, 1080 342"/><path d="M740 365 C 830 353, 930 347, 1080 351"/><path d="M740 374 C 830 362, 930 356, 1080 360"/><path d="M740 383 C 830 371, 930 365, 1080 369"/><path d="M740 392 C 830 380, 930 374, 1080 378"/><path d="M740 401 C 830 389, 930 383, 1080 387"/><path d="M740 410 C 830 398, 930 392, 1080 396"/><path d="M740 419 C 830 407, 930 401, 1080 405"/><path d="M-180 390 C -90 382, 0 380, 64 384"/><path d="M-180 398 C -90 390, 0 388, 64 392"/><path d="M-180 406 C -90 398, 0 396, 64 400"/><path d="M-180 414 C -90 406, 0 404, 64 408"/><path d="M-180 422 C -90 414, 0 412, 64 416"/><path d="M-180 430 C -90 422, 0 420, 64 424"/></g>
+  <g class="sv-barn">
+    <path d="M846 324 L846 306 L862 294 L878 306 L878 324 Z" class="b"/>
+    <path d="M846 306 L862 294 L878 306" class="rl"/>
+    <rect x="857" y="313" width="10" height="11" class="d"/>
+    <rect x="859" y="301" width="6" height="5" class="w"/>
+  </g>
+  <path class="sv-hill mid" d="M-600 452 C -300 430, -100 440, 60 436 C 180 432, 260 404, 380 414 C 470 421, 560 400, 660 406 C 760 412, 860 424, 1000 420 C 1200 414, 1400 432, 1600 440 V 482 H -600 Z"/>
+  <path class="sv-ridge mid" d="M-600 452 C -300 430, -100 440, 60 436 C 180 432, 260 404, 380 414 C 470 421, 560 400, 660 406 C 760 412, 860 424, 1000 420 C 1200 414, 1400 432, 1600 440"/>
+  
+  <g class="sv-mill">
+    <path d="M391 424 L400 334 L409 424 M393.5 402 H406.5 M395.5 380 H404.5 M392.5 413 L405.5 391 M407.5 413 L394.5 391 M394.5 391 L404 369 M405.5 391 L396 369"/>
+    <path d="M400 330 H426 M420 324 L428 330 L420 336" class="vane"/>
+    <g class="blades" style="transform-origin:400px 330px">
+      <path d="M400 330 L400 310 M400 330 L414.1 315.9 M400 330 L420 330 M400 330 L414.1 344.1 M400 330 L400 350 M400 330 L385.9 344.1 M400 330 L380 330 M400 330 L385.9 315.9"/>
+      <circle cx="400" cy="330" r="19.5" class="ring"/>
+    </g>
+    <circle cx="400" cy="330" r="2.8" class="hub"/>
+  </g>
+  
+  <g class="sv-farm">
+    <ellipse class="glow" cx="452" cy="392" rx="22" ry="15" fill="url(#svWindowGlow)"/>
+    <ellipse class="glow" cx="522" cy="392" rx="22" ry="15" fill="url(#svWindowGlow)"/>
+    <rect x="522" y="352" width="8" height="20" class="roof"/>
+    <path d="M424 382 L488 348 L552 382 Z" class="roof"/>
+    <path d="M424 382 L488 348 L552 382" class="roofline"/>
+    <rect x="432" y="380" width="112" height="40" class="wall"/>
+    <path d="M428 398 H548" class="porch"/>
+    <path d="M436 398 V420 M470 398 V420 M506 398 V420 M540 398 V420" class="post"/>
+    <rect x="446" y="385" width="12" height="11" rx="1" class="win"/>
+    <rect x="516" y="385" width="12" height="11" rx="1" class="win"/>
+    <path d="M452 385 V396 M446 390.5 H458 M522 385 V396 M516 390.5 H528" class="mull"/>
+    <rect x="482" y="401" width="12" height="19" class="door"/>
+    <rect x="544" y="392" width="40" height="28" class="shed"/>
+    <path d="M541 392 L588 386" class="roofline"/>
+    <rect x="556" y="402" width="16" height="18" class="door"/>
+    <g class="tree"><rect x="591" y="398" width="3" height="22"/><circle cx="592" cy="388" r="14"/><circle cx="581" cy="396" r="9"/></g>
+    <g class="smoke"><circle cx="526" cy="346" r="3.4"/><circle cx="526" cy="346" r="3.8"/><circle cx="526" cy="346" r="4.4"/></g>
+  </g>
+  <g class="sv-fence"><rect x="372" y="452" width="3" height="21" rx="1"/><rect x="391" y="452" width="3" height="21" rx="1"/><rect x="410" y="452" width="3" height="21" rx="1"/><rect x="429" y="452" width="3" height="21" rx="1"/><rect x="448" y="452" width="3" height="21" rx="1"/><rect x="467" y="452" width="3" height="21" rx="1"/><rect x="486" y="452" width="3" height="21" rx="1"/><rect x="505" y="452" width="3" height="21" rx="1"/><rect x="524" y="452" width="3" height="21" rx="1"/><rect x="543" y="452" width="3" height="21" rx="1"/><rect x="562" y="452" width="3" height="21" rx="1"/><rect x="581" y="452" width="3" height="21" rx="1"/><rect x="370" y="457" width="228" height="2" rx="1"/><rect x="370" y="465" width="228" height="2" rx="1"/></g>
+  <g class="sv-flies"><circle cx="330" cy="466" r="1.5" style="animation-delay:0s"/><circle cx="356" cy="450" r="1.5" style="animation-delay:1.3s"/><circle cx="578" cy="444" r="1.5" style="animation-delay:2.1s"/><circle cx="718" cy="462" r="1.5" style="animation-delay:0.6s"/><circle cx="742" cy="442" r="1.5" style="animation-delay:2.8s"/><circle cx="990" cy="452" r="1.5" style="animation-delay:1.7s"/><circle cx="-28" cy="458" r="1.5" style="animation-delay:0.9s"/><circle cx="300" cy="440" r="1.5" style="animation-delay:3.4s"/></g>
+  
+  <rect x="-600" y="482" width="2200" height="160" fill="url(#svSoil)"/>
+  <path class="sv-strata" d="M-600 507 C -300 504, 0 510, 300 506 C 600 502, 800 509, 1600 506"/>
+  <path class="sv-strata" d="M-600 541 C -300 538, 0 544, 300 540 C 600 536, 800 543, 1600 540"/>
+  <rect x="-600" y="552" width="2200" height="60" fill="url(#svAquifer)"/>
+  <g class="sv-aqwaves"><path d="M-600 574 q 12 -3 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0"/><path d="M-600 586 q 12 -3 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0"/></g>
+  <g class="sv-pebbles"><ellipse cx="218" cy="504" rx="2.2" ry="0.8"/><ellipse cx="557" cy="527" rx="1.1" ry="1.2"/><ellipse cx="-240" cy="535" rx="1.1" ry="0.8"/><ellipse cx="379" cy="577" rx="1.2" ry="0.9"/><ellipse cx="704" cy="590" rx="2.0" ry="1.1"/><ellipse cx="1262" cy="493" rx="2.5" ry="1.0"/><ellipse cx="-69" cy="501" rx="1.6" ry="1.5"/><ellipse cx="-11" cy="551" rx="2.2" ry="1.1"/><ellipse cx="576" cy="495" rx="1.1" ry="0.9"/><ellipse cx="203" cy="551" rx="1.8" ry="1.0"/><ellipse cx="971" cy="563" rx="1.4" ry="1.3"/><ellipse cx="540" cy="583" rx="2.3" ry="1.0"/><ellipse cx="1268" cy="501" rx="1.8" ry="1.5"/><ellipse cx="-57" cy="541" rx="1.1" ry="1.4"/><ellipse cx="923" cy="550" rx="2.6" ry="1.0"/><ellipse cx="628" cy="537" rx="2.5" ry="1.6"/><ellipse cx="459" cy="560" rx="1.1" ry="1.4"/><ellipse cx="735" cy="595" rx="2.5" ry="1.0"/><ellipse cx="317" cy="560" rx="1.0" ry="1.2"/><ellipse cx="-31" cy="501" rx="1.1" ry="1.5"/><ellipse cx="-93" cy="515" rx="1.7" ry="1.6"/><ellipse cx="-171" cy="537" rx="2.0" ry="1.6"/><ellipse cx="1011" cy="581" rx="1.5" ry="1.1"/><ellipse cx="274" cy="583" rx="2.7" ry="0.9"/><ellipse cx="-18" cy="513" rx="1.4" ry="1.2"/><ellipse cx="643" cy="516" rx="1.0" ry="1.1"/><ellipse cx="291" cy="549" rx="2.7" ry="1.4"/><ellipse cx="525" cy="555" rx="2.2" ry="0.8"/><ellipse cx="1139" cy="572" rx="2.6" ry="1.5"/><ellipse cx="328" cy="531" rx="1.2" ry="1.3"/><ellipse cx="-200" cy="495" rx="1.4" ry="0.9"/><ellipse cx="244" cy="494" rx="1.0" ry="0.9"/><ellipse cx="-138" cy="527" rx="1.0" ry="1.6"/><ellipse cx="683" cy="504" rx="1.5" ry="1.0"/><ellipse cx="283" cy="501" rx="2.5" ry="1.7"/><ellipse cx="446" cy="540" rx="1.2" ry="0.8"/><ellipse cx="248" cy="517" rx="2.5" ry="0.9"/><ellipse cx="-263" cy="591" rx="2.0" ry="0.8"/><ellipse cx="569" cy="491" rx="2.0" ry="1.7"/><ellipse cx="1081" cy="563" rx="1.5" ry="1.1"/><ellipse cx="-33" cy="571" rx="2.0" ry="1.5"/><ellipse cx="227" cy="512" rx="2.5" ry="1.7"/><ellipse cx="1064" cy="575" rx="2.5" ry="1.4"/><ellipse cx="63" cy="544" rx="1.6" ry="0.7"/><ellipse cx="-255" cy="518" rx="1.5" ry="1.4"/><ellipse cx="1230" cy="536" rx="2.7" ry="1.7"/><ellipse cx="1228" cy="527" rx="1.4" ry="0.9"/><ellipse cx="15" cy="510" rx="2.1" ry="1.6"/><ellipse cx="1045" cy="540" rx="2.2" ry="1.5"/><ellipse cx="-164" cy="559" rx="2.6" ry="1.5"/><ellipse cx="900" cy="540" rx="1.3" ry="1.5"/><ellipse cx="232" cy="574" rx="2.7" ry="1.1"/><ellipse cx="342" cy="590" rx="2.3" ry="0.9"/><ellipse cx="-97" cy="504" rx="2.6" ry="1.5"/><ellipse cx="-66" cy="577" rx="2.8" ry="1.4"/><ellipse cx="261" cy="547" rx="1.2" ry="0.7"/><ellipse cx="1253" cy="558" rx="1.9" ry="1.6"/><ellipse cx="394" cy="582" rx="2.5" ry="0.9"/><ellipse cx="103" cy="520" rx="1.4" ry="1.3"/><ellipse cx="115" cy="533" rx="1.2" ry="1.6"/><ellipse cx="266" cy="537" rx="2.1" ry="1.6"/><ellipse cx="373" cy="587" rx="1.9" ry="1.2"/><ellipse cx="538" cy="490" rx="1.8" ry="0.9"/><ellipse cx="-294" cy="574" rx="1.3" ry="1.2"/><ellipse cx="860" cy="548" rx="1.6" ry="1.2"/><ellipse cx="589" cy="573" rx="1.2" ry="1.3"/><ellipse cx="98" cy="518" rx="2.4" ry="1.2"/><ellipse cx="599" cy="570" rx="2.6" ry="1.1"/><ellipse cx="680" cy="543" rx="1.9" ry="1.4"/><ellipse cx="424" cy="546" rx="1.9" ry="1.6"/><ellipse cx="1207" cy="516" rx="2.0" ry="1.6"/><ellipse cx="1044" cy="503" rx="1.2" ry="1.1"/><ellipse cx="-184" cy="514" rx="1.1" ry="1.4"/><ellipse cx="954" cy="585" rx="1.3" ry="1.4"/><ellipse cx="756" cy="503" rx="2.6" ry="1.7"/><ellipse cx="51" cy="591" rx="1.7" ry="1.2"/><ellipse cx="1284" cy="578" rx="1.3" ry="1.1"/><ellipse cx="525" cy="525" rx="1.4" ry="1.0"/><ellipse cx="855" cy="490" rx="2.0" ry="1.1"/><ellipse cx="-271" cy="524" rx="2.1" ry="1.2"/><ellipse cx="-197" cy="594" rx="2.4" ry="1.7"/><ellipse cx="-132" cy="517" rx="1.1" ry="1.5"/><ellipse cx="133" cy="502" rx="1.8" ry="1.6"/><ellipse cx="1010" cy="516" rx="1.3" ry="1.6"/><ellipse cx="613" cy="564" rx="1.2" ry="0.8"/><ellipse cx="-184" cy="589" rx="2.1" ry="1.5"/><ellipse cx="-166" cy="580" rx="1.1" ry="1.6"/><ellipse cx="426" cy="525" rx="2.0" ry="1.6"/><ellipse cx="129" cy="502" rx="1.9" ry="0.9"/><ellipse cx="-125" cy="505" rx="1.1" ry="0.9"/><ellipse cx="199" cy="521" rx="2.4" ry="1.0"/></g>
+  <line class="sv-ground" x1="-600" y1="482" x2="1600" y2="482"/>
+  <g class="sv-grass"><path d="M16 482 l-3 -7 M16 482 l1 -9 M16 482 l4 -6"/><path d="M34 482 l-3 -7 M34 482 l1 -9 M34 482 l4 -6"/><path d="M300 482 l-3 -7 M300 482 l1 -9 M300 482 l4 -6"/><path d="M318 482 l-3 -7 M318 482 l1 -9 M318 482 l4 -6"/><path d="M350 482 l-3 -7 M350 482 l1 -9 M350 482 l4 -6"/><path d="M368 482 l-3 -7 M368 482 l1 -9 M368 482 l4 -6"/><path d="M560 482 l-3 -7 M560 482 l1 -9 M560 482 l4 -6"/><path d="M592 482 l-3 -7 M592 482 l1 -9 M592 482 l4 -6"/><path d="M716 482 l-3 -7 M716 482 l1 -9 M716 482 l4 -6"/><path d="M736 482 l-3 -7 M736 482 l1 -9 M736 482 l4 -6"/><path d="M770 482 l-3 -7 M770 482 l1 -9 M770 482 l4 -6"/><path d="M984 482 l-3 -7 M984 482 l1 -9 M984 482 l4 -6"/><path d="M1000 482 l-3 -7 M1000 482 l1 -9 M1000 482 l4 -6"/></g>
+  <g class="sv-footing">
+    <rect x="72" y="482" width="22" height="10" rx="1.5"/><rect x="266" y="482" width="22" height="10" rx="1.5"/>
+    <rect x="642" y="482" width="20" height="12" rx="1.5"/>
+    <rect x="842" y="482" width="128" height="8" rx="1.5"/>
+  </g>
+  
+  <ellipse cx="180" cy="485" rx="124" ry="6" fill="#000" opacity=".45" filter="url(#svSoft)"/>
+  <ellipse cx="890" cy="485" rx="96" ry="5" fill="#000" opacity=".45" filter="url(#svSoft)"/>
+  <ellipse cx="652" cy="485" rx="42" ry="4" fill="#000" opacity=".4" filter="url(#svSoft)"/>
+  
+  <path class="sv-pipe" d="M788 438 H58 A14 14 0 0 1 44 424 V220 A14 14 0 0 1 58 206 H106 A14 14 0 0 1 120 220 V242"/>
+  <path class="sv-pipein" d="M788 438 H58 A14 14 0 0 1 44 424 V220 A14 14 0 0 1 58 206 H106 A14 14 0 0 1 120 220 V242"/>
+  <path class="sv-flow" id="svFlowRec" d="M786 438 H58 A14 14 0 0 1 44 424 V220 A14 14 0 0 1 58 206 H106 A14 14 0 0 1 120 220 V240"/>
+  
+  <g class="sv-well">
+    <rect x="802" y="482" width="36" height="128" fill="#06080a"/>
+    <g id="svWellWaterG" class="sv-wellwater">
+      <rect x="804" y="566" width="32" height="44" fill="url(#svWellWater)"/>
+      <path d="M804 566 q 8 -2.4 16 0 t 16 0" fill="none" stroke="#bfefff" stroke-width="1.1" opacity=".75"/>
+    </g>
+    <path d="M800 484 V600 M840 484 V600" class="casing"/>
+  </g>
+  <path class="sv-pipe" d="M820 462 V582"/>
+  <path class="sv-pipein" d="M820 462 V582"/>
+  <path class="sv-flow" id="svFlowSuc" d="M820 588 V464"/>
+  <g class="sv-well">
+    <path d="M797 524 l6 -4 l6 4 l6 -4 l6 4 l6 -4 l6 4 l6 -4" class="brk"/>
+    <path d="M797 530 l6 -4 l6 4 l6 -4 l6 4 l6 -4 l6 4 l6 -4" class="brk"/>
+    <rect x="794" y="473" width="52" height="12" rx="2" fill="url(#svConcrete)" stroke="#23272c" stroke-width="1"/>
+    <rect x="807" y="467" width="26" height="7" rx="1.5" fill="#5a636e" stroke="#23272c" stroke-width=".8"/>
+    <path d="M809 469 H831" stroke="#fff" stroke-opacity=".12" stroke-width="1"/>
+  </g>
+  <g class="sv-footvalve">
+    <rect x="811.5" y="576" width="17" height="17" rx="2.8" fill="#5b6570" stroke="#1b2026" stroke-width=".9"/>
+    <path d="M813.5 580.5 H826.5 M813.5 584.5 H826.5 M813.5 588.5 H826.5" stroke="#1b2026" stroke-width="1.1"/>
+  </g>
+  
+  <path class="sv-pipe thin" d="M288 382 H352"/>
+  <path class="sv-pipein thin" d="M288 382 H352"/>
+  <path class="sv-flowout" d="M292 382 H348"/>
+  <path d="M350 376 L360 382 L350 388" fill="none" stroke="#9aa6b2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <g class="sv-tower">
+    <path d="M94 402 L82 482" /><path d="M266 402 L278 482"/>
+    <path d="M92 414 L270 472 M268 414 L90 472" class="brace"/>
+    <path d="M88 444 H272" class="brace"/>
+    <rect x="72" y="476" width="22" height="6" rx="1.5" class="pad"/>
+    <rect x="266" y="476" width="22" height="6" rx="1.5" class="pad"/>
+  </g>
+  
+  <rect x="70" y="232" width="220" height="170" rx="14" class="sv-tank"/>
+  <g clip-path="url(#svClip)">
+    <rect x="78" y="240" width="204" height="156" fill="#0b141c" opacity=".55"/>
+    <g id="svWaterG" transform="translate(0,330.6)">
+      <g id="svWave1"><path d="M-220 6 q 55 -11 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 V 420 H -220 Z" fill="url(#svWater)"/></g>
+      <g id="svWave2" opacity=".5"><path d="M-220 9 q 70 -8 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 V 26 H -220 Z" fill="url(#svSurf)"/></g>
+      <g class="sv-bubbles" id="svBubbles">
+        <circle cx="112" cy="40" r="2"/><circle cx="128" cy="62" r="1.5"/><circle cx="104" cy="84" r="2.4"/>
+        <circle cx="134" cy="100" r="1.6"/><circle cx="118" cy="118" r="2"/>
+      </g>
+    </g>
+    <g id="svJet" class="sv-jet">
+      <path id="svJetLine" d="M120 242 L120 330"/>
+      <g id="svSplash"><ellipse cx="120" cy="0" rx="12" ry="3.5"/><ellipse cx="120" cy="0" rx="22" ry="6"/></g>
+    </g>
+    <rect x="78" y="240" width="204" height="156" fill="url(#svGlass)"/>
+  </g>
+  <rect x="70" y="232" width="220" height="170" rx="14" class="sv-tankline"/>
+  
+  <g class="sv-marks">
+    <line x1="82" y1="268.1" x2="298" y2="268.1" class="m-hi"/>
+    <line x1="82" y1="361.7" x2="298" y2="361.7" class="m-lo"/>
+    <text x="302" y="271.6" class="m-hi">DESLIGA · 82%</text>
+    <text x="302" y="365.2" class="m-lo">LIGA · 22%</text>
+  </g>
+  
+  <path id="svCableTop" class="sv-cable" d="M240 224 L240 314.9"/>
+  <path id="svCableLow" class="sv-cable" d="M240 314.9 L240 361.7"/>
+  <g id="svBreak" class="sv-break">
+    <path d="M234 262 l12 10 M246 262 l-12 10"/><circle cx="240" cy="267" r="11"/>
+  </g>
+  <g transform="translate(240,314.9)">
+    <rect x="-6" y="-11" width="12" height="20" rx="4.5" fill="url(#svMetal)" stroke="#0a0e12" stroke-width=".8"/>
+    <line x1="-5.5" y1="-4" x2="5.5" y2="-4" stroke="#0a0e12" stroke-width=".7" opacity=".6"/>
+    <line x1="-5.5" y1="3" x2="5.5" y2="3" stroke="#0a0e12" stroke-width=".7" opacity=".6"/>
+  </g>
+  <g id="svFloat" transform="translate(240.0,361.7)">
+    <rect x="-3" y="-21" width="6" height="8" rx="2" fill="#2a3440"/>
+    <rect x="-9.5" y="-14" width="19" height="30" rx="6.5" fill="url(#svFloatGrad)" stroke="#070b10" stroke-width=".9"/>
+    <rect x="-9.5" y="-2" width="19" height="5" rx="1.5" fill="#f5a524" opacity=".92"/>
+    <rect x="-6.5" y="-11" width="3.5" height="8" rx="1.75" fill="#fff" opacity=".16"/>
+  </g>
+  
+  <rect x="62" y="222" width="236" height="16" rx="6" fill="url(#svLid)" stroke="#0c1117" stroke-width="1"/>
+  <rect x="112" y="219" width="16" height="6" rx="2" fill="#39434f"/>
+  
+  <image id="svTX" href="modulo-tx.webp" x="200.6" y="25.4" width="100.0" height="199.4" filter="url(#svShadow)"/>
+  
+  <path id="svArc" class="sv-arc" d="M299.4 26.0 Q 518.9 -12.0 738.4 38.8"/>
+  <g id="svCut" class="sv-cut" transform="translate(518.9,10.2)">
+    <circle r="13"/><path d="M-5 -5 L5 5 M5 -5 L-5 5"/>
+  </g>
+  <text class="sv-radiolbl" id="svRadioLbl" x="518.9" y="44.2" text-anchor="middle">RÁDIO 920 MHz · 10 A 20 km</text>
+  <g class="sv-rip" id="svRipTX" transform="translate(299.4,26.0)"><circle r="9"/><circle r="9"/><circle r="9"/></g>
+  <g class="sv-rip" id="svRipRX" transform="translate(738.4,38.8)"><circle r="9"/><circle r="9"/><circle r="9"/></g>
+  <circle id="svPkt" class="sv-pkt" r="5" cx="-50" cy="-50" filter="url(#svGlow)"/>
+  
+  <rect x="648" y="250" width="8" height="232" fill="url(#svMetal)"/>
+  <path class="sv-wire" d="M639.4 295.9 V300 M664.0 295.9 V300"/>
+  <g class="sv-panel">
+    <rect x="600" y="300" width="104" height="98" rx="8" fill="url(#svPanel)" stroke="#11161c" stroke-width="1.2"/>
+    <rect x="608" y="308" width="88" height="82" rx="4" fill="none" stroke="#1b222a" stroke-width="1" opacity=".7"/>
+    <rect x="688" y="338" width="4" height="16" rx="2" fill="#1b222a"/>
+    <path d="M616 334 l8 -14 l8 14 z" fill="#f5b83b" stroke="#1b222a" stroke-width=".8"/>
+    <path d="M624.6 324 l-2.4 5 h3 l-2.4 5" fill="none" stroke="#1b222a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle id="svRelay" cx="676" cy="324" r="3.2" class="sv-relay"/>
+  </g>
+  <image id="svRX" href="modulo-rx.webp" x="610.0" y="38.0" width="130.0" height="258.9" filter="url(#svShadow)"/>
+  <g class="sv-leds">
+    <circle class="sv-led pw" cx="637.4" cy="189.0" r="3.64" filter="url(#svGlow)"/>
+    <circle class="sv-led st" id="svLedSt" cx="651.5" cy="189.0" r="3.64" filter="url(#svGlow)"/>
+    <circle class="sv-led ot" id="svLedOut" cx="664.9" cy="189.0" r="3.64" filter="url(#svGlow)"/>
+  </g>
+  
+  <path class="sv-wire" d="M704 346 C 800 346, 905 356, 905 395"/>
+  
+  <g class="sv-pump">
+    <circle id="svPumpGlow" cx="820" cy="432" r="42" class="sv-pumpglow" filter="url(#svSoft)"/>
+    <rect x="846" y="466" width="120" height="16" rx="3" fill="url(#svMetalV)" stroke="#0c1117" stroke-width="1"/>
+    <rect x="848" y="424" width="12" height="26" rx="2" fill="url(#svMetalV)"/>
+    <rect x="856" y="408" width="102" height="58" rx="11" fill="url(#svMotor)" stroke="#0c1117" stroke-width="1"/>
+    <g stroke="#10161d" stroke-width="1.4" opacity=".75">
+      <line x1="874" y1="413" x2="874" y2="461"/><line x1="884" y1="413" x2="884" y2="461"/>
+      <line x1="894" y1="413" x2="894" y2="461"/><line x1="904" y1="413" x2="904" y2="461"/>
+      <line x1="914" y1="413" x2="914" y2="461"/><line x1="924" y1="413" x2="924" y2="461"/>
+      <line x1="934" y1="413" x2="934" y2="461"/><line x1="944" y1="413" x2="944" y2="461"/>
+    </g>
+    <rect x="954" y="414" width="12" height="46" rx="5" fill="url(#svMetalV)" stroke="#0c1117" stroke-width="1"/>
+    <rect x="889" y="394" width="32" height="15" rx="3" fill="url(#svMetalV)" stroke="#0c1117" stroke-width="1"/>
+    <rect x="862" y="412" width="90" height="5" rx="2.5" fill="#fff" opacity=".08"/>
+    <circle cx="820" cy="432" r="31" fill="url(#svVolute)" stroke="#0c1117" stroke-width="1.2"/>
+    <circle cx="820" cy="432" r="21" fill="#141a21" stroke="#3b4754" stroke-width="1"/>
+    <g id="svRotor" class="sv-rotor">
+      <path d="M820 432 m0 -17 q 9 7 2 17 q -8 -4 -2 -17 Z M820 432 m17 0 q -7 9 -17 2 q 4 -8 17 -2 Z
+               M820 432 m0 17 q -9 -7 -2 -17 q 8 4 2 17 Z M820 432 m-17 0 q 7 -9 17 -2 q -4 8 -17 2 Z"/>
+      <circle cx="820" cy="432" r="4.5"/>
+    </g>
+  </g>
+  
+  <g class="sv-cap">
+    <text x="180" y="498" text-anchor="middle">CAIXA D'ÁGUA</text>
+    <text x="194.6" y="165.0" text-anchor="end">MÓDULO TX</text>
+    <text x="604.0" y="203.7" text-anchor="end">MÓDULO RX</text>
+    <text x="652" y="416" text-anchor="middle">QUADRO ELÉTRICO</text>
+    <text x="915" y="498" text-anchor="middle">MOTORBOMBA</text>
+    <text x="320" y="400" text-anchor="middle">CONSUMO</text>
+  </g>
+  <g class="sv-cap soil"><text x="852" y="516">POÇO</text></g>
+  <g class="sv-cap aq"><text x="852" y="566">LENÇOL FREÁTICO</text></g>
+</svg>
+            </div>
+            <div class="svcards">
+              <div class="svc" id="cLevel" data-r><span class="k">Nível da caixa</span><span class="v" id="vLevel">40%</span><div class="bar"><i id="vBar"></i></div></div>
+              <div class="svc" id="cFloat" data-r><span class="k">Boia</span><span class="v" id="vFloat">Média</span><span class="s" id="sFloat">Entre as marcas</span></div>
+              <div class="svc ok" id="cLink" data-r><span class="k">Rádio</span><span class="v"><span id="vLink">Conectado</span><span class="sig"><i></i><i></i><i></i><i></i></span></span><span class="s" id="sLink">Sinal de presença em dia</span></div>
+              <div class="svc" id="cPump" data-r><span class="k">Bombeamento</span><span class="v"><i class="dot"></i><span id="vPump">Desligado</span></span><span class="s" id="sPump">Ciclos completos: 0</span></div>
+              <div class="svc svnow" data-r><span class="k">Agora</span><div class="svlog" id="svLog" aria-live="polite"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide" data-label="Alcance">
+      <div class="photo"><img data-src="amanhecer.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Amanhecer com névoa sobre o vale e caixa d'água na colina"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1080px">
+          <div class="head"><span class="label" data-r>07 &#8202;/&#8202; Alcance</span><span class="rule" data-rule></span></div>
+          <div class="range">
+            <div>
+              <div class="bignum" data-r><span id="kmNum">10</span>&#8211;20<sup>km</sup></div>
+              <div class="dimline" data-r><span class="dimdot"></span></div>
+              <p class="body" data-r style="font-size:.9rem">Medido em campo com a antena que acompanha o produto: perto de 20 km quando se enxerga de um ponto ao outro, cerca de 10 km com morros e mata no caminho.</p>
+            </div>
+            <div class="lines" data-r>
+              <div><span class="n">920</span><div><h3>MHz, faixa livre</h3><p>Opera na faixa liberada no Brasil, conforme o Ato Anatel nº 14.448. Sem licença, sem autorização.</p></div></div>
+              <div><span class="n">0</span><div><h3>Mensalidade</h3><p>Sem operadora, sem plano de dados, sem nuvem no caminho do comando.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide deep" data-label="Proteções">
+      <div class="photo"><img data-src="painel-solar.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Painel solar no campo com caixa d'água ao fundo"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1000px">
+          <div class="head"><span class="label" data-r>08 &#8202;/&#8202; Proteções</span><span class="rule" data-rule></span></div>
+          <h2 class="title"><span class="mask"><span>Na dúvida, <em>desliga</em></span></span></h2>
+          <p class="body" data-r>Sistema que não liga incomoda. Sistema que não desliga dá prejuízo. Por isso toda falha leva ao mesmo lugar: bombeamento desligado e o LED contando o que houve.</p>
+          <div class="lines" style="margin-top:16px">
+            <div data-r><span class="n">01</span><div><h3>Desliga se perder o sinal</h3><p>Passou 23 minutos sem notícia do outro lado, o receptor desliga sozinho.</p></div></div>
+            <div data-r><span class="n">02</span><div><h3>Avisa se o cabo romper</h3><p>Se o cabo da boia romper ou entrar em curto, o sistema percebe e desliga na hora.</p></div></div>
+            <div data-r><span class="n">03</span><div><h3>Rádio que se recupera sozinho</h3><p>Os módulos conferem o próprio rádio o tempo todo e se consertam sozinhos.</p></div></div>
+            <div data-r><span class="n">04</span><div><h3>Partida segura</h3><p>Ao voltar a energia, a saída fica travada por alguns segundos antes de liberar.</p></div></div>
+            <div data-r><span class="n">05</span><div><h3>Reinício automático</h3><p>Se algo travar, o módulo se reinicia sozinho — e faz isso de tempos em tempos por precaução.</p></div></div>
+            <div data-r><span class="n">06</span><div><h3>Comando criptografado</h3><p>Tudo o que vai pelo ar é criptografado, e cada receptor só obedece ao seu par.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide solid" data-label="Códigos">
+      <div class="photo"><img data-src="torre-metalica.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1160px">
+          <div class="head"><span class="label" data-r>09 &#8202;/&#8202; Códigos de diagnóstico</span><span class="rule" data-rule></span></div>
+          <p class="body" data-r style="margin-bottom:8px">O LED de status conta o que está acontecendo pelo número
+          de piscadas. A faixa ao lado é o desenho do pulso.</p>
+          <div class="codes">
+            <div data-r><div class="codehead"><i class="bigled" data-pat="hb"></i><div class="strip" data-pat="hb"></div></div>
+              <span class="who">Lampejo a cada 2 s &#183; RX</span><h3>Tudo certo</h3>
+              <p>Energizado, pareado e comunicando.</p><div class="act">Nada a fazer</div></div>
+            <div data-r><div class="codehead"><i class="bigled" data-pat="off"></i><div class="strip" data-pat="off"></div></div>
+              <span class="who">Apagado &#183; TX</span><h3>Tudo certo</h3>
+              <p>O TX apaga o LED para poupar bateria.</p><div class="act">Nada a fazer</div></div>
+            <div data-r><div class="codehead"><i class="bigled" data-pat="2"></i><div class="strip" data-pat="2"></div></div>
+              <span class="who">2 piscadas ao ligar &#183; TX</span><h3>Partida correta</h3>
+              <p>Confirma que o módulo iniciou bem.</p><div class="act">Nada a fazer</div></div>
+            <div data-r><div class="codehead"><i class="bigled" data-pat="fast"></i><div class="strip" data-pat="fast"></div></div>
+              <span class="who">Muito rápido &#183; TX + RX</span><h3>Modo de pareamento</h3>
+              <p>Cinco cliques no SYNC; procurando o par.</p><div class="act">Pareie o outro em 2 min</div></div>
+            <div data-r><div class="codehead"><i class="bigled" data-pat="3"></i><div class="strip" data-pat="3"></div></div>
+              <span class="who">3 piscadas lentas &#183; TX + RX</span><h3>Pareamento concluído</h3>
+              <p>Os dois se reconheceram e reiniciam.</p><div class="act">Nada a fazer</div></div>
+            <div data-r><div class="codehead"><i class="bigled" data-pat="med"></i><div class="strip" data-pat="med"></div></div>
+              <span class="who">Ritmo médio &#183; TX + RX</span><h3>Sem par</h3>
+              <p>O módulo não tem par configurado.</p><div class="act">Faça o pareamento</div></div>
+            <div data-r><div class="codehead"><i class="bigled" data-pat="slow"></i><div class="strip" data-pat="slow"></div></div>
+              <span class="who">Devagar &#183; TX + RX</span><h3>Reset de fábrica</h3>
+              <p>SYNC segurado por 10 s: par apagado.</p><div class="act">Refaça o pareamento</div></div>
+            <div class="warmled" data-r><div class="codehead"><i class="bigled" data-pat="2"></i><div class="strip" data-pat="2"></div></div>
+              <span class="who">2 piscadas + pausa &#183; TX e RX</span><h3>Boia desconectada</h3>
+              <p>Cabo rompido ou conector solto.</p><div class="act">Cheque o cabo da boia</div></div>
+            <div class="warmled" data-r><div class="codehead"><i class="bigled" data-pat="3"></i><div class="strip" data-pat="3"></div></div>
+              <span class="who">3 piscadas + pausa &#183; TX e RX</span><h3>Curto na fiação</h3>
+              <p>O módulo não consegue ler a boia.</p><div class="act">Inspecione emendas</div></div>
+            <div class="alertled" data-r><div class="codehead"><i class="bigled" data-pat="4"></i><div class="strip" data-pat="4"></div></div>
+              <span class="who">4 piscadas + pausa &#183; RX</span><h3>TX fora do ar</h3>
+              <p>23 min sem notícia: bombeamento desligado.</p><div class="act">Veja bateria e antena do TX</div></div>
+            <div class="alertled" data-r><div class="codehead"><i class="bigled" data-pat="5"></i><div class="strip" data-pat="5"></div></div>
+              <span class="who">5 piscadas + pausa &#183; RX</span><h3>Rádio travado</h3>
+              <p>O rádio do receptor parou de responder.</p><div class="act">Aperte RESET no RX</div></div>
+            <div class="alertled" data-r><div class="codehead"><i class="bigled" data-pat="boot"></i><div class="strip" data-pat="boot"></div></div>
+              <span class="who">Muito rápido por ~4 s ao ligar</span><h3>Falha na partida</h3>
+              <p>O rádio não respondeu; reinicia sozinho.</p><div class="act">Confira a antena</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide deep" data-label="Muito além do bombeamento">
+      <div class="photo"><img data-src="fazenda-aerea.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Vista aérea de fazenda com caixa d'água, pastos e estrada de terra"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1140px">
+          <div class="head"><span class="label" data-r>10 &#8202;/&#8202; Muito além do bombeamento</span><span class="rule" data-rule></span></div>
+          <h2 class="title"><span class="mask"><span>Um sensor aqui, <em>a ação lá longe</em></span></span></h2>
+          <p class="body" data-r style="max-width:68ch">A boia é só o começo. No lugar dela dá para ligar outros sensores comuns de mercado —
+          de energia, posição, pressão ou temperatura — e o GL-AQLINK leva o aviso ou o comando por rádio até onde você precisa.</p>
+          <div class="apps">
+            <div data-r><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M18 3L7 18h8l-2 11 12-16h-8z"/></svg><div><h3>Falta de energia no poço</h3><p>Avisa na sede se o disjuntor do quadro elétrico de bombeamento desarmou.</p></div></div>
+            <div data-r><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7v20M28 7v20"/><path d="M4 11h24M4 22h24M4 22L28 11"/></svg><div><h3>Porteira aberta</h3><p>Avisa quando a porteira, a porta do galpão ou a comporta fica aberta.</p></div></div>
+            <div data-r><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="5" y="11" width="22" height="10" rx="5"/><circle cx="21" cy="16" r="3" fill="currentColor"/><path d="M11 5a7 7 0 0 1 10 0M13.5 7.5a3.5 3.5 0 0 1 5 0"/></svg><div><h3>Comando à distância</h3><p>Uma chave em casa liga o bombeamento, a luz ou a sirene lá no outro ponto da propriedade.</p></div></div>
+            <div data-r><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="16" cy="15" r="11"/><path d="M16 15l6-5"/><path d="M9 20h14"/><circle cx="16" cy="15" r="1.6" fill="currentColor"/></svg><div><h3>Pressão da rede</h3><p>Liga ou avisa quando a pressão da água cai ou sobe além do ajustado.</p></div></div>
+            <div data-r><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M13 19V6a3 3 0 0 1 6 0v13a6 6 0 1 1-6 0z"/><path d="M16 11v12"/><path d="M22 8h4M22 12h3"/></svg><div><h3>Temperatura</h3><p>Aciona ou avisa pela temperatura da câmara fria, da estufa ou do galpão.</p></div></div>
+          </div>
+          <p class="label dim" data-r style="margin-top:6px">Quais sensores servem e como ligar cada um: consulte o Manual do Usuário</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide solid" data-label="Ficha técnica">
+      <div class="photo"><img data-src="lavoura.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1100px">
+          <div class="head"><span class="label" data-r>11 &#8202;/&#8202; Ficha técnica</span><span class="rule" data-rule></span></div>
+          <dl class="spec">
+            <div data-r><dt>Frequência</dt><dd>920,0 MHz</dd></div>
+            <div data-r><dt>Saída de potência</dt><dd>Relé 10 A</dd></div>
+            <div data-r><dt>Rádio</dt><dd>920 MHz, faixa livre</dd></div>
+            <div data-r><dt>Saída isolada</dt><dd>60 V AC/DC · 550 mA</dd></div>
+            <div data-r><dt>Montagem</dt><dd>Parede ou poste</dd></div>
+            <div data-r><dt>Alimentação RX</dt><dd>9 a 60 Vdc</dd></div>
+            <div data-r><dt>Alcance</dt><dd>10 a 20 km</dd></div>
+            <div data-r><dt>Alimentação TX</dt><dd>18650 + solar 6 V</dd></div>
+            <div data-r><dt>Antena</dt><dd>40 cm, inclusa</dd></div>
+            <div data-r><dt>Consumo em repouso</dt><dd>~100 µA</dd></div>
+            <div data-r><dt>Criptografia</dt><dd>AES-128</dd></div>
+            <div data-r><dt>Proteção</dt><dd>IP65</dd></div>
+            <div data-r><dt>Sinal de presença</dt><dd>10 min · 5 tentativas</dd></div>
+            <div data-r><dt>Mensalidade</dt><dd>Nenhuma</dd></div>
+            <div data-r><dt>Failsafe</dt><dd>23 min</dd></div>
+            <div data-r><dt>Pareamento</dt><dd>5 cliques no SYNC</dd></div>
+          </dl>
+          <p class="label dim" data-r style="margin-top:18px">Ligações, códigos completos e especificações detalhadas: consulte o Manual do Usuário</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide" data-label="Por que escolher">
+      <div class="photo"><img data-src="amanhecer.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Amanhecer com névoa sobre o vale e caixa d'água na colina"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="col" style="max-width:1100px">
+          <div class="head"><span class="label" data-r>12 &#8202;/&#8202; Por que escolher</span><span class="rule" data-rule></span></div>
+          <h2 class="title"><span class="mask"><span>Referência em automação<br>sem fio <em>de bombeamento</em></span></span></h2>
+          <p class="body" data-r style="max-width:62ch">Desenvolvido no Brasil para a realidade do campo brasileiro:
+          proteção de padrão industrial num equipamento que cabe na palma da mão. Nenhum fio entre a caixa d'água e o
+          quadro elétrico, nenhuma mensalidade, e segurança em cada comando que vai pelo ar.</p>
+          <div class="steps pillars" style="margin-top:14px">
+            <div data-r><span class="n">Compacto</span><h3>Cabe na palma da mão</h3><p>Instala na parede da caixa e ao lado do quadro, sem obra e sem vala para cabo.</p></div>
+            <div data-r><span class="n">Seguro</span><h3>Desliga em qualquer falha</h3><p>Comandos criptografados, par exclusivo entre os módulos e proteção contra perda de sinal.</p></div>
+            <div data-r><span class="n">Tecnológico</span><h3>Rádio, sol e diagnóstico</h3><p>Longo alcance em 920 MHz, energia solar e LEDs que dizem o que está acontecendo.</p></div>
+            <div data-r><span class="n">Robusto</span><h3>Feito para o tempo</h3><p>Gabinete IP65, prensa-cabos vedados e eletrônica que se recupera sozinha.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="slide finale-slide" data-label="Em campo">
+      <div class="photo blurbg"><img data-src="fundo-desfocado.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""></div>
+      <div class="herophoto"><img data-src="produtor-modulos.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Produtor rural segurando os módulos RX e TX do GL-AQLINK, com a caixa d'água e a lavoura ao fundo"></div>
+      <div class="scrim"></div>
+      <div class="stage">
+        <div class="finale">
+          <div class="ftext">
+            <span class="label" data-r>GL-AQLINK</span>
+            <h2 class="display"><span class="mask"><span>Feito para durar</span></span>
+            <span class="mask"><span><em>em campo</em></span></span></h2>
+            <span class="rule" data-rule style="max-width:300px"></span>
+            <p class="body" data-r>Sol, chuva, poeira e distância. Instala uma vez e segue trabalhando —
+            e no dia em que algo sair do lugar, ele avisa no painel e desliga sozinho.</p>
+            <div class="kicker" data-r>
+              <span>Rádio 920 MHz</span><span>10&#8211;20 km</span><span>IP65</span><span>Sem mensalidade</span>
+            </div>
+            <div class="cta" data-r>
+              <a class="btn" id="dmBtn" href="https://ig.me/m/gl_aqlink" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 3 3 10.5l7 2.5 2.5 7L21 3z"/><path d="M10 13l4-4"/></svg> Falar no Direct</a>
+              <a class="btn ghost" href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg> @gl_aqlink</a>
+            </div>
+            <p class="dmhelp" data-r>Não abriu? Procure <b>@gl_aqlink</b> no Instagram e toque em <b>Mensagem</b>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<div class="dots" id="dots"></div>
+<div class="hint" id="hint">&#8592; &#8594; ou arraste &#8202;&#183;&#8202; P para apresentar</div>
+<nav class="ctrl">
+  <button id="play" aria-label="Apresentação automática" title="Apresentação automática">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l11 7-11 7z"/></svg>
+  </button>
+  <button id="prev" aria-label="Anterior"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button id="next" aria-label="Próximo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button>
+</nav>
+<script>try{if(window.matchMedia&&window.matchMedia("(pointer:coarse)").matches){document.addEventListener("DOMContentLoaded",function(){var e=document.getElementById("hint");if(e)e.textContent="Arraste para o lado \u2192";});}}catch(e){}</script>
+<script>window.AQ={reduce:!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)};</script>
+<script>
+(function(){
+  try{
+    var track = document.getElementById("track");
+    if(!track) return;
+    var slides = track.querySelectorAll(".slide");
+    var total = slides.length, cur = 0, lock = false;
+    var pbar = document.getElementById("pbar"), secLabel = document.getElementById("secLabel"),
+        idxNow = document.getElementById("idxNow"), idxAll = document.getElementById("idxAll"),
+        prev = document.getElementById("prev"), next = document.getElementById("next"),
+        dots = document.getElementById("dots"), hint = document.getElementById("hint");
+    var pad = function(n){ return (n < 10 ? "0" : "") + n; };
+    if(idxAll) idxAll.textContent = pad(total);
+    for(var s=0;s<slides.length;s++){
+      var els = slides[s].querySelectorAll("[data-r],[data-rule]");
+      for(var e=0;e<els.length;e++) els[e].style.setProperty("--i", e);
+    }
+    if(dots){
+      for(var d=0; d<total; d++){
+        (function(i){
+          var b = document.createElement("button");
+          b.setAttribute("aria-label", "Ir para " + (i+1));
+          b.addEventListener("click", function(){ go(i); });
+          dots.appendChild(b);
+        })(d);
+      }
+    }
+    function go(i){
+      if(i < 0) i = 0;
+      if(i > total - 1) i = total - 1;
+      if(i === cur) return;
+      document.documentElement.style.setProperty("--dir", i > cur ? "1" : "-1");
+      cur = i;
+      apply();
+    }
+    function apply(){
+      track.style.transform = "translate3d(" + (-cur * 100) + "vw,0,0)";
+      for(var s=0;s<slides.length;s++) slides[s].classList.toggle("active", s === cur);
+      if(pbar) pbar.style.width = ((cur + 1) / total * 100) + "%";
+      if(idxNow) idxNow.textContent = pad(cur + 1);
+      if(secLabel) secLabel.textContent = slides[cur].getAttribute("data-label") || "";
+      if(prev) prev.disabled = cur === 0;
+      if(next) next.disabled = cur === total - 1;
+      if(dots){
+        var bs = dots.children;
+        for(var k=0;k<bs.length;k++) bs[k].classList.toggle("on", k === cur);
+      }
+      if(hint && cur > 0) hint.classList.add("hide");
+      window.AQ.curSlide = cur;
+      if(typeof armAuto === "function") armAuto();
+      var ph = track.querySelectorAll(".photo");
+      for(var q=0;q<ph.length;q++){
+        ph[q].style.transform = "translate3d(" + ((q - cur) * -17) + "vw,0,0)";
+        ph[q].style.opacity = Math.abs(q - cur) > 1 ? "0" : "1";
+      }
+      if(window.AQ.onSlide) window.AQ.onSlide(cur, slides[cur].getAttribute("data-label") || "");
+      try{ location.hash = "s" + (cur + 1); }catch(err){}
+    }
+    function step(dir){
+      if(lock || window.AQ && window.AQ.fs) return;
+      var t = cur + dir;
+      if(t < 0 || t > total - 1) return;
+      lock = true;
+      go(t);
+      setTimeout(function(){ lock = false; }, 820);
+    }
+    var auto = null, DUR = 9000;
+    var play = document.getElementById("play");
+    var icoPlay = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l11 7-11 7z"/></svg>';
+    var icoPause = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></svg>';
+    function advance(){ if(cur >= total - 1) go(0); else go(cur + 1); }
+    function armAuto(){ if(auto){ clearInterval(auto); auto = setInterval(advance, DUR); } }
+    function toggleAuto(){
+      if(auto){ clearInterval(auto); auto = null; if(play){ play.classList.remove("on"); play.innerHTML = icoPlay; } }
+      else {
+        auto = setInterval(advance, DUR);
+        if(play){ play.classList.add("on"); play.innerHTML = icoPause; }
+        advance();
+      }
+    }
+    if(play) play.addEventListener("click", toggleAuto);
+    window.AQ.toggleAuto = toggleAuto;
+    if(prev) prev.addEventListener("click", function(){ step(-1); });
+    if(next) next.addEventListener("click", function(){ step(1); });
+    document.addEventListener("keydown", function(ev){
+      if(window.AQ && window.AQ.fs) return;
+      var k = ev.key;
+      if(k === "ArrowRight" || k === "PageDown" || k === " "){ ev.preventDefault(); step(1); }
+      else if(k === "ArrowLeft" || k === "PageUp"){ ev.preventDefault(); step(-1); }
+      else if(k === "Home"){ ev.preventDefault(); go(0); }
+      else if(k === "End"){ ev.preventDefault(); go(total - 1); }
+      else if(k === "p" || k === "P"){ ev.preventDefault(); toggleAuto(); }
+    });
+    var acc = 0, accT = 0;
+    window.addEventListener("wheel", function(ev){
+      var sl = slides[cur];
+      var canScroll = sl.scrollHeight - sl.clientHeight > 4;
+      if(canScroll){
+        var atTop = sl.scrollTop <= 1, atEnd = sl.scrollTop >= sl.scrollHeight - sl.clientHeight - 1;
+        if((ev.deltaY < 0 && !atTop) || (ev.deltaY > 0 && !atEnd)) return;
+      }
+      var now = Date.now();
+      if(now - accT > 240) acc = 0;
+      accT = now;
+      acc += Math.abs(ev.deltaX) > Math.abs(ev.deltaY) ? ev.deltaX : ev.deltaY;
+      if(acc > 55){ acc = 0; step(1); }
+      else if(acc < -55){ acc = 0; step(-1); }
+    }, {passive:true});
+    var x0 = null, y0 = null;
+    window.addEventListener("touchstart", function(ev){
+      x0 = ev.touches[0].clientX; y0 = ev.touches[0].clientY;
+    }, {passive:true});
+    window.addEventListener("touchend", function(ev){
+      if(x0 === null) return;
+      var dx = ev.changedTouches[0].clientX - x0, dy = ev.changedTouches[0].clientY - y0;
+      if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+      x0 = null; y0 = null;
+    }, {passive:true});
+    var tb = document.getElementById("theme");
+    try{ var sv = localStorage.getItem("aqlink-theme"); if(sv) document.documentElement.setAttribute("data-theme", sv); }catch(err){}
+    if(tb) tb.addEventListener("click", function(){
+      var c = document.documentElement.getAttribute("data-theme");
+      if(!c) c = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+      var n = c === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", n);
+      try{ localStorage.setItem("aqlink-theme", n); }catch(err){}
+    });
+    var h = (location.hash || "").replace("#s","");
+    var start = parseInt(h, 10);
+    if(start > 1 && start <= total) cur = start - 1;
+    apply();
+    slides[cur].classList.add("active");
+    window.AQ.goTo = go;
+  }catch(err){ if(window.console) console.warn("deck:", err); }
+})();
+</script>
+<script>
+(function(){
+  try{
+    var segs = function(pat){
+      var a = [], i;
+      if(pat === "off") return [[0,10]];
+      if(pat === "fast"){ for(i=0;i<18;i++) a.push([i%2?0:1, .55]); return a; }
+      if(pat === "boot"){ for(i=0;i<24;i++) a.push([i%2?0:1, .4]); return a; }
+      if(pat === "hb"){ return [[1,.4],[0,7]]; }
+      if(pat === "med"){ for(i=0;i<8;i++) a.push([i%2?0:1,1.2]); return a; }
+      if(pat === "slow"){ return [[1,3],[0,3],[1,3],[0,3]]; }
+      var n = parseInt(pat,10) || 1;
+      for(i=0;i<n;i++){ a.push([1,1]); a.push([0,1]); }
+      a.push([0,4.5]);
+      return a;
+    };
+    var strips = document.querySelectorAll(".strip");
+    for(var s=0;s<strips.length;s++){
+      var st = strips[s], list = segs(st.getAttribute("data-pat") || "1"), out = "";
+      for(var j=0;j<list.length;j++){
+        out += '<span class="'+(list[j][0]?"s":"")+'" style="flex:'+list[j][1]+'"></span>';
+      }
+      st.innerHTML = out;
+    }
+    var leds = document.querySelectorAll(".bigled");
+    for(var k=0;k<leds.length;k++){
+      (function(el){
+        var pat = el.getAttribute("data-pat") || "1";
+        if(pat === "off"){ return; }
+        if(window.AQ.reduce){ el.classList.add("lit"); return; }
+        if(pat === "fast"){ setInterval(function(){ el.classList.toggle("lit"); }, 95); return; }
+        if(pat === "boot"){ setInterval(function(){ el.classList.toggle("lit"); }, 62); return; }
+        if(pat === "hb"){ setInterval(function(){ el.classList.add("lit"); setTimeout(function(){ el.classList.remove("lit"); }, 110); }, 2000); return; }
+        if(pat === "med"){ setInterval(function(){ el.classList.toggle("lit"); }, 380); return; }
+        if(pat === "slow"){ setInterval(function(){ el.classList.toggle("lit"); }, 700); return; }
+        var n = parseInt(pat,10) || 1;
+        var cycle = function(){
+          var c = 0;
+          var blink = function(){
+            if(c >= n){ setTimeout(cycle, 1150); return; }
+            el.classList.add("lit");
+            setTimeout(function(){ el.classList.remove("lit"); c++; setTimeout(blink, 175); }, 175);
+          };
+          blink();
+        };
+        cycle();
+      })(leds[k]);
+    }
+  }catch(err){ if(window.console) console.warn("codigos:", err); }
+})();</script>
+<script>
+(function(){
+  try{
+    var $ = function(id){ return document.getElementById(id); };
+    var svg = $("svPlant"); if(!svg) return;
+    var slide = svg.closest ? svg.closest(".slide") : null;
+    var waterG = $("svWaterG"), floatG = $("svFloat"), cTop = $("svCableTop"), cLow = $("svCableLow"),
+        jetLine = $("svJetLine"), splash = $("svSplash"), arc = $("svArc"), pkt = $("svPkt"),
+        ripTX = $("svRipTX"), ripRX = $("svRipRX");
+    var vLevel = $("vLevel"), vBar = $("vBar"), vFloat = $("vFloat"), sFloat = $("sFloat"),
+        vLink = $("vLink"), sLink = $("sLink"), vPump = $("vPump"), sPump = $("sPump"),
+        cLevel = $("cLevel"), cFloat = $("cFloat"), cLink = $("cLink"), cPump = $("cPump"),
+        logEl = $("svLog");
+    var reduce = !!(window.AQ && window.AQ.reduce);
+    var IN_Y = 240, IN_H = 156, PX = 240, PY = 314.88, L = 46.8, JX = 120, JY = 242, TXG = 224;
+    var ARC_LEN = arc.getTotalLength ? arc.getTotalLength() : 470;
+    var S;
+    function fresh(){
+      return { level:40, disp:40, pump:false, want:false, floatOn:false, resend:false, link:true, wire:true, fast:false,
+               silence:0, failsafe:false, busy:false, rxWireErr:false, cycles:0,
+               hbT:0, retryAt:0, triedLog:false };
+    }
+    S = fresh();
+    function log(msg, kind){
+      if(!logEl) return;
+      logEl.innerHTML = "";
+      var i = document.createElement("i"); if(kind) i.className = kind;
+      var s = document.createElement("span"); s.textContent = msg;
+      logEl.appendChild(i); logEl.appendChild(s);
+    }
+    function ripple(el, ack){
+      if(!el || reduce) return;
+      el.classList.remove("go","ack");
+      void el.getBoundingClientRect();
+      if(ack) el.classList.add("ack");
+      el.classList.add("go");
+    }
+    var anim = null;
+    function fly(dir, kind, ms, done){
+      pkt.setAttribute("class", "sv-pkt" + (kind ? " " + kind : ""));
+      anim = { dir:dir, kind:kind, t0:performance.now(), ms:(reduce ? 60 : ms),
+               stopAt:(kind === "fail" ? .55 : 1), done:done };
+      if(dir > 0) ripple(ripTX, false); else ripple(ripRX, true);
+    }
+    function drawPkt(now){
+      if(!anim){ pkt.style.opacity = 0; return; }
+      var p = Math.min((now - anim.t0) / anim.ms, 1);
+      var e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
+      var u = e * anim.stopAt, pos = anim.dir > 0 ? u : 1 - u;
+      var pt = arc.getPointAtLength(pos * ARC_LEN);
+      pkt.setAttribute("cx", pt.x.toFixed(1));
+      pkt.setAttribute("cy", pt.y.toFixed(1));
+      pkt.style.opacity = anim.kind === "fail" ? (1 - p) : (p < .1 ? p / .1 : (p > .9 ? (1 - p) / .1 : 1));
+      if(p >= 1){
+        var d = anim.done; anim = null; pkt.style.opacity = 0;
+        if(d) d();
+      }
+    }
+    function send(on){
+      S.busy = true;
+      if(!S.link){
+        if(!S.triedLog){ log("O TX tenta avisar, mas o sinal não chega ao RX", "w"); S.triedLog = true; }
+        fly(1, "fail", 1100, function(){ S.busy = false; S.retryAt = Date.now() + 3500; });
+        return;
+      }
+      if(!S.wire)          log("Cabo da boia rompido — o TX mandou desligar na hora", "e");
+      else if(S.resend)    log("O TX reenviou o pedido de " + (on ? "ligar" : "desligar"), "");
+      else if(on)          log("A caixa baixou — o TX pediu para ligar", "");
+      else                 log("A caixa encheu — o TX pediu para desligar", "");
+      S.resend = false;
+      fly(1, "", 1200, function(){
+        var was = S.pump;
+        S.pump = on;
+        S.rxWireErr = !S.wire;
+        if(!on && was && S.wire) S.cycles++;
+        if(on)               log("O RX fechou o relé — bombeamento ligado", "");
+        else if(!S.wire)     log("O RX desligou e mostra a falha no LED: 2 piscadas", "e");
+        else                 log("O RX abriu o relé — bombeamento desligado", "");
+        paint();
+        fly(-1, "ack", 900, function(){ S.busy = false; });
+      });
+    }
+    function heartbeat(){
+      S.busy = true;
+      fly(1, "", 1100, function(){
+        S.rxWireErr = !S.wire;
+        paint();
+        fly(-1, "ack", 800, function(){ S.busy = false; });
+      });
+    }
+    function step(){
+      var up = S.fast ? 2.8 : 1.6, down = S.fast ? 2.1 : 0.9;
+      S.level += S.pump ? up : -down;
+      if(S.level > 100) S.level = 100;
+      if(S.level < 0) S.level = 0;
+      if(S.level <= 22) S.floatOn = true; else if(S.level >= 82) S.floatOn = false;
+      S.want = S.wire ? S.floatOn : false;
+      if(!S.link){
+        var before = S.silence;
+        S.silence += 2.6;
+        if(S.silence >= 23 && !S.failsafe){
+          S.failsafe = true;
+          S.pump = false;
+          S.triedLog = true;
+          log("23 min sem notícia do TX — o RX desligou o bombeamento por segurança", "e");
+        } else if(!S.failsafe && Math.floor(S.silence / 10) > Math.floor(before / 10)){
+          log("O RX está sem notícia do TX há " + Math.round(S.silence) + " min", "w");
+        }
+      }
+      var needWireMsg = !S.wire && !S.rxWireErr && S.link;
+      if(!S.busy && Date.now() >= S.retryAt && (S.want !== S.pump || needWireMsg)){
+        S.hbT = 0;
+        send(S.want);
+      } else {
+        S.hbT++;
+        if(S.link && !S.busy && S.hbT >= 8){ S.hbT = 0; heartbeat(); }
+      }
+      paint();
+    }
+    function paint(){
+      svg.classList.toggle("on", S.pump);
+      svg.classList.toggle("nolink", !S.link);
+      svg.classList.toggle("wirecut", !S.wire);
+      svg.setAttribute("data-st", S.failsafe ? "e4" : (S.rxWireErr ? "e2" : "hb"));
+      var lv = Math.round(S.level);
+      vLevel.textContent = lv + "%";
+      vBar.style.width = S.level.toFixed(1) + "%";
+      cLevel.className = "svc" + (S.level <= 22 ? " warn" : "");
+      if(!S.wire){ vFloat.textContent = "Falha"; sFloat.textContent = "Cabo da boia rompido"; cFloat.className = "svc bad"; }
+      else if(S.level <= 22){ vFloat.textContent = "Baixa"; sFloat.textContent = "Pede para ligar"; cFloat.className = "svc warn"; }
+      else if(S.level >= 82){ vFloat.textContent = "Alta"; sFloat.textContent = "Pede para desligar"; cFloat.className = "svc"; }
+      else { vFloat.textContent = "Média"; sFloat.textContent = "Entre as marcas"; cFloat.className = "svc"; }
+      if(S.link){ vLink.textContent = "Conectado"; sLink.textContent = "Sinal de presença em dia"; cLink.className = "svc ok"; }
+      else {
+        vLink.textContent = "Sem sinal";
+        sLink.textContent = S.failsafe ? "Failsafe acionado aos 23 min" : ("Há " + Math.round(S.silence) + " min · desliga aos 23");
+        cLink.className = "svc bad";
+      }
+      if(S.pump){ vPump.textContent = "Ligado"; sPump.textContent = "Relé fechado · enchendo a caixa"; cPump.className = "svc ok"; }
+      else if(S.failsafe){ vPump.textContent = "Desligado"; sPump.textContent = "Por segurança, sem sinal"; cPump.className = "svc bad"; }
+      else if(S.rxWireErr){ vPump.textContent = "Desligado"; sPump.textContent = "Falha na boia"; cPump.className = "svc bad"; }
+      else { vPump.textContent = "Desligado"; sPump.textContent = "Ciclos completos: " + S.cycles; cPump.className = "svc"; }
+    }
+    function render(now){
+      if(slide && !slide.classList.contains("active") && !anim){ requestAnimationFrame(render); return; }
+      S.disp += (S.level - S.disp) * 0.08;
+      if(Math.abs(S.level - S.disp) < .02) S.disp = S.level;
+      var surf = IN_Y + (1 - S.disp / 100) * IN_H;
+      waterG.setAttribute("transform", "translate(0," + (surf - 3).toFixed(1) + ")");
+      var c = (surf - PY) / L; if(c > 1) c = 1; if(c < -0.8) c = -0.8;
+      var t = now / 1000;
+      var wob = reduce ? 0 : (Math.sin(t / 1.15) * 1.6 + Math.sin(t / 0.73) * 0.7) * (S.pump ? 1.8 : 1) * Math.PI / 180;
+      var th = Math.acos(c) + (c < 1 ? wob : wob * 0.3);
+      var dx = -Math.sin(th), dy = Math.cos(th);
+      var fx = PX + L * dx, fy = PY + L * dy;
+      floatG.setAttribute("transform", "translate(" + fx.toFixed(1) + "," + fy.toFixed(1) + ") rotate(" + (th * 180 / Math.PI).toFixed(1) + ")");
+      var gx = PX + (L - 21) * dx, gy = PY + (L - 21) * dy;
+      var mx = (PX + gx) / 2, my = (PY + 9 + gy) / 2, sg = Math.abs(Math.sin(th));
+      cLow.setAttribute("d", "M" + PX + " " + (PY + 9).toFixed(1) + " Q" + (mx - 5 * sg).toFixed(1) + " " + (my + 6 * sg + 2).toFixed(1) + " " + gx.toFixed(1) + " " + gy.toFixed(1));
+      var sw = reduce ? 0 : Math.sin(t / 1.15) * 1.6;
+      cTop.setAttribute("d", "M240 " + (TXG + 2) + " C " + (244 + sw).toFixed(1) + " " + (TXG + 30) + ", " + (236 + sw).toFixed(1) + " " + (PY - 42).toFixed(1) + ", 240 " + (PY - 11).toFixed(1));
+      jetLine.setAttribute("d", "M" + JX + " " + JY + " L" + JX + " " + (surf + 2).toFixed(1));
+      splash.setAttribute("transform", "translate(0," + (surf + 3).toFixed(1) + ")");
+      drawPkt(now);
+      requestAnimationFrame(render);
+    }
+    function btn(id){ return $(id); }
+    function setLabel(b, txt){ var s = b && b.querySelector("span"); if(s) s.textContent = txt; }
+    var bSpeed = btn("bSpeed"), bCut = btn("bCut"), bWire = btn("bWire"), bReset = btn("bReset");
+    if(bSpeed) bSpeed.addEventListener("click", function(){
+      S.fast = !S.fast;
+      setLabel(bSpeed, S.fast ? "Consumo normal" : "Acelerar consumo");
+      bSpeed.classList.toggle("act", S.fast); bSpeed.classList.toggle("cyan", S.fast);
+    });
+    if(bCut) bCut.addEventListener("click", function(){
+      S.link = !S.link;
+      setLabel(bCut, S.link ? "Cortar o sinal" : "Religar o sinal");
+      bCut.classList.toggle("act", !S.link);
+      if(!S.link){
+        S.silence = 0; S.triedLog = false;
+        log("Sinal cortado — o RX mantém o último estado e começa a contar", "w");
+      } else {
+        S.silence = 0; S.failsafe = false; S.triedLog = false; S.retryAt = 0; S.hbT = 6; S.resend = true;
+        log("Sinal de volta — o RX voltou a obedecer o TX", "");
+      }
+      paint();
+    });
+    if(bWire) bWire.addEventListener("click", function(){
+      S.wire = !S.wire;
+      setLabel(bWire, S.wire ? "Romper o cabo" : "Consertar o cabo");
+      bWire.classList.toggle("act", !S.wire);
+      if(S.wire){ S.retryAt = 0; S.hbT = 6; S.resend = true; log("Cabo da boia consertado — leitura normal", ""); }
+      paint();
+    });
+    if(bReset) bReset.addEventListener("click", function(){
+      anim = null;
+      S = fresh();
+      setLabel(bSpeed, "Acelerar consumo"); setLabel(bCut, "Cortar o sinal"); setLabel(bWire, "Romper o cabo");
+      [bSpeed, bCut, bWire].forEach(function(b){ if(b) b.classList.remove("act","cyan"); });
+      log("Simulação reiniciada — módulos pareados", "");
+      paint();
+    });
+    log("Módulos pareados — rádio no ar", "");
+    paint();
+    setInterval(step, 1000);
+    requestAnimationFrame(render);
+  }catch(err){ if(window.console) console.warn("simulação:", err); }
+})();
+(function(){
+  try{
+    var svg = document.getElementById("svPlant"); if(!svg) return;
+    var slide = svg.closest ? svg.closest(".slide") : null;
+    var moon = document.getElementById("svMoon"), sun = document.getElementById("svSun"),
+        disc = document.getElementById("svSunDisc"), warm = document.getElementById("svWarmGlow"),
+        clock = document.getElementById("svClock");
+    var reduce = !!(window.AQ && window.AQ.reduce) ||
+                 (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+    var T = 64;              
+    var p = 0.875;           
+    var last = 0, lastD = -1, lastMin = -1, curD = 0;
+    var met = document.getElementById("svMeteor"), metTail = document.getElementById("svMeteorTail");
+    var M = null, nextMet = 3 + Math.random() * 4;
+    function meteor(dt){
+      if(!met) return;
+      if(!M){
+        nextMet -= dt;
+        if(nextMet <= 0 && curD < 0.05){
+          var dir = Math.random() < 0.72 ? 1 : -1;
+          M = { t:0, dur:0.9 + Math.random() * 0.5, x:(dir > 0 ? 60 : 460) + Math.random() * 480,
+                y:10 + Math.random() * 120, ang:(18 + Math.random() * 20) * Math.PI / 180, dir:dir,
+                dist:240 + Math.random() * 140 };
+          nextMet = 6 + Math.random() * 7;
+        }
+        return;
+      }
+      M.t += dt;
+      var k = M.t / M.dur;
+      if(k >= 1){ met.setAttribute("opacity", "0"); M = null; return; }
+      var e = 1 - Math.pow(1 - k, 2);
+      var x = M.x + Math.cos(M.ang) * M.dist * e * M.dir, y = M.y + Math.sin(M.ang) * M.dist * e;
+      var deg = (M.dir > 0 ? M.ang : Math.PI - M.ang) * 180 / Math.PI;
+      met.setAttribute("transform", "translate(" + x.toFixed(1) + " " + y.toFixed(1) + ") rotate(" + deg.toFixed(1) + ")");
+      metTail.setAttribute("x1", (-30 - 90 * Math.min(1, k * 2.2)).toFixed(1));
+      met.setAttribute("opacity", (Math.sin(Math.PI * k) * (1 - curD * 20)).toFixed(3));
+    }
+    function cl(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function ss(a, b, v){ var t = cl((v - a) / (b - a)); return t * t * (3 - 2 * t); }
+    function lerp(a, b, t){ return Math.round(a + (b - a) * t); }
+    function draw(){
+      var th = p * 2 * Math.PI, s = Math.sin(th), c = Math.cos(th);
+      var sx = 500 - 520 * c, sy = 392 - 282 * s;
+      sun.setAttribute("transform", "translate(" + sx.toFixed(1) + " " + sy.toFixed(1) + ")");
+      sun.style.opacity = s > -0.12 ? 1 : 0;
+      var hi = cl(s / 0.45);
+      disc.setAttribute("fill", "rgb(" + 255 + "," + lerp(150, 226, hi) + "," + lerp(70, 128, hi) + ")");
+      var mx = 500 + 520 * c, my = 392 + 282 * s;
+      moon.setAttribute("transform", "translate(" + mx.toFixed(1) + " " + my.toFixed(1) + ")");
+      var d = ss(-0.1, 0.32, s); curD = d;
+      var w = Math.exp(-Math.pow((s - 0.03) / 0.17, 2));
+      moon.style.opacity = (cl((-s + 0.04) / 0.2) * (1 - 0.7 * d)).toFixed(3);
+      warm.setAttribute("cx", Math.max(-100, Math.min(1100, sx)).toFixed(0));
+      warm.setAttribute("opacity", w.toFixed(3));
+      if(Math.abs(d - lastD) > 0.002){ svg.style.setProperty("--d", d.toFixed(3)); lastD = d; }
+      if(clock){
+        var mins = Math.floor(((6 + 24 * p) % 24) * 60);
+        mins -= mins % 10;
+        if(mins !== lastMin){
+          lastMin = mins;
+          var h = Math.floor(mins / 60), m = mins % 60;
+          clock.textContent = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+        }
+      }
+    }
+    function tick(ts){
+      var dt = last ? Math.min(0.1, (ts - last) / 1000) : 0; last = ts;
+      if(!slide || slide.classList.contains("active")){ p = (p + dt / T) % 1; draw(); meteor(dt); }
+      requestAnimationFrame(tick);
+    }
+    draw();
+    if(!reduce) requestAnimationFrame(tick);
+  }catch(err){ if(window.console) console.warn("ciclo dia/noite:", err); }
+})();
+(function(){
+  try{
+    var btn = document.getElementById("bFull"), svg = document.getElementById("svPlant");
+    if(!btn || !svg) return;
+    var col = svg.closest(".simcol"); if(!col) return;
+    var home = null, box = null, lbl = btn.querySelector("span");
+    function isOn(){ return !!box; }
+    function open(){
+      if(box) return;
+      home = document.createComment("sim");
+      col.parentNode.insertBefore(home, col);
+      box = document.createElement("div"); box.id = "simFS";
+      box.setAttribute("role", "dialog"); box.setAttribute("aria-label", "Simulação em tela cheia");
+      document.body.appendChild(box); box.appendChild(col);
+      document.documentElement.classList.add("simfs-on");
+      if(window.AQ) window.AQ.fs = true;
+      if(lbl) lbl.textContent = "Sair";
+      if(!box.querySelector(".fshint")){
+        var h = document.createElement("div"); h.className = "fshint";
+        h.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="1.5" width="7" height="13" rx="1.6"/><path d="M1.5 9.5a6 6 0 0 0 4 4.5M14.5 6.5a6 6 0 0 0-4-4.5"/></svg>Gire o celular para ver maior';
+        col.insertBefore(h, col.firstChild);
+      }
+      btn.classList.add("act", "cyan");
+      var rq = box.requestFullscreen || box.webkitRequestFullscreen;
+      if(rq){
+        try{
+          var r = rq.call(box);
+          if(r && r.then) r.then(function(){
+            try{ if(screen.orientation && screen.orientation.lock && innerWidth < 900) screen.orientation.lock("landscape").catch(function(){}); }catch(e){}
+          }).catch(function(){});
+        }catch(e){}
+      }
+    }
+    function close(){
+      if(!box) return;
+      var hint = col.querySelector(".fshint"); if(hint) hint.parentNode.removeChild(hint);
+      home.parentNode.insertBefore(col, home); home.parentNode.removeChild(home);
+      box.parentNode.removeChild(box); box = null; home = null;
+      document.documentElement.classList.remove("simfs-on");
+      if(window.AQ) window.AQ.fs = false;
+      if(lbl) lbl.textContent = "Tela cheia";
+      btn.classList.remove("act", "cyan");
+      var fe = document.fullscreenElement || document.webkitFullscreenElement;
+      var ex = document.exitFullscreen || document.webkitExitFullscreen;
+      if(fe && ex){ try{ var r = ex.call(document); if(r && r.catch) r.catch(function(){}); }catch(e){} }
+    }
+    btn.addEventListener("click", function(){ isOn() ? close() : open(); });
+    function onChange(){
+      var fe = document.fullscreenElement || document.webkitFullscreenElement;
+      if(!fe && box) close();
+    }
+    document.addEventListener("fullscreenchange", onChange);
+    document.addEventListener("webkitfullscreenchange", onChange);
+    document.addEventListener("keydown", function(ev){
+      if(ev.key === "Escape" && box){ ev.preventDefault(); close(); }
+      if(ev.key === "f" || ev.key === "F"){
+        var sl = document.querySelector(".slide.active");
+        if(box || (sl && sl.contains(col))){ ev.preventDefault(); isOn() ? close() : open(); }
+      }
+    }, true);
+  }catch(err){ if(window.console) console.warn("tela cheia:", err); }
+})();
+(function(){
+  try{
+    window.AQ.onSlide = function(i, label){
+      if(label !== "Alcance") return;
+      var el = document.getElementById("kmNum");
+      if(!el || window.AQ.reduce) return;
+      var t0 = null;
+      var tick = function(ts){
+        var now = ts || Date.now();
+        if(t0 === null) t0 = now;
+        var p = Math.min((now - t0) / 1200, 1);
+        el.textContent = Math.round(10 * (1 - Math.pow(1 - p, 3)));
+        if(p < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = "0";
+      setTimeout(function(){ requestAnimationFrame(tick); }, 300);
+    };
+  }catch(e){}
+})();</script>
+<script>
+(function(){
+  function hydrate(root){ var l=(root||document).querySelectorAll("img[data-src]");
+    for(var i=0;i<l.length;i++){ l[i].src=l[i].getAttribute("data-src"); l[i].removeAttribute("data-src"); } }
+  var n=parseInt((location.hash||"").replace("#s",""),10);
+  if(n>1){ var s=document.querySelectorAll(".slide")[n-1]; if(s) hydrate(s); }
+  window.addEventListener("load", function(){ setTimeout(function(){ hydrate(); }, 400); });
+})();
+</script>
+<script>
+(function(){
+  try{
+    if(window.AQ && window.AQ.reduce) return;
+    if(!window.matchMedia || !window.matchMedia("(pointer:fine)").matches) return;
+    var boxes = document.querySelectorAll(".prodin");
+    for(var i=0;i<boxes.length;i++){
+      (function(box){
+        var layer = box.querySelector(".modlayer");
+        if(!layer) return;
+        var host = box.closest ? (box.closest(".slide") || box) : box;
+        host.addEventListener("mousemove", function(e){
+          var r = box.getBoundingClientRect();
+          var dx = (e.clientX - (r.left + r.width/2)) / (window.innerWidth/2);
+          var dy = (e.clientY - (r.top + r.height/2)) / (window.innerHeight/2);
+          if(dx < -1) dx = -1; if(dx > 1) dx = 1;
+          if(dy < -1) dy = -1; if(dy > 1) dy = 1;
+          layer.style.setProperty("--ry", (dx * 9).toFixed(2) + "deg");
+          layer.style.setProperty("--rx", (-dy * 5).toFixed(2) + "deg");
+        }, {passive:true});
+        host.addEventListener("mouseleave", function(){
+          layer.style.setProperty("--ry","0deg");
+          layer.style.setProperty("--rx","0deg");
+        });
+      })(boxes[i]);
+    }
+  }catch(err){ if(window.console) console.warn("prod tilt:", err); }
+})();
+</script>
+<script>
+(function(){
+  try{
+    var ua = navigator.userAgent || "";
+    var inIG = /Instagram|FBAN|FBAV/i.test(ua);
+    var mob = /Android|iPhone|iPad|iPod/i.test(ua);
+    var links = document.querySelectorAll('a[href*="instagram.com"],a[href*="ig.me"]');
+    if(inIG || mob){ for(var i = 0; i < links.length; i++) links[i].removeAttribute("target"); }
+    var dm = document.getElementById("dmBtn");
+    if(!dm) return;
+    dm.addEventListener("click", function(ev){
+      if(inIG){ ev.preventDefault(); location.href = "https://www.instagram.com/gl_aqlink/"; return; }
+      if(!mob){ ev.preventDefault(); window.open("https://ig.me/m/gl_aqlink", "_blank", "noopener"); }
+    });
+  }catch(err){}
+})();
+</script>
+</body>
+</html>
