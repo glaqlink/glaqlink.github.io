@@ -974,7 +974,16 @@ h2.title em{font-style:normal;color:var(--accent)}
 @keyframes svsweep{0%{transform:translate(-40px,-40px)}60%,100%{transform:translate(70px,70px)}}
 .sv-panelfx .spark{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center;animation:svspark 2.1s ease-in-out infinite}
 @keyframes svspark{0%,100%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.25)}60%{opacity:.2;transform:scale(.8)}}
-@media (prefers-reduced-motion: reduce){ .sv-solar .ray,.sv-panelfx .sweep,.sv-panelfx .spark,</style>
+@media (prefers-reduced-motion: reduce){ .sv-solar .ray,.sv-panelfx .sweep,.sv-panelfx .spark{animation:none!important} }
+@media (hover:none) and (pointer:coarse){
+  .svplant [filter]{filter:none!important}
+  .svplant ellipse[filter]{opacity:.22}
+  .sv-solar .halo{display:none}
+  .sv-flies circle{filter:none}
+  .sv-panelfx{mix-blend-mode:normal}
+  .svplant .sv-led{stroke:rgba(255,255,255,.35);stroke-width:1.2}
+}
+</style>
 </head>
 <body>
 <div class="grain"></div>
@@ -2414,7 +2423,8 @@ h2.title em{font-style:normal;color:var(--accent)}
       moon.style.opacity = (cl((-s + 0.04) / 0.2) * (1 - 0.7 * d)).toFixed(3);
       warm.setAttribute("cx", Math.max(-100, Math.min(1100, sx)).toFixed(0));
       warm.setAttribute("opacity", w.toFixed(3));
-      if(Math.abs(d - lastD) > 0.002){ svg.style.setProperty("--d", d.toFixed(3)); lastD = d; }
+      var dq = Math.round(d * 40) / 40;
+      if(dq !== lastD){ svg.style.setProperty("--d", dq.toFixed(3)); lastD = dq; }
       if(clock){
         var mins = Math.floor(((6 + 24 * p) % 24) * 60);
         mins -= mins % 10;
@@ -2425,9 +2435,13 @@ h2.title em{font-style:normal;color:var(--accent)}
         }
       }
     }
+    var acc = 0, lastDraw = 0;
     function tick(ts){
       var dt = last ? Math.min(0.1, (ts - last) / 1000) : 0; last = ts;
-      if(!slide || slide.classList.contains("active")){ p = (p + dt / T) % 1; drawDt = dt; draw(); meteor(dt); }
+      if(!slide || slide.classList.contains("active")){
+        p = (p + dt / T) % 1; acc += dt;
+        if(ts - lastDraw >= (M ? 33 : 50)){ drawDt = acc; draw(); meteor(acc); acc = 0; lastDraw = ts; }
+      }
       requestAnimationFrame(tick);
     }
     draw();
