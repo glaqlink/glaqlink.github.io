@@ -628,13 +628,6 @@ h2.title em{font-style:normal;color:var(--accent)}
 }
 .dmhelp{margin-top:14px;font-size:.82rem;color:var(--soft)}
 .dmhelp b{color:var(--ink);font-weight:500}
-.slide{content-visibility:auto;contain-intrinsic-size:100vw 100vh}
-.photo img{animation:none}
-.slide.active .photo img{animation:kb 30s ease-in-out infinite alternate}
-@media (hover:none) and (pointer:coarse){
-  .track{will-change:auto}
-  .slide.active .photo img{animation:none;transform:scale(1.06)}
-}
 .sv{display:grid;grid-template-columns:minmax(0,1fr) clamp(190px,17vw,228px);gap:16px;align-items:stretch}
 .svview{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
   background:
@@ -654,28 +647,40 @@ h2.title em{font-style:normal;color:var(--accent)}
 .sv-pipein{fill:none;stroke:#0d141b;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
 .sv-pipe.thin{stroke-width:9}.sv-pipein.thin{stroke-width:5}
 .sv-flow{fill:none;stroke:#5fd4f5;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;
-  stroke-dasharray:10 16;stroke-opacity:0;transition:stroke-opacity .6s}
-.svplant.on .sv-flow{stroke-opacity:.95;animation:svdash 1s linear infinite}
+  stroke-dasharray:10 16;opacity:0;transition:opacity .6s}
+.svplant.on .sv-flow{opacity:.95;animation:svdash 1s linear infinite}
 @keyframes svdash{to{stroke-dashoffset:-52}}
 .sv-flowout{fill:none;stroke:#9aa6b2;stroke-width:3;stroke-linecap:round;stroke-dasharray:5 11;
   opacity:.55;animation:svdash2 2.6s linear infinite}
 @keyframes svdash2{to{stroke-dashoffset:-32}}
-.sv-bubbles{visibility:hidden}.svplant.on .sv-bubbles{visibility:visible}.sv-bubbles circle{fill:#dff6ff;fill-opacity:0}
-.sv-jet{visibility:hidden}
-.svplant.on .sv-jet{visibility:visible}
+#svWave1{animation:svwave 6s linear infinite}
+#svWave2{animation:svwave 9s linear infinite reverse}
+@keyframes svwave{to{transform:translateX(220px)}}
+.sv-bubbles circle{fill:#dff6ff;opacity:0}
+.svplant.on .sv-bubbles circle{animation:svbub 2.8s ease-in infinite}
+.svplant.on .sv-bubbles circle:nth-child(2){animation-delay:.6s}
+.svplant.on .sv-bubbles circle:nth-child(3){animation-delay:1.2s}
+.svplant.on .sv-bubbles circle:nth-child(4){animation-delay:1.7s}
+.svplant.on .sv-bubbles circle:nth-child(5){animation-delay:2.2s}
+@keyframes svbub{0%{transform:translateY(40px);opacity:0}20%{opacity:.7}100%{transform:translateY(-10px);opacity:0}}
+.sv-jet{opacity:0;transition:opacity .5s}
+.svplant.on .sv-jet{opacity:1}
 #svJetLine{fill:none;stroke:#8fe3fb;stroke-width:4.5;stroke-linecap:round;stroke-dasharray:6 9;
   animation:svdash3 .5s linear infinite}
 @keyframes svdash3{to{stroke-dashoffset:-15}}
-#svSplash ellipse{fill:none;stroke:#e6f9ff;stroke-width:1.3;stroke-opacity:0}
+#svSplash ellipse{fill:none;stroke:#e6f9ff;stroke-width:1.3;transform-box:fill-box;transform-origin:center;
+  animation:svsplash 1.6s ease-out infinite}
+#svSplash ellipse:last-child{animation-delay:.55s}
+@keyframes svsplash{0%{transform:scale(.4);opacity:.7}100%{transform:scale(1.3);opacity:0}}
 .sv-marks line{stroke-width:1;stroke-dasharray:4 5}
 .sv-marks line.m-hi{stroke:rgba(244,114,182,.7)}
 .sv-marks line.m-lo{stroke:rgba(245,165,36,.75)}
 .sv-marks text{font-size:9.5px;letter-spacing:.14em}
 .sv-marks text.m-hi{fill:rgba(244,114,182,.9)}
 .sv-marks text.m-lo{fill:rgba(245,165,36,.95)}
-.sv-cable{fill:none;stroke:#8793a0;stroke-width:2.2;stroke-linecap:round;transition:stroke .4s}
+.sv-cable{fill:none;stroke:#8793a0;stroke-width:2.2;stroke-linecap:round;transition:stroke .4s,opacity .4s}
 .svplant.wirecut #svCableTop{stroke:#fb7185;stroke-dasharray:4 4;opacity:.8}
-.sv-break{opacity:0}
+.sv-break{opacity:0;transition:opacity .3s}
 .sv-break path{fill:none;stroke:#fb7185;stroke-width:2.2;stroke-linecap:round}
 .sv-break circle{fill:none;stroke:#fb7185;stroke-width:1.2;opacity:.6}
 .svplant.wirecut .sv-break{opacity:1}
@@ -685,29 +690,39 @@ h2.title em{font-style:normal;color:var(--accent)}
 .svplant.nolink .sv-arc{stroke:rgba(251,113,133,.35);animation:none}
 .sv-radiolbl{font-size:9.5px;fill:rgba(170,190,205,.75);transition:fill .5s}
 .svplant.nolink .sv-radiolbl{fill:rgba(251,113,133,.9)}
-.sv-cut{opacity:0}
+.sv-cut{opacity:0;transition:opacity .4s}
 .sv-cut circle{fill:rgba(6,9,12,.85);stroke:#fb7185;stroke-width:1.4}
 .sv-cut path{stroke:#fb7185;stroke-width:2.2;stroke-linecap:round}
 .svplant.nolink .sv-cut{opacity:1}
 .sv-pkt{fill:#6fe0ef;opacity:0}
 .sv-pkt.ack{fill:#34d399}
 .sv-pkt.fail{fill:#fb7185}
-.sv-rip circle{fill:none;stroke:#6fe0ef;stroke-width:1.3;stroke-opacity:0}
+.sv-rip circle{fill:none;stroke:#6fe0ef;stroke-width:1.3;opacity:0;transform-box:fill-box;transform-origin:center}
+.sv-rip.go circle{animation:svrip 1.3s cubic-bezier(.2,.6,.3,1)}
+.sv-rip.go circle:nth-child(2){animation-delay:.18s}
+.sv-rip.go circle:nth-child(3){animation-delay:.36s}
 .sv-rip.ack circle{stroke:#34d399}
+@keyframes svrip{0%{transform:scale(.3);opacity:.9}100%{transform:scale(3.4);opacity:0}}
 .sv-wire{fill:none;stroke:#11171e;stroke-width:3;stroke-linecap:round}
 .sv-relay{fill:#1b222a;stroke:#0d1217;stroke-width:1;transition:fill .3s}
 .svplant.on .sv-relay{fill:#34d399}
-.sv-led{opacity:0}
+.sv-led{opacity:0;transition:opacity .25s}
 .sv-led.pw{fill:#34d399;opacity:1}
 .sv-led.st{fill:#38bdf8}
 .sv-led.ot{fill:#fb7185}
 .svplant.on .sv-led.ot{opacity:1}
-.sv-rotor{fill:#4b5866}
+.svplant[data-st="hb"] .sv-led.st{animation:svhb 2s steps(1,end) infinite}
+.svplant[data-st="e2"] .sv-led.st{animation:sve2 2.4s steps(1,end) infinite}
+.svplant[data-st="e4"] .sv-led.st{animation:sve4 3.2s steps(1,end) infinite}
+@keyframes svhb{0%{opacity:1}7%,100%{opacity:0}}
+@keyframes sve2{0%{opacity:1}8%{opacity:0}17%{opacity:1}25%,100%{opacity:0}}
+@keyframes sve4{0%{opacity:1}6%{opacity:0}12%{opacity:1}18%{opacity:0}24%{opacity:1}30%{opacity:0}36%{opacity:1}42%,100%{opacity:0}}
+.sv-rotor{transform-box:fill-box;transform-origin:center;fill:#4b5866}
 .sv-rotor circle{fill:#8793a0}
-.svplant.on .sv-rotor{fill:#6fe0ef}
+.svplant.on .sv-rotor{fill:#6fe0ef;animation:svspin .55s linear infinite}
 @keyframes svspin{to{transform:rotate(360deg)}}
-.sv-pumpglow{fill:#6fe0ef;fill-opacity:0;transition:fill-opacity .6s}
-.svplant.on .sv-pumpglow{fill-opacity:.18}
+.sv-pumpglow{fill:#6fe0ef;opacity:0;transition:opacity .6s}
+.svplant.on .sv-pumpglow{opacity:.18}
 .sv-cap text{font-size:9.5px;fill:rgba(160,176,190,.72);letter-spacing:.2em}
 .svcards{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:10px}
 .svc{position:relative;border:1px solid var(--line);border-radius:16px;padding:12px 14px;
@@ -764,6 +779,8 @@ h2.title em{font-style:normal;color:var(--accent)}
 @media (prefers-reduced-motion: reduce){
   #svWave1,#svWave2,.sv-flow,.sv-flowout,#svJetLine,#svSplash ellipse,.sv-arc,.sv-rotor,.sv-bubbles circle{animation:none!important}
 }
+#svWave2{animation:svwave2 9s linear infinite reverse}
+@keyframes svwave2{to{transform:translateX(280px)}}
 .svbar{flex-direction:column;align-items:flex-start;gap:10px}
 .svlog{flex:none;width:100%;justify-content:flex-start;min-height:1.3em}
 .svplant{max-height:calc(100vh - 316px)}
@@ -776,7 +793,7 @@ h2.title em{font-style:normal;color:var(--accent)}
 @media(max-width:900px){ .svplant{max-height:none} }
 .svc.bad .dot{background:#fb7185;box-shadow:0 0 0 4px rgba(251,113,133,.18)}
 .sv-stars circle.tw{animation:svtw 4.5s ease-in-out infinite}
-@keyframes svtw{0%,100%{fill-opacity:.15}50%{fill-opacity:1}}
+@keyframes svtw{0%,100%{opacity:.15}50%{opacity:.9}}
 .sv-hill.far{fill:color-mix(in srgb,#152833,#5a8a6c calc(var(--d,0)*100%))}
 .sv-hill.mid{fill:color-mix(in srgb,#0f1e27,#3c6a48 calc(var(--d,0)*100%))}
 .sv-ridge{fill:none;stroke:color-mix(in srgb,rgba(150,190,210,.13),rgba(230,245,210,.35) calc(var(--d,0)*100%));stroke-width:1.2}
@@ -790,6 +807,7 @@ h2.title em{font-style:normal;color:var(--accent)}
 .sv-mill .vane{stroke:color-mix(in srgb,#36505f,#8b98a2 calc(var(--d,0)*100%))}
 .sv-mill .blades path{stroke:color-mix(in srgb,#3a5566,#9aa7b0 calc(var(--d,0)*100%));stroke-width:2.6}
 .sv-mill .blades .ring{fill:none;stroke:color-mix(in srgb,#2d4453,#7d8a94 calc(var(--d,0)*100%));stroke-width:1.1}
+.sv-mill .blades{animation:svspin 7s linear infinite}
 .sv-mill .hub{fill:color-mix(in srgb,#4a6778,#c9d2d8 calc(var(--d,0)*100%))}
 .sv-farm .wall{fill:color-mix(in srgb,#223441,#d9c9a8 calc(var(--d,0)*100%))}
 .sv-farm .roof{fill:color-mix(in srgb,#16242d,#9a4a33 calc(var(--d,0)*100%))}
@@ -801,18 +819,25 @@ h2.title em{font-style:normal;color:var(--accent)}
 .sv-farm .win{fill:color-mix(in srgb,#ffc861,#9cc3d4 calc(var(--d,0)*100%));opacity:.95}
 .sv-farm .mull{fill:none;stroke:#7a5a1a;stroke-width:.9;opacity:.7}
 .sv-farm .tree{fill:color-mix(in srgb,#10231c,#2f6a3a calc(var(--d,0)*100%))}
-.sv-farm .smoke circle{fill:#9fb3c2;fill-opacity:0}
+.sv-farm .smoke circle{fill:#9fb3c2;opacity:0;transform-box:fill-box;transform-origin:center;animation:svsmoke 6s ease-out infinite}
+.sv-farm .smoke circle:nth-child(2){animation-delay:2s}
+.sv-farm .smoke circle:nth-child(3){animation-delay:4s}
+@keyframes svsmoke{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:.2}100%{transform:translate(12px,-34px) scale(2.3);opacity:0}}
 .sv-fence rect{fill:color-mix(in srgb,#1d2d36,#8a6c4c calc(var(--d,0)*100%))}
-.sv-flies circle{fill:#ffe27a;fill-opacity:0;animation:svfly 3.6s ease-in-out infinite}
+.sv-flies circle{fill:#ffe27a;opacity:0;filter:drop-shadow(0 0 3px #ffd34d);animation:svfly 3.6s ease-in-out infinite}
 .sv-flies circle:nth-child(2n){animation-duration:4.4s}
 .sv-flies circle:nth-child(3n){animation-duration:5.1s}
-@keyframes svfly{0%,100%{fill-opacity:0}35%{fill-opacity:.95}60%{fill-opacity:.2}}
+@keyframes svfly{0%,100%{opacity:0;transform:translate(0,0)}35%{opacity:.95}60%{opacity:.2;transform:translate(6px,-5px)}}
 .sv-skyday{opacity:var(--d,0)}
 .sv-stars{opacity:calc(1 - var(--d,0))}
 .sv-flies{opacity:calc(1 - var(--d,0))}
 .sv-farm .glow{opacity:calc(1 - var(--d,0))}
 .sv-clouds{opacity:calc(var(--d,0) * .85)}
 .sv-clouds ellipse{fill:color-mix(in srgb,#5d6178,#f4f8fb calc(var(--d,0)*100%))}
+.sv-clouds .c1{animation:svcloud 70s linear infinite}
+.sv-clouds .c2{animation:svcloud 95s linear infinite -30s}
+.sv-clouds .c3{animation:svcloud 120s linear infinite -60s}
+@keyframes svcloud{0%{transform:translateX(-160px)}50%{transform:translateX(160px)}100%{transform:translateX(-160px)}}
 .sv-cap text,.sv-marks text{paint-order:stroke;stroke:rgba(6,12,18,.5);stroke-width:calc(var(--d,0) * 2.2px);stroke-linejoin:round}
 .sv-cap text{fill:color-mix(in srgb,rgba(160,176,190,.72),rgba(250,252,255,.97) calc(var(--d,0)*100%))}
 .sv-clock{font-size:11px;fill:rgba(220,232,242,.8);paint-order:stroke;stroke:rgba(6,10,14,.45);stroke-width:3px}
@@ -827,6 +852,7 @@ h2.title em{font-style:normal;color:var(--accent)}
 .sv-footing rect{fill:#353a40;stroke:#1d2125;stroke-width:.8}
 .sv-well .casing{fill:none;stroke:#5c6570;stroke-width:3}
 .sv-well .brk{fill:none;stroke:#1a1510;stroke-width:3.4;stroke-linejoin:round}
+.sv-wellwater{transition:transform 1.4s ease-in-out}
 .svplant.on .sv-wellwater{transform:translateY(8px)}
 .sv-cap.soil text{fill:rgba(220,195,165,.75)}
 .sv-cap.aq text{fill:rgba(125,211,252,.8)}
@@ -944,18 +970,11 @@ h2.title em{font-style:normal;color:var(--accent)}
 .sv-solar .ray:nth-of-type(3){animation-duration:1.2s}
 @keyframes svray{to{stroke-dashoffset:-22}}
 .sv-panelfx{mix-blend-mode:screen}
-.sv-panelfx .spark{fill:#fff;fill-opacity:0;animation:svspark 2.1s ease-in-out infinite}
-@keyframes svspark{0%,100%{fill-opacity:0}40%{fill-opacity:1}60%{fill-opacity:.2}}
-@media (prefers-reduced-motion: reduce){ .sv-solar .ray,.sv-panelfx .sweep,.sv-panelfx .spark{animation:none!important} }
-@media (hover:none) and (pointer:coarse){
-  .svplant [filter]{filter:none!important}
-  .svplant ellipse[filter]{opacity:.22}
-  .sv-solar .halo{display:none}
-  .sv-flies circle{filter:none}
-  .sv-panelfx{mix-blend-mode:normal}
-  .svplant .sv-led{stroke:rgba(255,255,255,.35);stroke-width:1.2}
-}
-</style>
+.sv-panelfx .sweep{animation:svsweep 3s ease-in-out infinite}
+@keyframes svsweep{0%{transform:translate(-40px,-40px)}60%,100%{transform:translate(70px,70px)}}
+.sv-panelfx .spark{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center;animation:svspark 2.1s ease-in-out infinite}
+@keyframes svspark{0%,100%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.25)}60%{opacity:.2;transform:scale(.8)}}
+@media (prefers-reduced-motion: reduce){ .sv-solar .ray,.sv-panelfx .sweep,.sv-panelfx .spark,</style>
 </head>
 <body>
 <div class="grain"></div>
@@ -1345,9 +1364,9 @@ h2.title em{font-style:normal;color:var(--accent)}
   </g>
   <text id="svClock" class="sv-clock" x="16" y="30">— : —</text>
   <g class="sv-clouds">
-    <g class="c1"><animateTransform attributeName="transform" type="translate" values="-160 0;160 0;-160 0" dur="70s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".42 0 .58 1;.42 0 .58 1"/><ellipse cx="120" cy="110" rx="46" ry="11"/><ellipse cx="104" cy="102" rx="22" ry="12"/><ellipse cx="134" cy="99" rx="26" ry="15"/></g>
-    <g class="c2"><animateTransform attributeName="transform" type="translate" values="-160 0;160 0;-160 0" dur="95s" begin="-30s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".42 0 .58 1;.42 0 .58 1"/><ellipse cx="560" cy="170" rx="38" ry="9"/><ellipse cx="548" cy="163" rx="18" ry="10"/><ellipse cx="572" cy="160" rx="21" ry="12"/></g>
-    <g class="c3"><animateTransform attributeName="transform" type="translate" values="-160 0;160 0;-160 0" dur="120s" begin="-60s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".42 0 .58 1;.42 0 .58 1"/><ellipse cx="860" cy="226" rx="30" ry="7"/><ellipse cx="852" cy="221" rx="14" ry="8"/><ellipse cx="868" cy="219" rx="16" ry="9"/></g>
+    <g class="c1"><ellipse cx="120" cy="110" rx="46" ry="11"/><ellipse cx="104" cy="102" rx="22" ry="12"/><ellipse cx="134" cy="99" rx="26" ry="15"/></g>
+    <g class="c2"><ellipse cx="560" cy="170" rx="38" ry="9"/><ellipse cx="548" cy="163" rx="18" ry="10"/><ellipse cx="572" cy="160" rx="21" ry="12"/></g>
+    <g class="c3"><ellipse cx="860" cy="226" rx="30" ry="7"/><ellipse cx="852" cy="221" rx="14" ry="8"/><ellipse cx="868" cy="219" rx="16" ry="9"/></g>
   </g>
   
   <path class="sv-hill far" d="M-600 420 C -400 360, -200 380, 0 372 C 120 367, 200 330, 330 345 C 460 360, 520 318, 640 330 C 760 342, 820 300, 940 318 C 1060 336, 1200 350, 1600 360 V 482 H -600 Z"/>
@@ -1414,7 +1433,7 @@ h2.title em{font-style:normal;color:var(--accent)}
   <g class="sv-mill">
     <path d="M391 424 L400 334 L409 424 M393.5 402 H406.5 M395.5 380 H404.5 M392.5 413 L405.5 391 M407.5 413 L394.5 391 M394.5 391 L404 369 M405.5 391 L396 369"/>
     <path d="M400 330 H426 M420 324 L428 330 L420 336" class="vane"/>
-    <g class="blades"><animateTransform attributeName="transform" type="rotate" from="0 400 330" to="360 400 330" dur="7s" repeatCount="indefinite"/>
+    <g class="blades" style="transform-origin:400px 330px">
       <path d="M400 330 L400 310 M400 330 L414.1 315.9 M400 330 L420 330 M400 330 L414.1 344.1 M400 330 L400 350 M400 330 L385.9 344.1 M400 330 L380 330 M400 330 L385.9 315.9"/>
       <circle cx="400" cy="330" r="19.5" class="ring"/>
     </g>
@@ -1438,7 +1457,7 @@ h2.title em{font-style:normal;color:var(--accent)}
     <path d="M541 392 L588 386" class="roofline"/>
     <rect x="556" y="402" width="16" height="18" class="door"/>
     <g class="tree"><rect x="591" y="398" width="3" height="22"/><circle cx="592" cy="388" r="14"/><circle cx="581" cy="396" r="9"/></g>
-    <g class="smoke"><circle cx="526" cy="346" r="3.4"><animate attributeName="cy" values="346;312" dur="6s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="cx" values="526;538" dur="6s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="r" values="2.0;7.8" dur="6s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="fill-opacity" values="0;.2;0" keyTimes="0;.15;1" dur="6s" begin="0s" repeatCount="indefinite"/></circle><circle cx="526" cy="346" r="3.8"><animate attributeName="cy" values="346;312" dur="6s" begin="2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="cx" values="526;538" dur="6s" begin="2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="r" values="2.3;8.7" dur="6s" begin="2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="fill-opacity" values="0;.2;0" keyTimes="0;.15;1" dur="6s" begin="2s" repeatCount="indefinite"/></circle><circle cx="526" cy="346" r="4.4"><animate attributeName="cy" values="346;312" dur="6s" begin="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="cx" values="526;538" dur="6s" begin="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="r" values="2.6;10.1" dur="6s" begin="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="fill-opacity" values="0;.2;0" keyTimes="0;.15;1" dur="6s" begin="4s" repeatCount="indefinite"/></circle></g>
+    <g class="smoke"><circle cx="526" cy="346" r="3.4"/><circle cx="526" cy="346" r="3.8"/><circle cx="526" cy="346" r="4.4"/></g>
   </g>
   <g class="sv-fence"><rect x="372" y="452" width="3" height="21" rx="1"/><rect x="391" y="452" width="3" height="21" rx="1"/><rect x="410" y="452" width="3" height="21" rx="1"/><rect x="429" y="452" width="3" height="21" rx="1"/><rect x="448" y="452" width="3" height="21" rx="1"/><rect x="467" y="452" width="3" height="21" rx="1"/><rect x="486" y="452" width="3" height="21" rx="1"/><rect x="505" y="452" width="3" height="21" rx="1"/><rect x="524" y="452" width="3" height="21" rx="1"/><rect x="543" y="452" width="3" height="21" rx="1"/><rect x="562" y="452" width="3" height="21" rx="1"/><rect x="581" y="452" width="3" height="21" rx="1"/><rect x="370" y="457" width="228" height="2" rx="1"/><rect x="370" y="465" width="228" height="2" rx="1"/></g>
   <g class="sv-flies"><circle cx="330" cy="466" r="1.5" style="animation-delay:0s"/><circle cx="356" cy="450" r="1.5" style="animation-delay:1.3s"/><circle cx="578" cy="444" r="1.5" style="animation-delay:2.1s"/><circle cx="718" cy="462" r="1.5" style="animation-delay:0.6s"/><circle cx="742" cy="442" r="1.5" style="animation-delay:2.8s"/><circle cx="990" cy="452" r="1.5" style="animation-delay:1.7s"/><circle cx="-28" cy="458" r="1.5" style="animation-delay:0.9s"/><circle cx="300" cy="440" r="1.5" style="animation-delay:3.4s"/></g>
@@ -1591,19 +1610,16 @@ h2.title em{font-style:normal;color:var(--accent)}
   <g clip-path="url(#svClip)">
     <rect x="78" y="240" width="204" height="156" fill="#0b141c" opacity=".55"/>
     <g id="svWaterG" transform="translate(0,330.6)">
-      <g id="svWave1"><path d="M-220 6 q 55 -11 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 V 420 H -220 Z" fill="url(#svWater)"/><animateTransform attributeName="transform" type="translate" from="0 0" to="220 0" dur="6s" repeatCount="indefinite"/></g>
-      <g id="svWave2" opacity=".5"><path d="M-220 9 q 70 -8 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 V 26 H -220 Z" fill="url(#svSurf)"/><animateTransform attributeName="transform" type="translate" from="280 0" to="0 0" dur="9s" repeatCount="indefinite"/></g>
+      <g id="svWave1"><path d="M-220 6 q 55 -11 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 t 110 0 V 420 H -220 Z" fill="url(#svWater)"/></g>
+      <g id="svWave2" opacity=".5"><path d="M-220 9 q 70 -8 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 t 140 0 V 26 H -220 Z" fill="url(#svSurf)"/></g>
       <g class="sv-bubbles" id="svBubbles">
-        <circle cx="112" cy="40" r="2"><animate attributeName="cy" values="80;30" dur="2.8s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".42 0 1 1"/><animate attributeName="fill-opacity" values="0;.7;0" keyTimes="0;.2;1" dur="2.8s" begin="0s" repeatCount="indefinite"/></circle>
-        <circle cx="128" cy="62" r="1.5"><animate attributeName="cy" values="102;52" dur="2.8s" begin="0.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".42 0 1 1"/><animate attributeName="fill-opacity" values="0;.7;0" keyTimes="0;.2;1" dur="2.8s" begin="0.6s" repeatCount="indefinite"/></circle>
-        <circle cx="104" cy="84" r="2.4"><animate attributeName="cy" values="124;74" dur="2.8s" begin="1.2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".42 0 1 1"/><animate attributeName="fill-opacity" values="0;.7;0" keyTimes="0;.2;1" dur="2.8s" begin="1.2s" repeatCount="indefinite"/></circle>
-        <circle cx="134" cy="100" r="1.6"><animate attributeName="cy" values="140;90" dur="2.8s" begin="1.7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".42 0 1 1"/><animate attributeName="fill-opacity" values="0;.7;0" keyTimes="0;.2;1" dur="2.8s" begin="1.7s" repeatCount="indefinite"/></circle>
-        <circle cx="118" cy="118" r="2"><animate attributeName="cy" values="158;108" dur="2.8s" begin="2.2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".42 0 1 1"/><animate attributeName="fill-opacity" values="0;.7;0" keyTimes="0;.2;1" dur="2.8s" begin="2.2s" repeatCount="indefinite"/></circle>
+        <circle cx="112" cy="40" r="2"/><circle cx="128" cy="62" r="1.5"/><circle cx="104" cy="84" r="2.4"/>
+        <circle cx="134" cy="100" r="1.6"/><circle cx="118" cy="118" r="2"/>
       </g>
     </g>
     <g id="svJet" class="sv-jet">
       <path id="svJetLine" d="M120 242 L120 330"/>
-      <g id="svSplash"><ellipse cx="120" cy="0" rx="12" ry="3.5"><animate attributeName="rx" values="4.8;15.6" dur="1.6s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="ry" values="1.4;4.5" dur="1.6s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="stroke-opacity" values=".7;0" dur="1.6s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/></ellipse><ellipse cx="120" cy="0" rx="22" ry="6"><animate attributeName="rx" values="8.8;28.6" dur="1.6s" begin="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="ry" values="2.4;7.8" dur="1.6s" begin="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/><animate attributeName="stroke-opacity" values=".7;0" dur="1.6s" begin="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0 0 .58 1"/></ellipse></g>
+      <g id="svSplash"><ellipse cx="120" cy="0" rx="12" ry="3.5"/><ellipse cx="120" cy="0" rx="22" ry="6"/></g>
     </g>
     <rect x="78" y="240" width="204" height="156" fill="url(#svGlass)"/>
   </g>
@@ -1644,7 +1660,7 @@ h2.title em{font-style:normal;color:var(--accent)}
   <image id="svTX" href="modulo-tx.webp" x="200.6" y="25.4" width="100.0" height="199.4" filter="url(#svShadow)"/>
   <g id="svPanelFx" class="sv-panelfx" opacity="0" clip-path="url(#svPanelClip)">
     <rect x="210.9" y="125.5" width="38.8" height="75.4" fill="url(#svPanelLit)"/>
-    <rect class="sweep" x="150.9" y="65.5" width="158.8" height="195.4" fill="url(#svPanelSweep)"><animateTransform attributeName="transform" type="translate" values="-40 -40;70 70;70 70" keyTimes="0;.6;1" dur="3s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;0 0 1 1"/></rect>
+    <rect class="sweep" x="150.9" y="65.5" width="158.8" height="195.4" fill="url(#svPanelSweep)"/>
     <path class="spark" style="animation-delay:0s" d="M221.8 138.1 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 z"/>
     <path class="spark" style="animation-delay:.7s" d="M238.8 157.7 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 z"/>
     <path class="spark" style="animation-delay:1.4s" d="M224.9 180.3 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 z"/>
@@ -1654,8 +1670,8 @@ h2.title em{font-style:normal;color:var(--accent)}
     <circle r="13"/><path d="M-5 -5 L5 5 M5 -5 L-5 5"/>
   </g>
   <text class="sv-radiolbl" id="svRadioLbl" x="518.9" y="44.2" text-anchor="middle">RÁDIO 920 MHz · 10 A 20 km</text>
-  <g class="sv-rip" id="svRipTX" transform="translate(299.4,26.0)"><circle r="9"><animate attributeName="r" values="2.7;30.6" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/><animate attributeName="stroke-opacity" values=".9;0" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/></circle><circle r="9"><animate attributeName="r" values="2.7;30.6" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/><animate attributeName="stroke-opacity" values=".9;0" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/></circle><circle r="9"><animate attributeName="r" values="2.7;30.6" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/><animate attributeName="stroke-opacity" values=".9;0" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/></circle></g>
-  <g class="sv-rip" id="svRipRX" transform="translate(738.4,38.8)"><circle r="9"><animate attributeName="r" values="2.7;30.6" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/><animate attributeName="stroke-opacity" values=".9;0" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/></circle><circle r="9"><animate attributeName="r" values="2.7;30.6" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/><animate attributeName="stroke-opacity" values=".9;0" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/></circle><circle r="9"><animate attributeName="r" values="2.7;30.6" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/><animate attributeName="stroke-opacity" values=".9;0" dur="1.3s" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/></circle></g>
+  <g class="sv-rip" id="svRipTX" transform="translate(299.4,26.0)"><circle r="9"/><circle r="9"/><circle r="9"/></g>
+  <g class="sv-rip" id="svRipRX" transform="translate(738.4,38.8)"><circle r="9"/><circle r="9"/><circle r="9"/></g>
   <circle id="svPkt" class="sv-pkt" r="5" cx="-50" cy="-50" filter="url(#svGlow)"/>
   
   <rect x="648" y="250" width="8" height="232" fill="url(#svMetal)"/>
@@ -2143,14 +2159,10 @@ h2.title em{font-style:normal;color:var(--accent)}
     }
     function ripple(el, ack){
       if(!el || reduce) return;
-      el.classList.toggle("ack", !!ack);
-      var cs = el.querySelectorAll("circle");
-      for(var i = 0; i < cs.length; i++) (function(c, d){
-        setTimeout(function(){
-          var a = c.querySelectorAll("animate");
-          for(var k = 0; k < a.length; k++){ try{ a[k].beginElement(); }catch(e){} }
-        }, d);
-      })(cs[i], i * 180);
+      el.classList.remove("go","ack");
+      void el.getBoundingClientRect();
+      if(ack) el.classList.add("ack");
+      el.classList.add("go");
     }
     var anim = null;
     function fly(dir, kind, ms, done){
@@ -2258,16 +2270,6 @@ h2.title em{font-style:normal;color:var(--accent)}
       else if(S.rxWireErr){ vPump.textContent = "Desligado"; sPump.textContent = "Falha na boia"; cPump.className = "svc bad"; }
       else { vPump.textContent = "Desligado"; sPump.textContent = "Ciclos completos: " + S.cycles; cPump.className = "svc"; }
     }
-    var ledSt = $("svLedSt"), rotor = $("svRotor"), ledOn = null, rotA = 0, lastNow = 0;
-    var PAT = { hb:[2000, [[0, .07]]], e2:[2400, [[0, .08], [.17, .25]]],
-                e4:[3200, [[0, .06], [.12, .18], [.24, .30], [.36, .42]]] };
-    function ledsAndRotor(now){
-      var dtm = lastNow ? Math.min(100, now - lastNow) : 0; lastNow = now;
-      var pt = PAT[svg.getAttribute("data-st")], on = false;
-      if(pt){ var ph = (now % pt[0]) / pt[0]; for(var i = 0; i < pt[1].length; i++) if(ph >= pt[1][i][0] && ph < pt[1][i][1]) on = true; }
-      if(on !== ledOn && ledSt){ ledSt.style.opacity = on ? "1" : "0"; ledOn = on; }
-      if(rotor && S.pump && !reduce){ rotA = (rotA + dtm * 0.6545) % 360; rotor.setAttribute("transform", "rotate(" + rotA.toFixed(1) + " 820 432)"); }
-    }
     function render(now){
       if(slide && !slide.classList.contains("active") && !anim){ requestAnimationFrame(render); return; }
       S.disp += (S.level - S.disp) * 0.08;
@@ -2289,7 +2291,6 @@ h2.title em{font-style:normal;color:var(--accent)}
       jetLine.setAttribute("d", "M" + JX + " " + JY + " L" + JX + " " + (surf + 2).toFixed(1));
       splash.setAttribute("transform", "translate(0," + (surf + 3).toFixed(1) + ")");
       drawPkt(now);
-      ledsAndRotor(now);
       requestAnimationFrame(render);
     }
     function btn(id){ return $(id); }
@@ -2332,7 +2333,6 @@ h2.title em{font-style:normal;color:var(--accent)}
       if(S.link && S.wire && !S.failsafe && !S.busy && Date.now() - lastLogT > 3000){ log(msg, ""); return true; }
       return false;
     };
-    if(reduce && svg.pauseAnimations){ try{ svg.pauseAnimations(); }catch(e){} }
     log("Módulos pareados — rádio no ar", "");
     paint();
     setInterval(step, 1000);
@@ -2414,8 +2414,7 @@ h2.title em{font-style:normal;color:var(--accent)}
       moon.style.opacity = (cl((-s + 0.04) / 0.2) * (1 - 0.7 * d)).toFixed(3);
       warm.setAttribute("cx", Math.max(-100, Math.min(1100, sx)).toFixed(0));
       warm.setAttribute("opacity", w.toFixed(3));
-      var dq = Math.round(d * 40) / 40;
-      if(dq !== lastD){ svg.style.setProperty("--d", dq.toFixed(3)); lastD = dq; }
+      if(Math.abs(d - lastD) > 0.002){ svg.style.setProperty("--d", d.toFixed(3)); lastD = d; }
       if(clock){
         var mins = Math.floor(((6 + 24 * p) % 24) * 60);
         mins -= mins % 10;
@@ -2426,13 +2425,9 @@ h2.title em{font-style:normal;color:var(--accent)}
         }
       }
     }
-    var acc = 0, lastDraw = 0;
     function tick(ts){
       var dt = last ? Math.min(0.1, (ts - last) / 1000) : 0; last = ts;
-      if(!slide || slide.classList.contains("active")){
-        p = (p + dt / T) % 1; acc += dt;
-        if(ts - lastDraw >= (M ? 33 : 50)){ drawDt = acc; draw(); meteor(acc); acc = 0; lastDraw = ts; }
-      }
+      if(!slide || slide.classList.contains("active")){ p = (p + dt / T) % 1; drawDt = dt; draw(); meteor(dt); }
       requestAnimationFrame(tick);
     }
     draw();
