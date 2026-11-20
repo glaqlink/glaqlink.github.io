@@ -974,23 +974,19 @@ footer nav a:hover{color:#fff}
     try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(DM_MSG);return true}}catch(_){}
     try{const t=document.createElement('textarea');t.value=DM_MSG;t.setAttribute('readonly','');t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();return ok}catch(_){return false}
   }
-  function openDM(e){
-    if(e)e.preventDefault();
+  const DM_HREF=(isAndroid&&!inIG)?'intent://ig.me/m/'+IG_USER+'#Intent;scheme=https;package=com.instagram.android;S.browser_fallback_url='+encodeURIComponent(IG_DM)+';end':((isIOS||isAndroid)?IG_DM:IG_WEB);
+  function onDM(){
     const ok=copyMsg();
     toast.querySelector('b').textContent=ok?'Mensagem copiada!':'Abrindo o Direct…';
     toast.querySelector('span').textContent=ok?'No Direct, toque e segure no campo de texto e escolha Colar.':'Escreva: '+DM_MSG;
     toast.classList.add('show');
-    setTimeout(()=>{goDM();setTimeout(()=>toast.classList.remove('show'),3500)},1100);
+    setTimeout(()=>toast.classList.remove('show'),6000);
   }
-  function goDM(){
-    if(isAndroid&&!inIG){
-      location.href='intent://ig.me/m/'+IG_USER+'#Intent;scheme=https;package=com.instagram.android;S.browser_fallback_url='+encodeURIComponent(IG_DM)+';end';
-      return;
-    }
-    if(isIOS||isAndroid){location.href=IG_DM;return}
-    window.open(IG_WEB,'_blank','noopener');
-  }
-  document.querySelectorAll('a[data-dm]').forEach(a=>a.addEventListener('click',openDM));
+  document.querySelectorAll('a[data-dm]').forEach(a=>{
+    a.href=DM_HREF;
+    if(!isIOS&&!isAndroid){a.target='_blank'}else{a.removeAttribute('target')}
+    a.addEventListener('click',onDM);
+  });
 
   if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();
