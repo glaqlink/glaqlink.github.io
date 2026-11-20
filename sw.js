@@ -1,7 +1,6 @@
-const V = "glaqlink-v33";
-const ASSETS = ["./", "index.html", "favicon.svg", "amanhecer.jpg", "capa-produtor.jpg", "fazenda-aerea.jpg",
-  "fundo-desfocado.jpg", "lavoura.jpg", "modulo-rx.webp", "modulo-tx.webp", "painel-solar.jpg",
-  "produtor-modulos.jpg", "seca.jpg", "torre-metalica.jpg"];
+const V = "glaqlink-v40";
+const ASSETS = ["./", "index.html", "favicon.svg", "logo.png", "caixa-tx.jpg", "casa-bomba.jpg",
+  "fazenda-aerea.jpg", "seca.jpg", "produtor-modulos.jpg", "modulo-rx.webp", "modulo-tx.webp", "placa-tx.png", "placa-rx.png", "quadro-rx.jpg", "bebedouro-tx.jpg", "kit-aqlink.jpg"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
