@@ -61,6 +61,8 @@ nav.main a:hover,nav.main a.on{background:rgba(40,220,235,.12);color:#fff}
 .q.wa{background:linear-gradient(150deg,rgba(37,211,102,.16),rgba(37,211,102,.04));border-color:rgba(37,211,102,.5)}
 .q.wa .ic{background:rgba(37,211,102,.2);color:#25d366}
 .fab a.wa{color:#25d366}
+.btn-ig{background:linear-gradient(90deg,#833ab4,#fd1d1d 55%,#fcb045);color:#fff;box-shadow:0 8px 24px -8px rgba(214,36,159,.6)}
+.btn-ig svg{filter:drop-shadow(0 0 1px rgba(255,255,255,.6))}
 .btn-sm{padding:9px 14px;font-size:.85rem;border-radius:11px}
 .menu-btn{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(6,18,38,.5);color:#fff;align-items:center;justify-content:center}
 .menu-btn svg{width:22px;height:22px}
@@ -361,6 +363,25 @@ footer nav a:hover{color:#fff}
 .wab-x{position:absolute;top:4px;right:6px;border:0;background:none;font-size:1.2rem;line-height:1;color:#7a8a94;cursor:pointer;padding:2px 4px}
 @media (min-width:1021px){.wab.up{bottom:calc(18px + env(safe-area-inset-bottom))}}
 @media (prefers-reduced-motion:reduce){.wab-btn::before{animation:none}}
+.biz{background:radial-gradient(900px 400px at 85% 20%,rgba(40,220,235,.10),transparent 70%),var(--navy2)}
+.bform{display:flex;flex-direction:column;gap:14px;padding:26px;border-radius:24px;background:linear-gradient(160deg,var(--navy3),var(--navy));border:1px solid rgba(40,220,235,.25);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.bform h3{font-size:1.25rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bform label{display:flex;flex-direction:column;gap:6px;font-size:.85rem;font-weight:600;color:#d6e6ee}
+.bform input,.bform select,.bform textarea{font:inherit;font-weight:400;font-size:.95rem;color:#fff;background:rgba(6,18,38,.7);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:12px 14px;width:100%;outline:none;transition:border-color .2s,box-shadow .2s}
+.bform select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2328dceb' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:40px}
+.bform select option{background:#0a1d3a}
+.bform textarea{resize:vertical;min-height:110px}
+.bform input:focus,.bform select:focus,.bform textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(40,220,235,.18)}
+.bform .bad{border-color:#ff6b6b!important}
+.bform .chk{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500;color:var(--mut)}
+.bform .chk input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--cyan)}
+.bform .chk.bad span{color:#ff9b9b}
+.bform .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.bform button{align-self:flex-start}
+.bform button[disabled]{opacity:.6;pointer-events:none}
+.fmsg{font-size:.9rem;min-height:1.2em}
+.fmsg.ok{color:#7ff0b0}.fmsg.err{color:#ff9b9b}
 @media (max-width:1020px){.pbody{grid-template-columns:1fr}.slist{max-height:none;display:none}.board{max-height:none}}
 
 @media (max-width:1020px){
@@ -373,6 +394,9 @@ footer nav a:hover{color:#fff}
   .split.rev .photo{order:-1}
 }
 @media (max-width:640px){
+  .frow{grid-template-columns:1fr}
+  .bform{padding:20px}
+  .bform button{align-self:stretch}
   section{padding:64px 0}
   .hero{background-position:30% 62%;padding-bottom:110px}
   .ctas .btn{flex:1}
@@ -394,6 +418,9 @@ footer nav a:hover{color:#fff}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.1-1.3A9.9 9.9 0 1 0 12 2zm0 18.1c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-2 2a2 2 0 0 1-3-3l4-4"/><path d="m14 14 2 2a2 2 0 0 0 3-3l-6-6-3 3a2 2 0 0 1-3-3l3-3h4l5 5"/><path d="M3 12l3-3"/></symbol>
+  <symbol id="i-igc" viewBox="0 0 24 24"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect x="1" y="1" width="22" height="22" rx="6.5" fill="url(#igG)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16.4" cy="7.6" r="1.1" fill="#fff"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5v-2z"/><path d="M8 7h7M8 11h5"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.6L3 21l1.5-5.2A8.5 8.5 0 1 1 21 12z"/></symbol>
@@ -425,6 +452,7 @@ footer nav a:hover{color:#fff}
       <a href="#protecoes">Proteções</a>
       <a href="#codigos">Códigos LED</a>
       <a href="#ficha">Ficha técnica</a>
+      <a href="#parcerias">Parcerias</a>
       <a href="#contato">Contato</a>
     </nav>
     <div style="display:flex;gap:8px;align-items:center">
@@ -449,10 +477,11 @@ footer nav a:hover{color:#fff}
     <a class="lnk" href="#protecoes"><svg><use href="#i-shield"/></svg>Proteções</a>
     <a class="lnk" href="#codigos"><svg><use href="#i-led"/></svg>Códigos do LED</a>
     <a class="lnk" href="#ficha"><svg><use href="#i-list"/></svg>Ficha técnica</a>
+    <a class="lnk" href="#parcerias"><svg><use href="#i-hand"/></svg>Negócios e parcerias</a>
     <div class="sep"></div>
     <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp · vendas</a>
     <a class="btn btn-ghost" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="margin-top:8px"><svg><use href="#i-wa"/></svg>WhatsApp · suporte</a>
-    <a class="btn btn-ghost" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener" style="margin-top:8px"><svg><use href="#i-chat"/></svg>Direct do Instagram</a>
+    <a class="btn btn-ig" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener" style="margin-top:8px"><svg><use href="#i-igc"/></svg>Direct no Instagram</a>
   </div>
 </div>
 
@@ -845,6 +874,42 @@ footer nav a:hover{color:#fff}
   </div>
 </section>
 
+<section class="biz" id="parcerias">
+  <div class="wrap split">
+    <div class="reveal">
+      <span class="eyebrow">Negócios e parcerias</span>
+      <h2 style="font-size:clamp(1.8rem,4.4vw,2.8rem);margin:12px 0 14px">Vamos crescer <span class="hl">juntos</span></h2>
+      <p style="color:var(--mut)">Revendas, distribuidores, instaladores, cooperativas e empresas de irrigação: preencha o formulário e a equipe AQLINK™ retorna por e-mail ou telefone.</p>
+      <div class="grid g2" style="margin-top:22px">
+        <div class="card"><div class="ic-c"><svg><use href="#i-hand"/></svg></div><h3>Revenda e distribuição</h3><p>Condições para lojas agropecuárias, materiais elétricos e distribuidores.</p></div>
+        <div class="card"><div class="ic-c"><svg><use href="#i-gear"/></svg></div><h3>Instaladores parceiros</h3><p>Eletricistas e integradores que querem oferecer automação sem fio.</p></div>
+        <div class="card"><div class="ic-c"><svg><use href="#i-box"/></svg></div><h3>Compras em volume</h3><p>Projetos de irrigação, cooperativas, prefeituras e indústria.</p></div>
+        <div class="card"><div class="ic-c"><svg><use href="#i-mail"/></svg></div><h3>E-mail comercial</h3><p><a href="mailto:aqlinkbusiness@gmail.com" class="cy" style="font-weight:600;word-break:break-all">aqlinkbusiness@gmail.com</a></p></div>
+      </div>
+    </div>
+    <form class="bform reveal" id="bizForm" novalidate>
+      <h3>Contato comercial</h3>
+      <div class="frow">
+        <label>Nome completo *<input name="Nome" required autocomplete="name" maxlength="80"></label>
+        <label>Empresa<input name="Empresa" autocomplete="organization" maxlength="80"></label>
+      </div>
+      <div class="frow">
+        <label>Telefone / WhatsApp *<input name="Telefone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" maxlength="20"></label>
+        <label>E-mail *<input name="email" type="email" required autocomplete="email" maxlength="100"></label>
+      </div>
+      <div class="frow">
+        <label>Cidade / UF<input name="Cidade" autocomplete="address-level2" maxlength="60" placeholder="Ex.: Montes Claros / MG"></label>
+        <label>Interesse *<select name="Interesse" required><option value="">Selecione…</option><option>Revenda / distribuição</option><option>Instalador parceiro</option><option>Compra em volume</option><option>Parceria técnica ou comercial</option><option>Imprensa</option><option>Outro</option></select></label>
+      </div>
+      <label>Mensagem *<textarea name="Mensagem" required rows="4" maxlength="1500" placeholder="Conte um pouco sobre a sua empresa e o que você procura."></textarea></label>
+      <label class="chk"><input type="checkbox" name="Consentimento" value="Sim" required><span>Autorizo a AQLINK™ a usar estes dados para responder ao meu contato.</span></label>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-sun" type="submit" id="bizBtn"><svg><use href="#i-mail"/></svg>Enviar contato</button>
+      <p class="fmsg" id="bizMsg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
 <section class="contact" id="contato">
   <div class="wrap">
     <span class="eyebrow">Fale com a gente</span>
@@ -853,9 +918,9 @@ footer nav a:hover{color:#fff}
     <div class="ctas">
       <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Orçamento no WhatsApp</a>
       <a class="btn btn-ghost" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Suporte técnico</a>
-      <a class="btn btn-ghost" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-chat"/></svg>Direct @gl_aqlink</a>
+      <a class="btn btn-ig" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-igc"/></svg>Direct no Instagram</a>
     </div>
-    <p class="tiny">WhatsApp <b>(38) 99740-6944</b> · vendas e suporte. No Direct, a mensagem de orçamento já vai copiada: é só colar e enviar.</p>
+    <p class="tiny">WhatsApp <b>(38) 99740-6944</b> · vendas e suporte. No Direct do Instagram, a mensagem de orçamento já vai copiada: é só colar e enviar.</p>
   </div>
 </section>
 
@@ -869,7 +934,9 @@ footer nav a:hover{color:#fff}
       <a href="#codigos">Códigos LED</a>
       <a href="#ficha">Ficha técnica</a>
       <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener">WhatsApp (38) 99740-6944</a>
-      <a href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener">Instagram</a>
+      <a href="#parcerias">Parcerias</a>
+      <a href="mailto:aqlinkbusiness@gmail.com">aqlinkbusiness@gmail.com</a>
+      <a href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener">Instagram @gl_aqlink</a>
     </nav>
   </div>
 </footer>
@@ -878,7 +945,7 @@ footer nav a:hover{color:#fff}
   <a href="#acesso"><svg><use href="#i-grid"/></svg>Menu</a>
   <a class="hot" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Manual</a>
   <a href="#codigos"><svg><use href="#i-led"/></svg>LED</a>
-  <a href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-chat"/></svg>Direct</a>
+  <a href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-igc"/></svg>Instagram</a>
   <button id="toTop" aria-label="Voltar ao topo"><svg><use href="#i-up"/></svg>Topo</button>
 </nav>
 
@@ -886,7 +953,7 @@ footer nav a:hover{color:#fff}
   <div class="wab-tip" id="wabTip"><button class="wab-x" id="wabX" aria-label="Fechar aviso">×</button><b>Fale com a gente</b><span>Orçamento e suporte pelo WhatsApp</span></div>
   <a class="wab-btn" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp (38) 99740-6944"><svg><use href="#i-wa"/></svg></a>
 </div>
-<div class="toast" id="toast" role="status" aria-live="polite"><svg><use href="#i-chat"/></svg><div><b></b><span></span></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><svg><use href="#i-igc"/></svg><div><b></b><span></span></div></div>
 <script>
 (()=>{
   const hdr=document.getElementById('hdr'), fab=document.getElementById('fab');
@@ -1020,6 +1087,37 @@ footer nav a:hover{color:#fff}
   document.getElementById('wabX').onclick=()=>{tipClosed=true;wabTip.classList.remove('show');try{sessionStorage.setItem('wabTip','x')}catch(_){}};
   const syncWab=()=>wab.classList.toggle('up',fab.classList.contains('show'));
   addEventListener('scroll',syncWab,{passive:true});syncWab();
+
+
+  const bf=document.getElementById('bizForm'),bm=document.getElementById('bizMsg'),bb=document.getElementById('bizBtn');
+  const BIZ_MAIL='aqlinkbusiness@gmail.com';
+  bf.addEventListener('input',e=>{const t=e.target;t.classList.remove('bad');if(t.type==='checkbox')t.closest('label').classList.remove('bad')});
+  bf.addEventListener('submit',async e=>{
+    e.preventDefault();bm.className='fmsg';bm.textContent='';
+    let first=null;
+    bf.querySelectorAll('[required]').forEach(f=>{
+      let ok=f.type==='checkbox'?f.checked:f.value.trim()!=='';
+      if(ok&&f.type==='email')ok=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value.trim());
+      if(ok&&f.name==='Telefone')ok=f.value.replace(/\D/g,'').length>=10;
+      const el=f.type==='checkbox'?f.closest('label'):f;
+      el.classList.toggle('bad',!ok);if(!ok&&!first)first=f;
+    });
+    if(first){bm.className='fmsg err';bm.textContent='Confira os campos destacados.';first.focus();return}
+    if(bf._honey.value)return;
+    const data=Object.fromEntries(new FormData(bf));delete data._honey;
+    const payload=Object.assign({_subject:'Novo contato comercial — '+data.Interesse+' — '+data.Nome,_template:'table',_captcha:'false',_replyto:data.email,Origem:location.href},data);
+    bb.disabled=true;bb.lastChild.textContent='Enviando…';
+    try{
+      const r=await fetch('https://formsubmit.co/ajax/'+BIZ_MAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
+      const j=await r.json().catch(()=>({}));
+      if(!r.ok||String(j.success)!=='true')throw new Error(j.message||'falha');
+      bf.reset();bm.className='fmsg ok';bm.textContent='Contato enviado! Vamos responder em breve.';
+    }catch(err){
+      const body=Object.entries(data).map(([k,v])=>k+': '+v).join('\n');
+      bm.className='fmsg err';
+      bm.innerHTML='Não foi possível enviar agora. <a href="mailto:'+BIZ_MAIL+'?subject='+encodeURIComponent('Contato comercial — '+data.Nome)+'&body='+encodeURIComponent(body)+'" style="color:#ffc428;font-weight:600">Enviar pelo seu e-mail</a>.';
+    }finally{bb.disabled=false;bb.lastChild.textContent='Enviar contato'}
+  });
 
   if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();
