@@ -57,6 +57,10 @@ nav.main a:hover,nav.main a.on{background:rgba(40,220,235,.12);color:#fff}
 .btn-sun{background:linear-gradient(135deg,var(--sun),var(--sun2));color:#1d1300;box-shadow:0 8px 24px -8px rgba(255,170,40,.6)}
 .btn-cy{background:var(--cyan);color:#031a22;box-shadow:0 8px 24px -8px rgba(40,220,235,.6)}
 .btn-ghost{border:1.5px solid rgba(255,255,255,.35);color:#fff;background:rgba(6,18,38,.35);backdrop-filter:blur(6px)}
+.btn-wa{background:#25d366;color:#04210f;box-shadow:0 8px 24px -8px rgba(37,211,102,.6)}
+.q.wa{background:linear-gradient(150deg,rgba(37,211,102,.16),rgba(37,211,102,.04));border-color:rgba(37,211,102,.5)}
+.q.wa .ic{background:rgba(37,211,102,.2);color:#25d366}
+.fab a.wa{color:#25d366}
 .btn-sm{padding:9px 14px;font-size:.85rem;border-radius:11px}
 .menu-btn{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(6,18,38,.5);color:#fff;align-items:center;justify-content:center}
 .menu-btn svg{width:22px;height:22px}
@@ -170,14 +174,13 @@ nav.main a:hover,nav.main a.on{background:rgba(40,220,235,.12);color:#fff}
 .tech div b{font-weight:600;text-align:right}
 
 .docs{background:radial-gradient(900px 400px at 80% 0%,rgba(255,196,40,.12),transparent 70%),var(--navy)}
-.doc-card{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:22px;border-radius:22px;background:linear-gradient(150deg,rgba(255,196,40,.14),rgba(255,255,255,.03));border:1px solid rgba(255,196,40,.4);transition:transform .15s}
-.doc-card:hover{transform:translateY(-3px)}
+.doc-card{display:grid;grid-template-columns:auto 1fr;gap:16px 18px;align-items:center;padding:22px;border-radius:22px;background:linear-gradient(150deg,rgba(255,196,40,.14),rgba(255,255,255,.03));border:1px solid rgba(255,196,40,.4)}
+.doc-card .dbtn{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
+.doc-card .dbtn .btn{flex:1}
 .doc-card .ic{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:rgba(255,196,40,.2);color:var(--sun)}
 .doc-card .ic svg{width:30px;height:30px}
 .doc-card h3{font-size:1.15rem}
 .doc-card p{color:var(--mut);font-size:.88rem}
-.doc-card .go{font-weight:600;font-size:.85rem;color:var(--sun);display:flex;align-items:center;gap:6px}
-.doc-card .go svg{width:18px;height:18px}
 
 .contact{background:linear-gradient(180deg,var(--navy) 0%,rgba(6,18,38,.6) 35%,rgba(6,18,38,.92) 100%),url(casa-bomba.jpg) center 40%/cover;text-align:center;padding:120px 0}
 .contact h2{font-size:clamp(2rem,5vw,3.2rem);margin:12px 0}
@@ -344,6 +347,20 @@ footer nav a:hover{color:#fff}
 .toast svg{width:26px;height:26px;color:var(--cyan);flex:none;margin-top:2px}
 .toast b{display:block;font-size:.98rem}
 .toast span{display:block;color:var(--mut);font-size:.85rem;line-height:1.4}
+.wab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:45;display:flex;align-items:flex-end;gap:10px;transition:bottom .35s}
+.wab.up{bottom:calc(96px + env(safe-area-inset-bottom))}
+.wab-btn{width:62px;height:62px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 10px 28px -6px rgba(37,211,102,.7),0 4px 12px rgba(0,0,0,.4);position:relative;transition:transform .2s}
+.wab-btn:hover{transform:scale(1.07)}
+.wab-btn svg{width:34px;height:34px}
+.wab-btn::before{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid #25d366;animation:wabp 2.2s ease-out infinite}
+@keyframes wabp{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.6);opacity:0}}
+.wab-tip{position:relative;background:#fff;color:#10202b;padding:10px 30px 10px 14px;border-radius:14px 14px 4px 14px;box-shadow:0 10px 28px -8px rgba(0,0,0,.6);max-width:230px;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .35s,transform .35s;margin-bottom:8px}
+.wab-tip.show{opacity:1;transform:none;pointer-events:auto}
+.wab-tip b{display:block;font-size:.9rem}
+.wab-tip span{display:block;font-size:.78rem;color:#4a5b66;line-height:1.35}
+.wab-x{position:absolute;top:4px;right:6px;border:0;background:none;font-size:1.2rem;line-height:1;color:#7a8a94;cursor:pointer;padding:2px 4px}
+@media (min-width:1021px){.wab.up{bottom:calc(18px + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.wab-btn::before{animation:none}}
 @media (max-width:1020px){.pbody{grid-template-columns:1fr}.slist{max-height:none;display:none}.board{max-height:none}}
 
 @media (max-width:1020px){
@@ -368,8 +385,6 @@ footer nav a:hover{color:#fff}
   .tech{grid-template-columns:1fr}
   .code{grid-template-columns:76px 1fr}
   .code .act{grid-column:2;justify-self:start}
-  .doc-card{grid-template-columns:auto 1fr}
-  .doc-card .go{grid-column:1/-1}
   .hdr-manual{display:none}
 }
 @media (min-width:1021px){.fab{display:none}}
@@ -378,6 +393,7 @@ footer nav a:hover{color:#fff}
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.1-1.3A9.9 9.9 0 1 0 12 2zm0 18.1c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3z"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5v-2z"/><path d="M8 7h7M8 11h5"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.6L3 21l1.5-5.2A8.5 8.5 0 1 1 21 12z"/></symbol>
@@ -423,6 +439,7 @@ footer nav a:hover{color:#fff}
     <button class="close" id="closeBtn" aria-label="Fechar menu"><svg><use href="#i-x"/></svg></button>
     <a class="lnk" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Manual do Usuário (PDF)</a>
     <a class="lnk" href="guia-rapido.pdf" target="_blank" rel="noopener"><svg><use href="#i-bolt"/></svg>Guia Rápido (PDF)</a>
+    <a class="lnk" href="#manuais"><svg><use href="#i-down"/></svg>Baixar os manuais</a>
     <div class="sep"></div>
     <a class="lnk" href="#como-funciona"><svg><use href="#i-gear"/></svg>Como funciona</a>
     <a class="lnk" href="#modulos"><svg><use href="#i-cpu"/></svg>Módulos TX e RX</a>
@@ -433,7 +450,9 @@ footer nav a:hover{color:#fff}
     <a class="lnk" href="#codigos"><svg><use href="#i-led"/></svg>Códigos do LED</a>
     <a class="lnk" href="#ficha"><svg><use href="#i-list"/></svg>Ficha técnica</a>
     <div class="sep"></div>
-    <a class="btn btn-cy" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-chat"/></svg>Falar no Direct</a>
+    <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp · vendas</a>
+    <a class="btn btn-ghost" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="margin-top:8px"><svg><use href="#i-wa"/></svg>WhatsApp · suporte</a>
+    <a class="btn btn-ghost" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener" style="margin-top:8px"><svg><use href="#i-chat"/></svg>Direct do Instagram</a>
   </div>
 </div>
 
@@ -445,7 +464,7 @@ footer nav a:hover{color:#fff}
       <p class="lead">Um módulo fica na caixa e vê o nível. O outro fica no quadro elétrico e faz o serviço. Entre os dois, só rádio: nada de cabo, de internet ou de mensalidade.</p>
       <div class="chips"><span class="chip">Rádio 920 MHz</span><span class="chip">10–20 km</span><span class="chip">Energia solar</span><span class="chip">IP65</span><span class="chip">Sem mensalidade</span></div>
       <div class="ctas">
-        <a class="btn btn-cy" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-chat"/></svg>Falar no Direct</a>
+        <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Chamar no WhatsApp</a>
         <a class="btn btn-ghost" href="#manuais"><svg><use href="#i-book"/></svg>Manuais</a>
       </div>
     </div>
@@ -457,14 +476,14 @@ footer nav a:hover{color:#fff}
     <div class="quick-card reveal">
       <h2><svg><use href="#i-grid"/></svg>Acesso rápido</h2>
       <div class="qgrid">
-        <a class="q doc" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-book"/></svg></span><b>Manual do Usuário</b><small>Ligações, sensores e especificações · PDF</small></a>
-        <a class="q doc" href="guia-rapido.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-bolt"/></svg></span><b>Guia Rápido</b><small>Instalação passo a passo · PDF</small></a>
+        <a class="q doc" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-book"/></svg></span><b>Manual do Usuário</b><small>Abrir ou baixar · PDF</small></a>
+        <a class="q doc" href="guia-rapido.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-bolt"/></svg></span><b>Guia Rápido</b><small>Abrir ou baixar · PDF</small></a>
         <a class="q" href="#codigos"><span class="ic"><svg><use href="#i-led"/></svg></span><b>Códigos do LED</b><small>O que cada piscada significa</small></a>
         <a class="q" href="#como-funciona"><span class="ic"><svg><use href="#i-gear"/></svg></span><b>Como funciona</b><small>Dois módulos, um enlace</small></a>
         <a class="q" href="#modulos"><span class="ic"><svg><use href="#i-cpu"/></svg></span><b>Módulos TX e RX</b><small>O que fica na caixa e no quadro</small></a>
         <a class="q" href="#ligacoes"><span class="ic"><svg><use href="#i-bolt"/></svg></span><b>Ligações</b><small>Onde vai cada fio, passo a passo</small></a>
         <a class="q" href="#ficha"><span class="ic"><svg><use href="#i-list"/></svg></span><b>Ficha técnica</b><small>Todos os dados num lugar</small></a>
-        <a class="q" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><span class="ic"><svg><use href="#i-chat"/></svg></span><b>Falar no Direct</b><small>Orçamento e suporte</small></a>
+        <a class="q wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-wa"/></svg></span><b>WhatsApp</b><small>Vendas e suporte</small></a>
       </div>
     </div>
   </div>
@@ -682,7 +701,7 @@ footer nav a:hover{color:#fff}
         <div class="segs" id="segs"></div>
       </div>
     </div>
-    <p class="note" style="margin-top:18px">⚠️ Desligue o disjuntor antes de mexer no quadro elétrico. Se não tem experiência com instalação elétrica, chame um eletricista. Detalhes completos no <a class="cy" href="manual-do-usuario.pdf" target="_blank" rel="noopener" style="font-weight:600">Manual do Usuário</a>.</p>
+    <p class="note" style="margin-top:18px">⚠️ Desligue o disjuntor antes de mexer no quadro elétrico. Se não tem experiência com instalação elétrica, chame um eletricista. Detalhes completos no <a class="cy" href="manual-do-usuario.pdf" target="_blank" rel="noopener" style="font-weight:600">Manual do Usuário</a>. Dúvida na instalação? <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="font-weight:600;color:#25d366">Suporte no WhatsApp</a>.</p>
   </div>
 </section>
 
@@ -767,7 +786,7 @@ footer nav a:hover{color:#fff}
       <div class="code warn"><div class="blink" data-p="6" data-c="f"></div><div><span class="who">TX e RX</span><b>Muito rápido por ~4 s ao ligar — falha na partida</b><p>O rádio não respondeu; o módulo reinicia sozinho.</p></div><span class="act">Confira a antena</span></div>
       <div class="code warn"><div class="blink" data-p="7"></div><div><span class="who">TX e RX</span><b>Ritmo médio — sem par</b><p>O módulo não tem par configurado.</p></div><span class="act">Veja o Manual: pareamento</span></div>
     </div>
-    <p style="margin-top:18px;color:var(--mut);font-size:.9rem">Lista completa, pareamento e reset de fábrica: <a class="cy" href="manual-do-usuario.pdf" target="_blank" rel="noopener" style="font-weight:600">abrir o Manual do Usuário</a>.</p>
+    <p style="margin-top:18px;color:var(--mut);font-size:.9rem">Lista completa, pareamento e reset de fábrica: <a class="cy" href="manual-do-usuario.pdf" target="_blank" rel="noopener" style="font-weight:600">abrir o Manual do Usuário</a>. Ainda com dúvida? <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="font-weight:600;color:#25d366">Suporte no WhatsApp</a>.</p>
   </div>
 </section>
 
@@ -817,11 +836,11 @@ footer nav a:hover{color:#fff}
     <div class="sec-head reveal">
       <span class="eyebrow">Manuais</span>
       <h2>Tudo para instalar <span class="hl">e manter</span></h2>
-      <p>Abra no celular ou baixe para consultar sem internet no campo.</p>
+      <p>Baixe no celular para consultar sem internet no campo, ou abra direto no navegador.</p>
     </div>
     <div class="grid g2">
-      <a class="doc-card reveal" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-book"/></svg></span><div><h3>Manual do Usuário</h3><p>Ligações, sensores, códigos completos e especificações · PDF</p></div><span class="go">Abrir <svg><use href="#i-down"/></svg></span></a>
-      <a class="doc-card reveal" href="guia-rapido.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-bolt"/></svg></span><div><h3>Guia Rápido</h3><p>Instalação em poucos passos · PDF</p></div><span class="go">Abrir <svg><use href="#i-down"/></svg></span></a>
+      <div class="doc-card reveal"><span class="ic"><svg><use href="#i-book"/></svg></span><div><h3>Manual do Usuário</h3><p>Ligações, sensores, códigos completos e especificações · PDF · 1,2 MB</p></div><div class="dbtn"><a class="btn btn-sun btn-sm" href="manual-do-usuario.pdf" download="GL-AQLINK-Manual-do-Usuario.pdf"><svg><use href="#i-down"/></svg>Baixar PDF</a><a class="btn btn-ghost btn-sm" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Abrir</a></div></div>
+      <div class="doc-card reveal"><span class="ic"><svg><use href="#i-bolt"/></svg></span><div><h3>Guia Rápido</h3><p>Instalação em poucos passos · PDF · 0,4 MB</p></div><div class="dbtn"><a class="btn btn-sun btn-sm" href="guia-rapido.pdf" download="GL-AQLINK-Guia-Rapido.pdf"><svg><use href="#i-down"/></svg>Baixar PDF</a><a class="btn btn-ghost btn-sm" href="guia-rapido.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Abrir</a></div></div>
     </div>
   </div>
 </section>
@@ -832,10 +851,11 @@ footer nav a:hover{color:#fff}
     <h2>Feito para durar <span class="hl">em campo</span></h2>
     <p>Sol, chuva, poeira e distância. Instala uma vez e segue trabalhando — e no dia em que algo sair do lugar, ele avisa no painel e desliga sozinho.</p>
     <div class="ctas">
-      <a class="btn btn-sun" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-chat"/></svg>Solicitar orçamento</a>
-      <a class="btn btn-ghost" href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg>@gl_aqlink</a>
+      <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Orçamento no WhatsApp</a>
+      <a class="btn btn-ghost" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Suporte técnico</a>
+      <a class="btn btn-ghost" href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-chat"/></svg>Direct @gl_aqlink</a>
     </div>
-    <p class="tiny">Ao tocar, a mensagem de orçamento já vai copiada: no Direct é só colar e enviar.</p>
+    <p class="tiny">WhatsApp <b>(38) 99740-6944</b> · vendas e suporte. No Direct, a mensagem de orçamento já vai copiada: é só colar e enviar.</p>
   </div>
 </section>
 
@@ -848,6 +868,7 @@ footer nav a:hover{color:#fff}
       <a href="#ligacoes">Ligações</a>
       <a href="#codigos">Códigos LED</a>
       <a href="#ficha">Ficha técnica</a>
+      <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener">WhatsApp (38) 99740-6944</a>
       <a href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener">Instagram</a>
     </nav>
   </div>
@@ -861,6 +882,10 @@ footer nav a:hover{color:#fff}
   <button id="toTop" aria-label="Voltar ao topo"><svg><use href="#i-up"/></svg>Topo</button>
 </nav>
 
+<div class="wab" id="wab">
+  <div class="wab-tip" id="wabTip"><button class="wab-x" id="wabX" aria-label="Fechar aviso">×</button><b>Fale com a gente</b><span>Orçamento e suporte pelo WhatsApp</span></div>
+  <a class="wab-btn" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp (38) 99740-6944"><svg><use href="#i-wa"/></svg></a>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"><svg><use href="#i-chat"/></svg><div><b></b><span></span></div></div>
 <script>
 (()=>{
@@ -987,6 +1012,14 @@ footer nav a:hover{color:#fff}
     if(!isIOS&&!isAndroid){a.target='_blank'}else{a.removeAttribute('target')}
     a.addEventListener('click',onDM);
   });
+
+
+  const wab=document.getElementById('wab'),wabTip=document.getElementById('wabTip');
+  let tipClosed=false;try{tipClosed=sessionStorage.getItem('wabTip')==='x'}catch(_){}
+  if(!tipClosed)setTimeout(()=>{if(!tipClosed){wabTip.classList.add('show');setTimeout(()=>wabTip.classList.remove('show'),9000)}},4000);
+  document.getElementById('wabX').onclick=()=>{tipClosed=true;wabTip.classList.remove('show');try{sessionStorage.setItem('wabTip','x')}catch(_){}};
+  const syncWab=()=>wab.classList.toggle('up',fab.classList.contains('show'));
+  addEventListener('scroll',syncWab,{passive:true});syncWab();
 
   if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();
