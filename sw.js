@@ -1,4 +1,4 @@
-const V = "glaqlink-v51";
+const V = "glaqlink-v52";
 const ASSETS = ["./", "index.html", "favicon.svg", "logo.png", "caixa-tx.jpg", "casa-bomba.jpg",
   "fazenda-aerea.jpg", "seca.jpg", "produtor-modulos.jpg", "modulo-rx.webp", "modulo-tx.webp", "placa-tx.png", "placa-rx.png", "quadro-rx.jpg", "bebedouro-tx.jpg", "kit-aqlink.jpg", "politica-de-privacidade.html", "fonts/poppins-latin-400-normal.woff2", "fonts/poppins-latin-700-normal.woff2"];
 self.addEventListener("install", e => {
