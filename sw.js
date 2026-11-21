@@ -1,5 +1,5 @@
-const V = "glaqlink-v54";
-const ASSETS = ["./", "index.html", "favicon.ico", "favicon-32.png", "apple-touch-icon.png", "icon-192.png", "logo.png", "caixa-tx.jpg", "casa-bomba.jpg",
+const V = "glaqlink-v55";
+const ASSETS = ["./", "index.html", "suporte.html", "favicon.ico", "favicon-32.png", "apple-touch-icon.png", "icon-192.png", "logo.png", "caixa-tx.jpg", "casa-bomba.jpg",
   "fazenda-aerea.jpg", "seca.jpg", "produtor-modulos.jpg", "modulo-rx.webp", "modulo-tx.webp", "placa-tx.png", "placa-rx.png", "quadro-rx.jpg", "bebedouro-tx.jpg", "kit-aqlink.jpg", "politica-de-privacidade.html", "fonts/poppins-latin-400-normal.woff2", "fonts/poppins-latin-700-normal.woff2"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

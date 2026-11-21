@@ -423,6 +423,122 @@ footer nav a:hover{color:#fff}
   .hdr-manual{display:none}
 }
 @media (min-width:1021px){.fab{display:none}}
+
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head.center .eyebrow{justify-content:center}
+.hero{min-height:100svh;padding-bottom:90px}
+.hero h1{max-width:760px}
+.scroll-cue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);width:28px;height:46px;border:2px solid rgba(255,255,255,.55);border-radius:16px}
+.scroll-cue span{position:absolute;left:50%;top:8px;width:4px;height:9px;margin-left:-2px;border-radius:2px;background:#fff;animation:cue 1.8s infinite}
+@keyframes cue{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
+.stats{padding:0;background:var(--navy);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats-in{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:38px 18px;text-align:center;position:relative}
+.stat+.stat::before{content:"";position:absolute;left:0;top:28%;bottom:28%;width:1px;background:var(--line)}
+.stat b{display:block;font-size:clamp(2rem,4.2vw,3rem);font-weight:800;line-height:1;background:linear-gradient(180deg,#fff 30%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat b small{font-size:.45em;margin-left:4px;-webkit-text-fill-color:var(--sun)}
+.stat span{display:block;margin-top:10px;color:var(--mut);font-size:.9rem}
+.how{background:radial-gradient(900px 500px at 50% 0%,rgba(40,220,235,.08),transparent 70%),var(--navy)}
+.how-grid{display:grid;grid-template-columns:1fr 150px 1fr;align-items:center;gap:0}
+.how-card{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/3.2;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.how-card img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s}
+.how-card:hover img{transform:scale(1.04)}
+.how-card figcaption{position:absolute;inset:auto 0 0 0;padding:70px 26px 24px;background:linear-gradient(180deg,transparent,rgba(4,12,30,.92) 45%)}
+.how-card .stepn{display:block;font-size:.8rem;font-weight:800;letter-spacing:.14em;color:var(--sun)}
+.how-card h3{font-size:1.35rem;margin:4px 0 6px}
+.how-card p{color:#cfe0e8;font-size:.93rem;line-height:1.5}
+.how-link{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--cyan);text-align:center;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;position:relative}
+.how-link svg{width:84px;height:84px;fill:none;stroke:var(--cyan);stroke-width:5;stroke-linecap:round;filter:drop-shadow(0 0 10px var(--cyan))}
+.how-link svg circle{fill:var(--cyan);stroke:none}
+.how-link svg path{animation:wave 2s ease-in-out infinite}
+.how-link svg path:nth-child(3),.how-link svg path:nth-child(2){animation-delay:.25s}
+@keyframes wave{0%,100%{opacity:.25}50%{opacity:1}}
+.how-link::before,.how-link::after{content:"";position:absolute;top:42px;width:30px;height:2px;background:repeating-linear-gradient(90deg,var(--cyan) 0 6px,transparent 6px 12px)}
+.how-link::before{left:-6px}.how-link::after{right:-6px}
+.feat{padding-top:40px}
+.feat-row{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center}
+.feat-row+.feat-row{margin-top:96px}
+.feat-row.rev .feat-img{order:2}
+.feat-img{border-radius:28px;overflow:hidden;aspect-ratio:5/4;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.feat-img img{width:100%;height:100%;object-fit:cover}
+.feat-txt h2{font-size:clamp(1.9rem,4.2vw,2.9rem);margin:12px 0 16px}
+.feat-txt p{color:var(--mut);font-size:1.05rem}
+.ticks{list-style:none;margin-top:22px;display:grid;gap:12px}
+.ticks li{display:flex;gap:12px;align-items:flex-start;font-size:1rem}
+.ticks li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:rgba(40,220,235,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2328dceb' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center/13px no-repeat;border:1px solid rgba(40,220,235,.5)}
+.apps{background:var(--navy2)}
+.apps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.app{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:3/4;display:block}
+.app img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s}
+.app:hover img{transform:scale(1.06)}
+.app div{position:absolute;inset:auto 0 0 0;padding:60px 20px 20px;background:linear-gradient(180deg,transparent,rgba(4,12,30,.94) 50%)}
+.app h3{font-size:1.2rem}
+.app p{color:#cfe0e8;font-size:.86rem;line-height:1.45;margin-top:4px}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pcard{padding:30px;border-radius:26px;background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line);text-align:center}
+.pimg{height:300px;display:grid;place-items:center;background:radial-gradient(circle at 50% 62%,rgba(40,220,235,.22),transparent 62%);margin-bottom:12px}
+.pimg img{max-height:290px;width:auto;filter:drop-shadow(0 18px 26px rgba(0,0,0,.65))}
+.pcard .tag{font-size:.75rem;font-weight:700;letter-spacing:.12em;color:var(--sun);text-transform:uppercase}
+.pcard h3{font-size:1.6rem;margin:4px 0 8px}
+.pcard p{color:var(--mut);font-size:.95rem;max-width:380px;margin:0 auto}
+.pcard dl{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;border-top:1px solid var(--line)}
+.pcard dl div{padding:14px 6px}
+.pcard dl div+div{border-left:1px solid var(--line)}
+.pcard dt{font-size:.7rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.pcard dd{font-weight:600;font-size:.9rem;margin-top:2px}
+.kit{margin-top:20px;border-radius:26px;overflow:hidden;position:relative;min-height:380px;display:flex;align-items:flex-end}
+.kit img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.kit::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,12,30,.94) 0%,rgba(4,12,30,.7) 42%,rgba(4,12,30,0) 75%)}
+.kit-txt{position:relative;z-index:1;padding:34px;max-width:480px}
+.kit-txt h3{font-size:1.6rem;margin:10px 0 8px}
+.kit-txt p{color:#d6e6ee;font-size:.95rem;margin-bottom:18px}
+.sup-band{padding:70px 0;background:linear-gradient(120deg,var(--navy3),var(--navy2));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sup-in{display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:center}
+.sup-in h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin:10px 0 10px}
+.sup-in p{color:var(--mut)}
+.sup-links{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sup-links a{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center;padding:16px 18px;border-radius:16px;background:rgba(6,18,38,.6);border:1px solid var(--line);transition:border-color .2s,transform .15s}
+.sup-links a:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.sup-links svg{grid-row:1/3;width:26px;height:26px;color:var(--cyan)}
+.sup-links b{font-size:.98rem}
+.sup-links small{color:var(--mut);font-size:.8rem}
+.phero{padding:calc(var(--head) + 70px) 0 50px;background:linear-gradient(180deg,rgba(4,12,30,.55),var(--navy) 92%),url(placa-rx.png) right -80px center/620px no-repeat,radial-gradient(900px 500px at 70% 0%,rgba(40,220,235,.12),transparent 70%),var(--navy)}
+.phero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;margin:12px 0 12px;max-width:720px}
+.phero p{color:var(--mut);font-size:1.05rem;max-width:560px}
+.subnav{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.subnav a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font-weight:600;font-size:.9rem;background:rgba(255,255,255,.05);border:1px solid var(--line);transition:border-color .2s,background .2s}
+.subnav a:hover{border-color:var(--cyan);background:rgba(40,220,235,.08)}
+.subnav a svg{width:18px;height:18px;color:var(--cyan)}
+.subnav a.hot{background:linear-gradient(135deg,var(--sun),var(--sun2));color:#1d1300;border-color:transparent}
+.subnav a.hot svg{color:#1d1300}
+@media (max-width:1020px){
+  .stats-in{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(3)::before{display:none}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .how-grid{grid-template-columns:1fr;gap:14px}
+  .how-link{flex-direction:row;justify-content:center;padding:6px 0}
+  .how-link svg{width:54px;height:54px;transform:rotate(90deg)}
+  .how-link::before,.how-link::after{display:none}
+  .feat-row{grid-template-columns:1fr;gap:28px}
+  .feat-row.rev .feat-img{order:0}
+  .feat-row+.feat-row{margin-top:64px}
+  .apps-grid{grid-template-columns:repeat(2,1fr)}
+  .sup-in{grid-template-columns:1fr}
+  .phero{background:linear-gradient(180deg,rgba(4,12,30,.7),var(--navy) 92%),radial-gradient(700px 400px at 70% 0%,rgba(40,220,235,.12),transparent 70%),var(--navy)}
+}
+@media (max-width:640px){
+  .stat{padding:28px 10px}
+  .prod-grid{grid-template-columns:1fr}
+  .pimg{height:240px}.pimg img{max-height:230px}
+  .kit{min-height:460px}
+  .kit::after{background:linear-gradient(0deg,rgba(4,12,30,.95) 0%,rgba(4,12,30,.75) 45%,rgba(4,12,30,0) 80%)}
+  .kit-txt{padding:24px}
+  .apps-grid{gap:10px}
+  .app{aspect-ratio:3/4.2}
+  .app div{padding:50px 14px 14px}
+  .sup-links{grid-template-columns:1fr}
+  .scroll-cue{display:none}
+}
 </style>
 </head>
 <body>
@@ -458,16 +574,13 @@ footer nav a:hover{color:#fff}
     <a class="brand" href="#inicio" aria-label="GL-AQLINK — início"><img src="logo.png" alt="GL-AQLINK · AQLINK™" width="640" height="276"></a>
     <nav class="main" aria-label="Seções">
       <a href="#como-funciona">Como funciona</a>
-      <a href="#modulos">Módulos</a>
-      <a href="#ligacoes">Ligações</a>
-      <a href="#protecoes">Proteções</a>
-      <a href="#codigos">Códigos LED</a>
-      <a href="#ficha">Ficha técnica</a>
+      <a href="#aplicacoes">Aplicações</a>
+      <a href="#produto">Produto</a>
       <a href="#parcerias">Parcerias</a>
-      <a href="#contato">Contato</a>
+      <a href="suporte.html">Suporte</a>
     </nav>
     <div style="display:flex;gap:8px;align-items:center">
-      <a class="btn btn-sun btn-sm hdr-manual" href="#manuais"><svg><use href="#i-book"/></svg>Manuais</a>
+      <a class="btn btn-sun btn-sm hdr-manual" href="suporte.html#manuais"><svg><use href="#i-book"/></svg>Manuais</a>
       <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
     </div>
   </div>
@@ -476,19 +589,16 @@ footer nav a:hover{color:#fff}
 <div class="drawer" id="drawer" aria-hidden="true">
   <div class="panel" role="dialog" aria-label="Menu">
     <button class="close" id="closeBtn" aria-label="Fechar menu"><svg><use href="#i-x"/></svg></button>
-    <a class="lnk" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Manual do Usuário (PDF)</a>
-    <a class="lnk" href="guia-rapido.pdf" target="_blank" rel="noopener"><svg><use href="#i-bolt"/></svg>Guia Rápido (PDF)</a>
-    <a class="lnk" href="#manuais"><svg><use href="#i-down"/></svg>Baixar os manuais</a>
-    <div class="sep"></div>
+    <a class="lnk" href="#inicio"><svg><use href="#i-grid"/></svg>Início</a>
     <a class="lnk" href="#como-funciona"><svg><use href="#i-gear"/></svg>Como funciona</a>
-    <a class="lnk" href="#modulos"><svg><use href="#i-cpu"/></svg>Módulos TX e RX</a>
-    <a class="lnk" href="#ligacoes"><svg><use href="#i-bolt"/></svg>Ligações passo a passo</a>
-    <a class="lnk" href="#na-caixa"><svg><use href="#i-box"/></svg>O que vem na caixa</a>
-    <a class="lnk" href="#alcance"><svg><use href="#i-radio"/></svg>Alcance</a>
-    <a class="lnk" href="#protecoes"><svg><use href="#i-shield"/></svg>Proteções</a>
-    <a class="lnk" href="#codigos"><svg><use href="#i-led"/></svg>Códigos do LED</a>
-    <a class="lnk" href="#ficha"><svg><use href="#i-list"/></svg>Ficha técnica</a>
+    <a class="lnk" href="#aplicacoes"><svg><use href="#i-drop"/></svg>Aplicações</a>
+    <a class="lnk" href="#produto"><svg><use href="#i-cpu"/></svg>Produto</a>
     <a class="lnk" href="#parcerias"><svg><use href="#i-hand"/></svg>Negócios e parcerias</a>
+    <div class="sep"></div>
+    <a class="lnk" href="suporte.html#ligacoes"><svg><use href="#i-bolt"/></svg>Ligações passo a passo</a>
+    <a class="lnk" href="suporte.html#codigos"><svg><use href="#i-led"/></svg>Códigos do LED</a>
+    <a class="lnk" href="suporte.html#ficha"><svg><use href="#i-list"/></svg>Ficha técnica</a>
+    <a class="lnk" href="suporte.html#manuais"><svg><use href="#i-book"/></svg>Manuais (PDF)</a>
     <div class="sep"></div>
     <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp · vendas</a>
     <a class="btn btn-ghost" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="margin-top:8px"><svg><use href="#i-wa"/></svg>WhatsApp · suporte</a>
@@ -499,388 +609,138 @@ footer nav a:hover{color:#fff}
 <section class="hero" id="inicio">
   <div class="wrap">
     <div class="hero-in">
-      <span class="eyebrow">Automação sem fio</span>
+      <span class="eyebrow">GL-AQLINK · AQLINK™</span>
       <h1 style="margin-top:14px">Automação sem fio para o seu <span class="hl">sistema de bombeamento</span></h1>
-      <p class="lead">Um módulo fica na caixa e vê o nível. O outro fica no quadro elétrico e faz o serviço. Entre os dois, só rádio: nada de cabo, de internet ou de mensalidade.</p>
-      <div class="chips"><span class="chip">Rádio 920 MHz</span><span class="chip">10–20 km</span><span class="chip">Energia solar</span><span class="chip">IP65</span><span class="chip">Sem mensalidade</span></div>
+      <p class="lead">A boia avisa por rádio e o sistema de bombeamento liga e desliga sozinho. Sem cabo até a caixa, sem internet e sem mensalidade.</p>
       <div class="ctas">
-        <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Chamar no WhatsApp</a>
-        <a class="btn btn-ghost" href="#manuais"><svg><use href="#i-book"/></svg>Manuais</a>
+        <a class="btn btn-wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Solicitar orçamento</a>
+        <a class="btn btn-ghost" href="#como-funciona">Como funciona</a>
       </div>
     </div>
   </div>
+  <a class="scroll-cue" href="#numeros" aria-label="Rolar para baixo"><span></span></a>
 </section>
 
-<div class="quick" id="acesso">
+<section class="stats" id="numeros" aria-label="Destaques">
+  <div class="wrap stats-in">
+    <div class="stat reveal"><b>10–20<small>km</small></b><span>de alcance via rádio</span></div>
+    <div class="stat reveal"><b>100<small>%</small></b><span>solar no módulo da caixa</span></div>
+    <div class="stat reveal"><b>IP65</b><span>contra sol, chuva e poeira</span></div>
+    <div class="stat reveal"><b>R$ 0</b><span>de mensalidade, para sempre</span></div>
+  </div>
+</section>
+
+<section class="how" id="como-funciona">
   <div class="wrap">
-    <div class="quick-card reveal">
-      <h2><svg><use href="#i-grid"/></svg>Acesso rápido</h2>
-      <div class="qgrid">
-        <a class="q doc" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-book"/></svg></span><b>Manual do Usuário</b><small>Abrir ou baixar · PDF</small></a>
-        <a class="q doc" href="guia-rapido.pdf" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-bolt"/></svg></span><b>Guia Rápido</b><small>Abrir ou baixar · PDF</small></a>
-        <a class="q" href="#codigos"><span class="ic"><svg><use href="#i-led"/></svg></span><b>Códigos do LED</b><small>O que cada piscada significa</small></a>
-        <a class="q" href="#como-funciona"><span class="ic"><svg><use href="#i-gear"/></svg></span><b>Como funciona</b><small>Dois módulos, um enlace</small></a>
-        <a class="q" href="#modulos"><span class="ic"><svg><use href="#i-cpu"/></svg></span><b>Módulos TX e RX</b><small>O que fica na caixa e no quadro</small></a>
-        <a class="q" href="#ligacoes"><span class="ic"><svg><use href="#i-bolt"/></svg></span><b>Ligações</b><small>Onde vai cada fio, passo a passo</small></a>
-        <a class="q" href="#ficha"><span class="ic"><svg><use href="#i-list"/></svg></span><b>Ficha técnica</b><small>Todos os dados num lugar</small></a>
-        <a class="q wa" href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-wa"/></svg></span><b>WhatsApp</b><small>Vendas e suporte</small></a>
-      </div>
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Como funciona</span>
+      <h2>Da caixa ao quadro, <span class="hl">sem nenhum fio</span></h2>
+      <p>Dois módulos conversam por rádio o tempo todo. Você não precisa fazer nada.</p>
     </div>
-  </div>
-</div>
-
-<section class="problem" id="problema">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">O problema</span>
-      <h2>Ou transborda, <span class="hl">ou falta água</span></h2>
-      <p>A gente lembra da caixa quando ela já derramou a noite inteira, ou quando a torneira seca no meio da lida. Olhar todo dia, na hora certa, é a primeira coisa que se esquece.</p>
-    </div>
-    <div class="grid g3">
-      <div class="card reveal"><span class="n">01</span><h3>Ver a caixa derramando</h3><p>Água e energia escorrendo ladeira abaixo enquanto o bombeamento continua ligado.</p></div>
-      <div class="card reveal"><span class="n">02</span><h3>Esquecer de ligar</h3><p>Aí a casa, o curral e a horta ficam sem água justo no pior horário do dia.</p></div>
-      <div class="card reveal"><span class="n">03</span><h3>Puxar cabo até a caixa</h3><p>Caro de instalar e frágil de manter: sol, roedor, poste caído, raio na tempestade.</p></div>
+    <div class="how-grid">
+      <figure class="how-card reveal">
+        <img src="bebedouro-tx.jpg" alt="Módulo TX solar no poste do bebedouro, com a boia na água" loading="lazy" width="1376" height="768">
+        <figcaption><span class="stepn">01</span><h3>A boia sente o nível</h3><p>O módulo TX, preso na caixa e movido a sol, lê a boia e percebe quando é hora de encher.</p></figcaption>
+      </figure>
+      <div class="how-link reveal" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="10"/><path d="M38 38a31 31 0 0 0 0 44M82 38a31 31 0 0 1 0 44M24 24a51 51 0 0 0 0 72M96 24a51 51 0 0 1 0 72"/></svg><span>920 MHz<br>criptografado</span></div>
+      <figure class="how-card reveal">
+        <img src="quadro-rx.jpg" alt="Módulo RX instalado ao lado do quadro de comando" loading="lazy" width="1376" height="768">
+        <figcaption><span class="stepn">02</span><h3>O quadro obedece</h3><p>O módulo RX recebe o comando e liga ou desliga o sistema de bombeamento, direto ou pela contatora.</p></figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<section id="como-funciona">
-  <div class="wrap split">
-    <div>
-      <div class="sec-head reveal" style="margin-bottom:26px">
-        <span class="eyebrow">Como funciona</span>
-        <h2>Dois módulos, <span class="hl">um enlace</span></h2>
-        <p>O ciclo roda sozinho, sem aplicativo e sem sinal de celular. Quatro passos, repetidos o ano inteiro.</p>
-      </div>
-      <div class="steps">
-        <div class="step reveal"><span class="num">1</span><div><h3>Mede o nível</h3><p>A boia manda o aviso e o módulo TX confere antes de agir, sem falso alarme.</p></div></div>
-        <div class="step reveal"><span class="num">2</span><div><h3>Transmite</h3><p>A mensagem vai criptografada e repetida, e só termina quando é confirmada.</p></div></div>
-        <div class="step reveal"><span class="num">3</span><div><h3>Aciona</h3><p>O módulo RX fecha o contato do quadro elétrico, do mesmo jeito que uma chave faria.</p></div></div>
-        <div class="step reveal"><span class="num">4</span><div><h3>Vigia</h3><p>Os dois se chamam de tempos em tempos. Se um sumir, o bombeamento desliga.</p></div></div>
-      </div>
-    </div>
-    <figure class="photo reveal" style="aspect-ratio:4/5"><img src="caixa-tx.jpg" alt="Módulo TX solar na borda do reservatório com a boia de nível na água" loading="lazy" width="928" height="1152"><figcaption>Módulo TX + boia · na caixa</figcaption></figure>
-  </div>
-</section>
-
-<section class="mods" id="modulos">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Os módulos</span>
-      <h2>Um na caixa, <span class="hl">outro no quadro</span></h2>
-      <p>Saem de fábrica já pareados entre si. Fixou, ligou, está funcionando.</p>
-    </div>
-    <div class="grid g2">
-      <article class="mod reveal">
-        <div class="pic"><img src="modulo-tx.webp" alt="Módulo TX com painel solar" width="722" height="1440"></div>
-        <div>
-          <span class="tag">Fica na caixa</span>
-          <h3>Módulo TX</h3>
-          <p>Preso na parede do reservatório, ligado só na boia. O painel solar mantém a bateria carregada o ano inteiro: sem tomada, sem fio de energia, sem troca de pilha.</p>
-          <div class="specs">
-            <div><span>Energia</span>Painel solar + bateria</div>
-            <div><span>Entrada</span>Boia de nível comum</div>
-            <div><span>Consumo</span>Dorme entre leituras</div>
-            <div><span>Proteção</span>IP65</div>
-            <div><span>Antena</span>40 cm, inclusa</div>
-            <div><span>Fixação</span>Parede ou poste</div>
-          </div>
-        </div>
-      </article>
-      <article class="mod reveal">
-        <div class="pic"><img src="modulo-rx.webp" alt="Módulo RX com três LEDs" width="723" height="1440"></div>
-        <div>
-          <span class="tag">Fica no quadro elétrico</span>
-          <h3>Módulo RX</h3>
-          <p>Recebe o comando, aciona a saída e conta pelos três LEDs o que está acontecendo — inclusive quando algo sai do lugar.</p>
-          <div class="leds"><span><i class="led" style="background:#3ee07a"></i>POWER</span><span><i class="led" style="background:#3a7bff"></i>STATUS</span><span><i class="led" style="background:#ff4b4b"></i>SAÍDA</span></div>
-          <div class="specs">
-            <div><span>Alimentação</span>9 a 60 V DC</div>
-            <div><span>Saída 1</span>Relé 10 A</div>
-            <div><span>Saída 2</span>Estado sólido NF, isolada</div>
-            <div><span>Proteção</span>IP65</div>
-            <div><span>Antena</span>40 cm, inclusa</div>
-            <div><span>Fixação</span>Parede ou poste</div>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div class="grid g2" style="margin-top:16px">
-      <figure class="photo reveal" style="aspect-ratio:1376/768"><img src="bebedouro-tx.jpg" alt="Módulo TX no poste do bebedouro do gado, com a boia na água" loading="lazy" width="1376" height="768"><figcaption>Módulo TX · no bebedouro</figcaption></figure>
-      <figure class="photo reveal" style="aspect-ratio:1376/768"><img src="quadro-rx.jpg" alt="Módulo RX instalado ao lado do quadro de comando do sistema de bombeamento" loading="lazy" width="1376" height="768"><figcaption>Módulo RX · ao lado do quadro de comando</figcaption></figure>
-    </div>
-    <div class="grid g2" style="margin-top:16px">
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-bolt"/></svg></div><h3>Relé de 10 A</h3><p>Ideal para motorbombas menores e para acionar contatoras em sistemas maiores.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-cpu"/></svg></div><h3>Saída de estado sólido</h3><p>Isolada e silenciosa, ideal para inversores solares e CLPs.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="lig" id="ligacoes">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Ligações</span>
-      <h2>Como ligar, <span class="hl">passo a passo</span></h2>
-      <p>Veja nas placas onde vai cada fio. Dê play ou toque nos passos.</p>
-    </div>
-    <div class="player reveal" id="player">
-      <div class="ptabs" role="tablist">
-        <button class="on" data-tab="tx" role="tab">Módulo TX</button>
-        <button data-tab="rx" role="tab">Módulo RX</button>
-      </div>
-      <div class="pbody">
-        <div class="stage">
-          <svg id="svTX" class="board on" viewBox="0 0 1633 2010" aria-label="Placa do módulo TX">
-            <image href="placa-tx.png" x="0" y="0" width="1633" height="1719"/>
-            <g class="wires">
-              <path id="w-tl" class="wire" style="--c:#a0622d" d="M1067 1330 V1600 Q1067 1660 1125 1700 L1180 1740 V1800"/>
-              <path id="w-com" class="wire" style="--c:#1b1f24;--g:#9fb3c0" d="M1007 1330 V1800"/>
-              <path id="w-th" class="wire" style="--c:#2f7bff" d="M947 1330 V1600 Q947 1660 885 1700 L822 1740 V1800"/>
-            </g>
-            <g class="dest" id="d-boia"><rect x="700" y="1800" width="600" height="150" rx="34"/><text x="1000" y="1872">Chave-boia · 3 fios</text><text class="s" x="1000" y="1922">preto · azul · marrom</text></g>
-
-            <g id="t-test" class="test">
-              <rect x="10" y="20" width="1613" height="1980" rx="60" class="tbg"/>
-              <text class="tt" x="816" y="200">Descubra o fio comum</text>
-              <text class="ts" x="816" y="270">Preto, azul e marrom · a posição do comum muda de marca para marca</text>
-                            <path class="tank" d="M110 980 V1720 Q110 1770 160 1770 H720 Q770 1770 770 1720 V980"/>
-              <rect class="water" x="122" y="1000" width="636" height="758" rx="18"/>
-                            <path class="cab" d="M440 470 V1060"/>
-              <g class="cw"><rect x="404" y="1010" width="72" height="110" rx="16" class="cwb"/><rect x="404" y="1010" width="72" height="22" rx="8" class="cwt"/></g>
-              <g class="flt">
-                <path class="cab" d="M440 1120 V1210"/>
-                <rect x="425" y="1200" width="30" height="60" rx="10" class="neck"/>
-                <path class="fbody" d="M360 1255 H520 Q575 1255 575 1310 V1420 Q575 1470 520 1470 H360 Q305 1470 305 1420 V1310 Q305 1255 360 1255 Z"/>
-                <path class="fface" d="M372 1275 H508 Q550 1275 550 1315 V1410 Q550 1448 508 1448 H372 Q330 1448 330 1410 V1315 Q330 1275 372 1275 Z"/>
-                <path class="fshine" d="M360 1295 Q420 1285 470 1295"/>
-              </g>
-              <text class="ph ph1" x="440" y="1860">Boia baixa · caixa vazia</text>
-              <text class="ph ph2" x="440" y="1860">Boia alta · caixa cheia</text>
-                            <path class="cab" d="M440 470 Q440 380 560 380 H760"/>
-              <rect x="740" y="352" width="70" height="56" rx="14" class="sleeve"/>
-              <path class="end" style="--c:#1b1f24;--g:#9fb3c0" d="M805 370 C 850 370, 850 470, 900 470 H1000"/>
-              <path class="end" style="--c:#2f7bff" d="M805 380 C 850 380, 850 620, 900 620 H1000"/>
-              <path class="end" style="--c:#a0622d" d="M805 392 C 850 392, 850 770, 900 770 H1000"/>
-              <path class="cu" d="M1000 470 H1050M1000 620 H1050M1000 770 H1050"/>
-              <text class="wl" x="960" y="448">preto</text><text class="wl" x="960" y="598">azul</text><text class="wl" x="960" y="748">marrom</text>
-                            <g class="mmg">
-                <rect x="1130" y="880" width="420" height="760" rx="60" class="mmh"/>
-                <rect x="1160" y="910" width="360" height="700" rx="40" class="mmb"/>
-                <rect x="1195" y="950" width="290" height="170" rx="16" class="lcd"/>
-                <text class="mmt off" x="1340" y="1060">OL</text>
-                <text class="mmt ph1" x="1340" y="1060">0.0 Ω</text><text class="mmt ph2" x="1340" y="1060">0.0 Ω</text>
-                <g class="spk ph1"><path d="M1215 980 h16 l18 -14 v48 l-18 -14 h-16z"/><path d="M1262 975 q14 15 0 30" /></g>
-                <g class="spk ph2"><path d="M1215 980 h16 l18 -14 v48 l-18 -14 h-16z"/><path d="M1262 975 q14 15 0 30" /></g>
-                <circle cx="1340" cy="1300" r="120" class="dial"/>
-                <circle cx="1340" cy="1300" r="70" class="knob"/>
-                <path d="M1340 1300 L1255 1215" class="ptr"/>
-                <text class="dl" x="1215" y="1180">•)))</text><text class="dl" x="1400" y="1180">V</text><text class="dl" x="1455" y="1310">A</text><text class="dl" x="1180" y="1310">Ω</text>
-                <circle cx="1240" cy="1530" r="30" class="jk jkc"/><circle cx="1440" cy="1530" r="30" class="jk jkv"/>
-                <text class="jl" x="1240" y="1595">COM</text><text class="jl" x="1440" y="1595">VΩ</text>
-              </g>
-                            <g class="ph ph1 probes">
-                <path class="lead lb" d="M1240 1530 C 1120 1500, 1180 600, 1100 470"/>
-                <path class="lead lr" d="M1440 1530 C 1620 1400, 1350 700, 1100 620"/>
-                <path class="tip tb" d="M1100 460 h-40 l-12 10 l12 10 h40z"/><path class="tip tr" d="M1100 610 h-40 l-12 10 l12 10 h40z"/>
-              </g>
-              <g class="ph ph2 probes">
-                <path class="lead lb" d="M1240 1530 C 1120 1500, 1180 600, 1100 470"/>
-                <path class="lead lr" d="M1440 1530 C 1620 1400, 1300 850, 1100 770"/>
-                <path class="tip tb" d="M1100 460 h-40 l-12 10 l12 10 h40z"/><path class="tip tr" d="M1100 760 h-40 l-12 10 l12 10 h40z"/>
-              </g>
-              <text class="res" x="816" y="1950">O fio que dá BIP nas duas posições é o <tspan class="hl2">COMUM</tspan> → borne COM</text>
-            </g>
-            <g class="hs" id="h-th"><circle cx="947" cy="1330" r="34"/><text x="905" y="1262">TH</text></g>
-            <g class="hs" id="h-com"><circle cx="1007" cy="1330" r="34"/><text x="1007" y="1205">COM</text></g>
-            <g class="hs" id="h-tl"><circle cx="1067" cy="1330" r="34"/><text x="1110" y="1262">TL</text></g>
-            <g class="hs" id="h-sol"><circle cx="840" cy="1335" r="48"/></g>
-            <g class="hs" id="h-sma"><circle cx="913" cy="279" r="60"/></g>
-            <g class="hs" id="h-led"><circle cx="1156" cy="924" r="34"/><circle class="ledot" cx="1156" cy="924" r="14"/></g>
-            <g class="hs" id="h-sync"><circle cx="999" cy="1010" r="50"/></g>
-            <g class="hs" id="h-txbox"><rect x="490" y="350" width="720" height="1070" rx="40"/></g>
-          </svg>
-          <svg id="svRX" class="board" viewBox="0 0 1690 1980" aria-label="Placa do módulo RX">
-            <image href="placa-rx.png" x="0" y="0" width="1690" height="1576"/>
-            <g class="wires">
-              <path id="w-vp" class="wire" style="--c:#ff4b4b" d="M405 1235 V1600 Q405 1650 380 1670 V1700"/>
-              <path id="w-gnd" class="wire" style="--c:#8a9aa6" d="M465 1235 V1700"/>
-              <path id="w-out" class="wire" style="--c:#28dceb" d="M565 1235 V1500 Q566 1560 640 1600 L760 1650 V1700"/>
-              <path id="w-ocom" class="wire" style="--c:#28dceb" d="M625 1235 V1480 Q625 1530 700 1570 L860 1640 V1700"/>
-              <path id="w-no" class="wire" style="--c:#ffc428" d="M725 1235 V1460 Q725 1520 850 1560 L1180 1640 V1700"/>
-              <path id="w-rcom" class="wire" style="--c:#ffc428" d="M788 1235 V1440 Q788 1500 920 1540 L1290 1630 V1700"/>
-            </g>
-            <g class="dest" id="d-pwr"><rect x="70" y="1700" width="470" height="150" rx="34"/><text x="305" y="1772">Fonte 9–60 V DC</text><text class="s" x="305" y="1822">+ e GND</text></g>
-            <g class="dest" id="d-ssr"><rect x="570" y="1700" width="420" height="150" rx="34"/><text x="780" y="1772">Inversor / CLP</text><text class="s" x="780" y="1822">contato NF</text></g>
-            <g class="dest" id="d-rel"><rect x="1020" y="1700" width="580" height="150" rx="34"/><text x="1310" y="1772">Contatora / motorbomba</text><text class="s" x="1310" y="1822">até 10 A</text></g>
-            <g class="hs" id="h-vp"><circle cx="405" cy="1235" r="32"/><text x="372" y="1165">+</text></g>
-            <g class="hs" id="h-gnd"><circle cx="465" cy="1235" r="32"/><text x="470" y="1110">GND</text></g>
-            <g class="hs" id="h-out"><circle cx="565" cy="1235" r="32"/><text x="575" y="1165">OUT</text></g>
-            <g class="hs" id="h-ocom"><circle cx="625" cy="1235" r="32"/><text x="640" y="1110">COM</text></g>
-            <g class="hs" id="h-no"><circle cx="725" cy="1235" r="32"/><text x="725" y="1160">NO</text></g>
-            <g class="hs" id="h-rcom"><circle cx="788" cy="1235" r="32"/><text x="796" y="1110">COM</text></g>
-            <g class="hs" id="h-nc"><circle cx="850" cy="1235" r="32"/><text x="860" y="1160">NC</text></g>
-            <g class="hs" id="h-jmp"><rect x="630" y="650" width="152" height="95" rx="20"/><g class="jb"><rect x="470" y="520" width="200" height="84" rx="42" class="b2"/><text x="570" y="578" class="bt2">SSR</text><rect x="730" y="520" width="240" height="84" rx="42" class="b1"/><text x="850" y="578" class="bt1">RELAY</text><path class="jar" d="M600 610 L660 660M840 610 L740 660"/></g></g>
-            <g class="hs" id="h-rsma"><circle cx="433" cy="80" r="60"/></g>
-            <g class="hs" id="h-rsync"><circle cx="778" cy="382" r="44"/></g>
-            <g class="hs" id="h-rrst"><circle cx="762" cy="515" r="44"/></g>
-            <g class="hs" id="h-rxbox"><rect x="250" y="170" width="720" height="1150" rx="40"/></g>
-            <g id="t-cap" class="cap2 anim"><rect x="655" y="668" width="68" height="54" rx="8"/></g>
-            <g id="t-capR" class="cap2"><rect x="689" y="668" width="68" height="54" rx="8"/><text x="723" y="800">RELAY</text></g>
-            <g id="t-capL" class="cap2"><rect x="655" y="668" width="68" height="54" rx="8"/><text x="689" y="800">SSR</text></g>
-            <g id="t-jr" class="jsel jr"><rect x="690" y="1182" width="194" height="100" rx="30"/><text x="787" y="1345">RELAY</text></g>
-            <g id="t-js" class="jsel js"><rect x="531" y="1182" width="125" height="100" rx="30"/><text x="593" y="1345">SSR</text></g>
-          </svg>
-          <div class="cap" id="cap"><span class="num" id="capN">1</span><div><b id="capT"></b><p id="capP"></p></div></div>
-        </div>
-        <ol class="slist" id="slist"></ol>
-      </div>
-      <div class="pctrl">
-        <button id="pPrev" aria-label="Passo anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-        <button id="pPlay" class="play" aria-label="Reproduzir"><svg viewBox="0 0 24 24" fill="currentColor"><path id="pIco" d="M8 5v14l11-7z"/></svg></button>
-        <button id="pNext" aria-label="Próximo passo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-        <div class="segs" id="segs"></div>
-      </div>
-    </div>
-    <p class="note" style="margin-top:18px">⚠️ Desligue o disjuntor antes de mexer no quadro elétrico. Se não tem experiência com instalação elétrica, chame um eletricista. Detalhes completos no <a class="cy" href="manual-do-usuario.pdf" target="_blank" rel="noopener" style="font-weight:600">Manual do Usuário</a>. Dúvida na instalação? <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="font-weight:600;color:#25d366">Suporte no WhatsApp</a>.</p>
-  </div>
-</section>
-
-<section id="na-caixa">
-  <div class="wrap split rev">
-    <div style="display:grid;gap:16px"><figure class="photo reveal" style="aspect-ratio:1050/960"><img src="produtor-modulos.jpg" alt="Produtor segurando os módulos RX e TX" loading="lazy" width="1050" height="960"></figure><figure class="photo reveal" style="aspect-ratio:1376/768"><img src="kit-aqlink.jpg" alt="Kit GL-AQLINK: módulo RX, módulo TX com painel solar e chave-boia de nível" loading="lazy" width="1376" height="768"><figcaption>O kit: módulo RX, módulo TX e chave-boia</figcaption></figure></div>
-    <div class="reveal">
-      <span class="eyebrow">Pronto para usar</span>
-      <h2 style="font-size:clamp(1.8rem,4.4vw,2.8rem);margin:12px 0 14px">Tira da caixa <span class="hl">e funciona</span></h2>
-      <p style="color:var(--mut)">Sem configuração, sem aplicativo, sem cadastro. Em três passos:</p>
-      <div class="steps" style="margin-top:16px">
-        <div class="step"><span class="num">1</span><div><h3>Módulo TX na caixa</h3><p>Na borda do reservatório. Teste qual fio da boia é o comum e ligue os três fios no borne.</p></div></div>
-        <div class="step"><span class="num">2</span><div><h3>Módulo RX no quadro</h3><p>Aciona o sistema de bombeamento direto ou pela contatora.</p></div></div>
-        <div class="step"><span class="num">3</span><div><h3>Liga a energia</h3><p>Em cinco segundos o painel mostra que está tudo certo.</p></div></div>
-      </div>
-      <h3 style="margin-top:28px;font-size:1.1rem">O que vem na caixa</h3>
-      <ul class="boxlist">
-        <li>Módulo TX com painel solar e bateria</li>
-        <li>Módulo RX com relé de 10 A e saída isolada NF</li>
-        <li>Chave-boia de nível com contrapeso (fios preto, azul e marrom)</li>
-        <li>Duas antenas de 40 cm</li>
-        <li>Parafusos e suportes de fixação</li>
+<section class="feat" id="vantagens">
+  <div class="wrap feat-row reveal">
+    <figure class="feat-img"><img src="produtor-modulos.jpg" alt="Produtor segurando os módulos RX e TX" loading="lazy" width="1050" height="960"></figure>
+    <div class="feat-txt">
+      <span class="eyebrow">Simples de verdade</span>
+      <h2>Tira da caixa <span class="hl">e funciona</span></h2>
+      <p>Os dois módulos saem de fábrica já pareados. Não tem aplicativo, cadastro nem senha de Wi-Fi: fixou, ligou a boia e a energia, está funcionando.</p>
+      <ul class="ticks">
+        <li>Sem internet e sem sinal de celular</li>
+        <li>Instalação em poucos minutos</li>
+        <li>Serve para encher caixa ou esvaziar reservatório</li>
       </ul>
-      <p class="note">Encher caixa ou esvaziar reservatório: a mesma boia serve para os dois — é só inverter dois fios.</p>
     </div>
   </div>
-</section>
-
-<section class="range" id="alcance">
-  <div class="wrap">
-    <span class="eyebrow reveal">Alcance</span>
-    <div class="km reveal">10–20<small> km</small></div>
-    <p class="sub reveal">Medido em campo com a antena que acompanha o produto: perto de 20 km quando se enxerga de um ponto ao outro, cerca de 10 km com morros e mata no caminho.</p>
-    <div class="grid g3">
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-radio"/></svg></div><h3>920 MHz, faixa livre</h3><p>Frequência liberada no Brasil para este tipo de equipamento. Não precisa de licença nem de taxa de uso.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-sun"/></svg></div><h3>Movido a sol</h3><p>O módulo TX se mantém sozinho com o painel solar, onde não tem tomada.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-map"/></svg></div><h3>Zero mensalidade</h3><p>Sem operadora, sem plano de dados, sem nuvem no caminho do comando.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="protecoes">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Proteções</span>
+  <div class="wrap feat-row rev reveal">
+    <figure class="feat-img"><img src="casa-bomba.jpg" alt="Casa de bombeamento ao pôr do sol" loading="lazy" width="928" height="1152" style="object-position:center 45%"></figure>
+    <div class="feat-txt">
+      <span class="eyebrow">Segurança</span>
       <h2>Na dúvida, <span class="hl">desliga</span></h2>
-      <p>Sistema que não liga incomoda. Sistema que não desliga dá prejuízo. Por isso toda falha leva ao mesmo lugar: bombeamento desligado e o LED contando o que houve.</p>
-    </div>
-    <div class="grid g3">
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-radio"/></svg></div><h3>Desliga se perder o sinal</h3><p>Passou 23 minutos sem notícia do outro lado, o módulo RX desliga sozinho.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-drop"/></svg></div><h3>Avisa se o cabo romper</h3><p>Se o cabo da boia romper ou entrar em curto, o sistema percebe e desliga na hora.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-gear"/></svg></div><h3>Rádio que se recupera</h3><p>Os módulos conferem o próprio rádio o tempo todo e se consertam sozinhos.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-bolt"/></svg></div><h3>Partida segura</h3><p>Ao voltar a energia, a saída fica travada por alguns segundos antes de liberar.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-cpu"/></svg></div><h3>Reinício automático</h3><p>Se algo travar, o módulo se reinicia sozinho — e faz isso de tempos em tempos por precaução.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-shield"/></svg></div><h3>Comando criptografado</h3><p>Tudo o que vai pelo ar é criptografado, e cada receptor só obedece ao seu par.</p></div>
-    </div>
-    <figure class="photo reveal" style="margin-top:34px;aspect-ratio:16/9"><img src="casa-bomba.jpg" alt="Módulo RX instalado ao lado do quadro elétrico da casa de bombeamento" loading="lazy" width="1080" height="1350" style="object-position:center 55%"><figcaption>Módulo RX · junto ao quadro de bombeamento</figcaption></figure>
-  </div>
-</section>
-
-<section class="codes" id="codigos">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Códigos do LED</span>
-      <h2>O LED conta <span class="hl">o que está acontecendo</span></h2>
-      <p>Conte as piscadas do LED de status e encontre abaixo o que fazer.</p>
-    </div>
-    <div class="filter" id="filter">
-      <button class="on" data-f="all">Todos</button>
-      <button data-f="ok">Normal</button>
-      <button data-f="warn">Falhas</button>
-    </div>
-    <div id="codeList">
-      <div class="code ok"><div class="blink" data-p="1"></div><div><span class="who">RX</span><b>Lampejo a cada 2 s — tudo certo</b><p>Energizado, pareado e comunicando.</p></div><span class="act">Nada a fazer</span></div>
-      <div class="code ok"><div class="blink" data-p="0"></div><div><span class="who">TX</span><b>Apagado — tudo certo</b><p>O módulo TX apaga o LED para poupar bateria.</p></div><span class="act">Nada a fazer</span></div>
-      <div class="code ok"><div class="blink" data-p="2"></div><div><span class="who">TX</span><b>2 piscadas ao ligar — partida correta</b><p>Confirma que o módulo iniciou bem.</p></div><span class="act">Nada a fazer</span></div>
-      <div class="code ok"><div class="blink" data-p="3"></div><div><span class="who">TX e RX</span><b>3 piscadas lentas — pareamento concluído</b><p>Os dois se reconheceram e reiniciam.</p></div><span class="act">Nada a fazer</span></div>
-      <div class="code warn"><div class="blink" data-p="2" data-c="f"></div><div><span class="who">TX e RX</span><b>2 piscadas + pausa — boia desconectada</b><p>Cabo rompido ou conector solto.</p></div><span class="act">Cheque o cabo da boia</span></div>
-      <div class="code warn"><div class="blink" data-p="3" data-c="f"></div><div><span class="who">TX e RX</span><b>3 piscadas + pausa — curto na fiação</b><p>O módulo não consegue ler a boia.</p></div><span class="act">Inspecione as emendas</span></div>
-      <div class="code warn"><div class="blink" data-p="4" data-c="f"></div><div><span class="who">RX</span><b>4 piscadas + pausa — TX fora do ar</b><p>23 min sem notícia: bombeamento desligado.</p></div><span class="act">Veja bateria e antena do TX</span></div>
-      <div class="code warn"><div class="blink" data-p="5" data-c="f"></div><div><span class="who">RX</span><b>5 piscadas + pausa — rádio travado</b><p>O rádio do receptor parou de responder.</p></div><span class="act">Aperte RESET no RX</span></div>
-      <div class="code warn"><div class="blink" data-p="6" data-c="f"></div><div><span class="who">TX e RX</span><b>Muito rápido por ~4 s ao ligar — falha na partida</b><p>O rádio não respondeu; o módulo reinicia sozinho.</p></div><span class="act">Confira a antena</span></div>
-      <div class="code warn"><div class="blink" data-p="7"></div><div><span class="who">TX e RX</span><b>Ritmo médio — sem par</b><p>O módulo não tem par configurado.</p></div><span class="act">Veja o Manual: pareamento</span></div>
-    </div>
-    <p style="margin-top:18px;color:var(--mut);font-size:.9rem">Lista completa, pareamento e reset de fábrica: <a class="cy" href="manual-do-usuario.pdf" target="_blank" rel="noopener" style="font-weight:600">abrir o Manual do Usuário</a>. Ainda com dúvida? <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener" style="font-weight:600;color:#25d366">Suporte no WhatsApp</a>.</p>
-  </div>
-</section>
-
-<section id="aplicacoes">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Muito além do bombeamento</span>
-      <h2>Um sensor aqui, <span class="hl">a ação lá longe</span></h2>
-      <p>No lugar da boia dá para ligar outros sensores comuns de mercado, e o GL-AQLINK leva o aviso ou o comando por rádio até onde você precisa. Irrigação, indústria e campo.</p>
-    </div>
-    <div class="grid g4">
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-bolt"/></svg></div><h3>Falta de energia no poço</h3><p>Avisa na sede se o disjuntor do quadro de bombeamento desarmou.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-map"/></svg></div><h3>Porteira aberta</h3><p>Avisa quando a porteira, o galpão ou a comporta fica aberta.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-radio"/></svg></div><h3>Comando à distância</h3><p>Uma chave em casa liga o bombeamento, a luz ou a sirene lá longe.</p></div>
-      <div class="card reveal"><div class="ic-c"><svg><use href="#i-drop"/></svg></div><h3>Pressão e temperatura</h3><p>Liga ou avisa pela pressão da rede ou pela temperatura da câmara fria e da estufa.</p></div>
+      <p>Sistema que não desliga dá prejuízo. Por isso, qualquer falha leva o GL-AQLINK ao mesmo lugar: bombeamento desligado e o LED mostrando o que aconteceu.</p>
+      <ul class="ticks">
+        <li>Desliga sozinho se perder o sinal por 23 minutos</li>
+        <li>Percebe cabo da boia rompido ou em curto</li>
+        <li>Comando criptografado: cada receptor só obedece ao seu par</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section id="ficha" style="background:var(--navy2)">
+<section class="apps" id="aplicacoes">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Ficha técnica</span>
-      <h2>GL-AQLINK <span class="hl">em números</span></h2>
+      <span class="eyebrow">Aplicações</span>
+      <h2>Onde tem água para mover, <span class="hl">tem AQLINK™</span></h2>
     </div>
-    <div class="tech reveal">
-      <div><span>Modelo</span><b>GL-AQLINK</b></div>
-      <div><span>Marca</span><b>AQLINK™</b></div>
-      <div><span>Rádio</span><b>920 MHz, faixa livre</b></div>
-      <div><span>Alcance</span><b>10 a 20 km</b></div>
-      <div><span>Criptografia</span><b>AES-128</b></div>
-      <div><span>Pareamento</span><b>De fábrica</b></div>
-      <div><span>Alimentação RX</span><b>9 a 60 V DC</b></div>
-      <div><span>Alimentação TX</span><b>Bateria 18650 + solar 6 V</b></div>
-      <div><span>Saída de potência</span><b>Relé 10 A</b></div>
-      <div><span>Saída isolada</span><b>NF · 60 V AC/DC · 550 mA</b></div>
-      <div><span>Antena</span><b>40 cm, inclusa</b></div>
-      <div><span>Proteção</span><b>IP65</b></div>
-      <div><span>Failsafe</span><b>Desliga após 23 min sem sinal</b></div>
-      <div><span>Mensalidade</span><b>Nenhuma</b></div>
+    <div class="apps-grid">
+      <a class="app reveal" href="#contato"><img src="bebedouro-tx.jpg" alt="" loading="lazy" style="object-position:30% center"><div><h3>Pecuária</h3><p>Bebedouros e reservatórios sempre cheios para o rebanho.</p></div></a>
+      <a class="app reveal" href="#contato"><img src="fazenda-aerea.jpg" alt="" loading="lazy"><div><h3>Irrigação</h3><p>Liga e desliga o bombeamento pela caixa ou pelo canal.</p></div></a>
+      <a class="app reveal" href="#contato"><img src="torre-metalica.jpg" alt="" loading="lazy"><div><h3>Abastecimento</h3><p>Caixas elevadas de sítios, condomínios e comunidades.</p></div></a>
+      <a class="app reveal" href="#contato"><img src="painel-solar.jpg" alt="" loading="lazy"><div><h3>Bombeamento solar</h3><p>Saída isolada pronta para inversores solares e CLPs.</p></div></a>
     </div>
   </div>
 </section>
 
-<section class="docs" id="manuais">
+<section class="prod" id="produto">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Manuais</span>
+    <div class="sec-head center reveal">
+      <span class="eyebrow">O produto</span>
+      <h2>Um módulo na caixa, <span class="hl">outro no quadro</span></h2>
+    </div>
+    <div class="prod-grid">
+      <article class="pcard reveal">
+        <div class="pimg"><img src="modulo-tx.webp" alt="Módulo TX com painel solar" width="722" height="1440"></div>
+        <span class="tag">Fica na caixa</span>
+        <h3>Módulo TX</h3>
+        <p>Lê a boia e transmite. Painel solar e bateria integrados: não precisa de tomada.</p>
+        <dl><div><dt>Energia</dt><dd>Solar + bateria</dd></div><div><dt>Proteção</dt><dd>IP65</dd></div><div><dt>Antena</dt><dd>40 cm</dd></div></dl>
+      </article>
+      <article class="pcard reveal">
+        <div class="pimg"><img src="modulo-rx.webp" alt="Módulo RX com três LEDs" width="723" height="1440"></div>
+        <span class="tag">Fica no quadro</span>
+        <h3>Módulo RX</h3>
+        <p>Recebe o comando e aciona a saída. Três LEDs mostram o estado do sistema.</p>
+        <dl><div><dt>Alimentação</dt><dd>9 a 60 V DC</dd></div><div><dt>Saídas</dt><dd>Relé 10 A + SSR NF</dd></div><div><dt>Proteção</dt><dd>IP65</dd></div></dl>
+      </article>
+    </div>
+    <div class="kit reveal">
+      <img src="kit-aqlink.jpg" alt="Kit GL-AQLINK: módulo RX, módulo TX e chave-boia" loading="lazy" width="1376" height="768">
+      <div class="kit-txt">
+        <span class="eyebrow">O que vem na caixa</span>
+        <h3>Kit completo, pronto para instalar</h3>
+        <p>Módulo TX solar · Módulo RX · Chave-boia com contrapeso · Duas antenas de 40 cm · Suportes e parafusos</p>
+        <a class="btn btn-ghost btn-sm" href="suporte.html#ficha">Ver ficha técnica completa →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sup-band" id="suporte">
+  <div class="wrap sup-in reveal">
+    <div>
+      <span class="eyebrow">Suporte</span>
       <h2>Tudo para instalar <span class="hl">e manter</span></h2>
-      <p>Baixe no celular para consultar sem internet no campo, ou abra direto no navegador.</p>
+      <p>Ligações passo a passo com animação, significado de cada piscada do LED, ficha técnica e manuais para baixar.</p>
     </div>
-    <div class="grid g2">
-      <div class="doc-card reveal"><span class="ic"><svg><use href="#i-book"/></svg></span><div><h3>Manual do Usuário</h3><p>Ligações, sensores, códigos completos e especificações · PDF · 1,2 MB</p></div><div class="dbtn"><a class="btn btn-sun btn-sm" href="manual-do-usuario.pdf" download="GL-AQLINK-Manual-do-Usuario.pdf"><svg><use href="#i-down"/></svg>Baixar PDF</a><a class="btn btn-ghost btn-sm" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Abrir</a></div></div>
-      <div class="doc-card reveal"><span class="ic"><svg><use href="#i-bolt"/></svg></span><div><h3>Guia Rápido</h3><p>Instalação em poucos passos · PDF · 0,4 MB</p></div><div class="dbtn"><a class="btn btn-sun btn-sm" href="guia-rapido.pdf" download="GL-AQLINK-Guia-Rapido.pdf"><svg><use href="#i-down"/></svg>Baixar PDF</a><a class="btn btn-ghost btn-sm" href="guia-rapido.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Abrir</a></div></div>
+    <div class="sup-links">
+      <a href="suporte.html#ligacoes"><svg><use href="#i-bolt"/></svg><b>Ligações</b><small>Onde vai cada fio</small></a>
+      <a href="suporte.html#codigos"><svg><use href="#i-led"/></svg><b>Códigos do LED</b><small>O que cada piscada indica</small></a>
+      <a href="suporte.html#manuais"><svg><use href="#i-book"/></svg><b>Manuais</b><small>Abrir ou baixar PDF</small></a>
+      <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Tenho%20um%20GL-AQLINK%20e%20preciso%20de%20suporte%20t%C3%A9cnico." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg><b>WhatsApp</b><small>Suporte técnico</small></a>
     </div>
   </div>
 </section>
@@ -939,13 +799,11 @@ footer nav a:hover{color:#fff}
   <div class="wrap">
     <div class="fl"><img src="logo.png" alt="GL-AQLINK · AQLINK™" loading="lazy" width="640" height="276"><small>AQLINK™ · Tecnologia hídrica sem fio<br>CNPJ 70.245.907/0001-04 · Itacarambi – MG, Brasil</small></div>
     <nav aria-label="Rodapé">
-      <a href="manual-do-usuario.pdf" target="_blank" rel="noopener">Manual</a>
-      <a href="guia-rapido.pdf" target="_blank" rel="noopener">Guia Rápido</a>
-      <a href="#ligacoes">Ligações</a>
-      <a href="#codigos">Códigos LED</a>
-      <a href="#ficha">Ficha técnica</a>
+      <a href="index.html#como-funciona">Como funciona</a>
+      <a href="index.html#parcerias">Parcerias</a>
+      <a href="suporte.html">Suporte</a>
+      <a href="suporte.html#manuais">Manuais</a>
       <a href="https://wa.me/5538997406944?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20GL-AQLINK%20e%20quero%20um%20or%C3%A7amento%20da%20automa%C3%A7%C3%A3o%20sem%20fio%20para%20o%20meu%20sistema%20de%20bombeamento." target="_blank" rel="noopener">WhatsApp (38) 99740-6944</a>
-      <a href="#parcerias">Parcerias</a>
       <a href="mailto:aqlinkbusiness@gmail.com">aqlinkbusiness@gmail.com</a>
       <a href="https://www.instagram.com/gl_aqlink/" target="_blank" rel="noopener">Instagram @gl_aqlink</a>
       <a href="politica-de-privacidade.html">Política de Privacidade</a>
@@ -954,9 +812,8 @@ footer nav a:hover{color:#fff}
 </footer>
 
 <nav class="fab" id="fab" aria-label="Acesso rápido">
-  <a href="#acesso"><svg><use href="#i-grid"/></svg>Menu</a>
-  <a class="hot" href="manual-do-usuario.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>Manual</a>
-  <a href="#codigos"><svg><use href="#i-led"/></svg>LED</a>
+  <a href="suporte.html"><svg><use href="#i-gear"/></svg>Suporte</a>
+  <a class="hot" href="suporte.html#manuais"><svg><use href="#i-book"/></svg>Manuais</a>
   <a href="https://ig.me/m/gl_aqlink" data-dm rel="noopener"><svg><use href="#i-igc"/></svg>Instagram</a>
   <button id="toTop" aria-label="Voltar ao topo"><svg><use href="#i-up"/></svg>Topo</button>
 </nav>
@@ -984,8 +841,9 @@ footer nav a:hover{color:#fff}
 
   const links=[...document.querySelectorAll('nav.main a')];
   const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
-  links.forEach(a=>{const s=document.querySelector(a.getAttribute('href'));s&&so.observe(s)});
+  links.forEach(a=>{const h=a.getAttribute('href');if(h.startsWith('#')){const s=document.querySelector(h);s&&so.observe(s)}});
 
+  if(document.getElementById('codeList')){
   document.querySelectorAll('.blink').forEach(b=>{
     const n=+b.dataset.p, c=b.dataset.c==='f'?'f':'on';
     const count=n===0?1:(n===7?2:Math.min(n,5));
@@ -1008,6 +866,8 @@ footer nav a:hover{color:#fff}
     document.querySelectorAll('#codeList .code').forEach(c=>c.style.display=(b.dataset.f==='all'||c.classList.contains(b.dataset.f))?'':'none')});
 
 
+  }
+  if(document.getElementById('player')){
   const STEPS={
     tx:[
       {t:'Fixe o módulo TX na caixa',p:'Na borda do reservatório, com o painel solar recebendo luz do dia. Não precisa de sol direto.',h:['h-txbox']},
@@ -1066,6 +926,7 @@ footer nav a:hover{color:#fff}
   let auto=false;new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!auto){auto=true;setPlay(true)}else if(!e.isIntersecting&&playing){setPlay(false)}}),{threshold:.45}).observe(document.getElementById('player'));
 
 
+  }
   const IG_USER='gl_aqlink';
   const IG_DM='https://ig.me/m/'+IG_USER, IG_WEB='https://www.instagram.com/'+IG_USER+'/';
   const ua=navigator.userAgent||'';
@@ -1101,6 +962,7 @@ footer nav a:hover{color:#fff}
   addEventListener('scroll',syncWab,{passive:true});syncWab();
 
 
+  if(document.getElementById('bizForm')){
   const bf=document.getElementById('bizForm'),bm=document.getElementById('bizMsg'),bb=document.getElementById('bizBtn');
   const BIZ_MAIL='aqlinkbusiness@gmail.com',W3F_KEY='1eb6220f-f1c0-4ec0-9e82-34908c638cdb';
   bf.addEventListener('input',e=>{const t=e.target;t.classList.remove('bad');if(t.type==='checkbox')t.closest('label').classList.remove('bad')});
@@ -1131,6 +993,7 @@ footer nav a:hover{color:#fff}
     }finally{bb.disabled=false;bb.lastChild.textContent='Enviar contato'}
   });
 
+  }
   if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();
 </script>
