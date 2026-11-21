@@ -1090,7 +1090,7 @@ footer nav a:hover{color:#fff}
 
 
   const bf=document.getElementById('bizForm'),bm=document.getElementById('bizMsg'),bb=document.getElementById('bizBtn');
-  const BIZ_MAIL='aqlinkbusiness@gmail.com';
+  const BIZ_MAIL='aqlinkbusiness@gmail.com',W3F_KEY='1eb6220f-f1c0-4ec0-9e82-34908c638cdb';
   bf.addEventListener('input',e=>{const t=e.target;t.classList.remove('bad');if(t.type==='checkbox')t.closest('label').classList.remove('bad')});
   bf.addEventListener('submit',async e=>{
     e.preventDefault();bm.className='fmsg';bm.textContent='';
@@ -1105,12 +1105,12 @@ footer nav a:hover{color:#fff}
     if(first){bm.className='fmsg err';bm.textContent='Confira os campos destacados.';first.focus();return}
     if(bf._honey.value)return;
     const data=Object.fromEntries(new FormData(bf));delete data._honey;
-    const payload=Object.assign({_subject:'Novo contato comercial — '+data.Interesse+' — '+data.Nome,_template:'table',_captcha:'false',_replyto:data.email,Origem:location.href},data);
+    const payload=Object.assign({access_key:W3F_KEY,subject:'Novo contato comercial — '+data.Interesse+' — '+data.Nome,from_name:'Site GL-AQLINK',replyto:data.email,botcheck:'',Origem:location.href},data);
     bb.disabled=true;bb.lastChild.textContent='Enviando…';
     try{
-      const r=await fetch('https://formsubmit.co/ajax/'+BIZ_MAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
+      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
       const j=await r.json().catch(()=>({}));
-      if(!r.ok||String(j.success)!=='true')throw new Error(j.message||'falha');
+      if(!r.ok||j.success!==true)throw new Error(j.message||'falha');
       bf.reset();bm.className='fmsg ok';bm.textContent='Contato enviado! Vamos responder em breve.';
     }catch(err){
       const body=Object.entries(data).map(([k,v])=>k+': '+v).join('\n');
