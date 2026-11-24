@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#061226">
 <title>Boia sem fio e automação de bomba por rádio | GL-AQLINK · AQLINK™</title>
-<meta name="description" content="Boia sem fio GL-AQLINK: liga e desliga a bomba d'água sozinho pelo nível da caixa, por rádio 920 MHz, de 10 a 20 km, com energia solar e sem mensalidade. Para pecuária, irrigação e bombeamento solar.">
+<meta name="description" content="Boia sem fio GL-AQLINK: liga e desliga a bomba d'água pelo nível da caixa, por rádio, de 10 a 20 km, com energia solar e sem mensalidade.">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="favicon-48.png" type="image/png" sizes="48x48">
 <link rel="icon" href="favicon-96.png" type="image/png" sizes="96x96">
@@ -582,14 +582,16 @@ footer nav a:hover{color:#fff}
 .fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:16px 0 0 16px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 10px,rgba(255,255,255,0) 10px 22px);background-size:22px 100%;animation:rmFlow .8s linear infinite;pointer-events:none;-webkit-mask:linear-gradient(90deg,rgba(0,0,0,.25),#000);mask:linear-gradient(90deg,rgba(0,0,0,.25),#000)}
 @keyframes rmFlow{to{background-position:22px 0}}
 .marker{position:absolute;top:-12px;bottom:0;left:0;width:3px;margin-left:-1.5px;border-radius:2px;background:var(--sun);box-shadow:0 0 14px var(--sun);pointer-events:none}
-.marker::before{content:"";position:absolute;left:50%;top:100%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--sun);border:4px solid var(--navy2);box-shadow:0 0 0 2px var(--sun),0 6px 16px rgba(0,0,0,.5)}
-.marker.hit::after{content:"";position:absolute;left:50%;top:100%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:2px solid var(--sun);animation:rmHit .8s ease-out}
+.marker::before{content:"";position:absolute;left:50%;top:100%;width:22px;height:16px;margin:3px 0 0 -11px;background:var(--sun);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.marker::after{content:"";position:absolute;left:50%;top:100%;width:6px;height:10px;margin:18px 0 0 -3px;border-radius:0 0 3px 3px;background:var(--sun)}
+.marker.hit{animation:rmHitL .8s ease-out}
+@keyframes rmHitL{0%{box-shadow:0 0 26px 6px var(--sun)}100%{box-shadow:0 0 14px var(--sun)}}
 @keyframes rmHit{from{transform:scale(1);opacity:1}to{transform:scale(3);opacity:0}}
 .pulse{position:absolute;top:100%;left:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(40,220,235,.35),0 0 16px 4px var(--cyan);opacity:0;pointer-events:none}
 .rm.go .pulse{animation:rmTravel 2.2s cubic-bezier(.45,0,.3,1) infinite}
 @keyframes rmTravel{0%{left:0;opacity:0}8%{opacity:1}80%{opacity:1}90%,100%{left:var(--to,15%);opacity:0}}
 .track input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;pointer-events:none}
-.scale{position:relative;height:30px;margin-top:18px;font-size:.78rem;color:var(--mut);font-variant-numeric:tabular-nums}
+.scale{position:relative;height:30px;margin-top:34px;font-size:.78rem;color:var(--mut);font-variant-numeric:tabular-nums}
 .scale>span{position:absolute;top:0;transform:translateX(-50%);padding-top:8px;white-space:nowrap}
 .scale>span::before{content:"";position:absolute;top:0;left:50%;width:1px;height:5px;background:rgba(255,255,255,.3)}
 .scale .tx{left:0;transform:none;display:inline-flex;align-items:center;gap:5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;color:var(--cyan)}
@@ -633,6 +635,45 @@ footer nav a:hover{color:#fff}
 .kit-note{display:flex;gap:12px;align-items:flex-start;margin:-6px 0 22px;padding:14px 16px;border-radius:14px;background:rgba(255,196,40,.08);border:1px solid rgba(255,196,40,.35);color:#d6e6ee;font-size:.88rem;line-height:1.55}
 .kit-note svg{flex:none;width:20px;height:20px;margin-top:2px;color:var(--sun)}
 .kit-note b{color:#fff}
+
+.sim{background:linear-gradient(180deg,var(--navy),var(--navy2))}
+.sim-box{border-radius:26px;overflow:hidden;border:1px solid rgba(40,220,235,.22);background:var(--navy2);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.sim-svg{display:block;width:100%;height:auto;background:#0b1a3a}
+.sim-svg text{font-family:Poppins,system-ui,sans-serif}
+.sim-sky{fill:#cfe8f5;font-size:20px;font-weight:500}
+.sim-lv{fill:#ffc428;font-size:15px;font-weight:600}
+.sim-rxl{fill:#28dceb;font-size:10px;font-weight:700}
+.sim-rxs{fill:#8fa6b5;font-size:10px;font-weight:600}
+.sim-q{fill:#2b333b;font-size:9px;font-weight:700}
+.sim-pkt{fill:#031a22;font-size:13px;font-weight:800}
+.sim-tags text{fill:#eaf4f8;font-size:22px;font-weight:600;paint-order:stroke;stroke:rgba(6,18,38,.7);stroke-width:5px}
+.sim-flow{opacity:0;transition:opacity .4s}
+.sim-flow.on{opacity:1;animation:simFlow .6s linear infinite}
+@keyframes simFlow{to{stroke-dashoffset:-24}}
+#sim-pump.on{animation:simVib .12s linear infinite}
+@keyframes simVib{50%{transform:translate(.8px,-.6px)}}
+#sim-pour{transition:opacity .3s}
+.sim-panel{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px 28px;padding:22px clamp(18px,3vw,30px) 24px;border-top:1px solid var(--line)}
+.sim-state{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sim-kpi{border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line);padding:12px 14px;min-width:0}
+.sim-kpi span{display:block;font-size:.75rem;color:var(--mut)}
+.sim-kpi b{display:block;font-size:1.15rem;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+#sim-k-pump[data-on="1"]{color:#3ddc97}
+#sim-k-sig[data-ok="0"]{color:#ff8a7e}
+.sim-bar{display:block;height:5px;border-radius:3px;background:rgba(255,255,255,.08);margin-top:8px;overflow:hidden}
+.sim-bar i{display:block;height:100%;width:60%;border-radius:3px;background:linear-gradient(90deg,var(--cyan-d),var(--cyan));transition:width .2s}
+.sim-msg{grid-column:1;margin:0;color:#d6e6ee;font-size:.95rem;min-height:3em}
+.sim-ctl{grid-column:1;display:flex;flex-wrap:wrap;gap:8px}
+.sim-ctl .btn[aria-pressed=true]{box-shadow:0 0 0 2px var(--sun) inset}
+.sim-log{grid-column:2;grid-row:1/span 3;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.82rem}
+.sim-log li{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--mut);animation:simIn .4s ease-out}
+.sim-log li b{color:#fff;font-weight:600}
+.sim-log li time{flex:none;color:var(--cyan);font-variant-numeric:tabular-nums;font-weight:600}
+.sim-log li.warn b{color:#ff8a7e}
+@keyframes simIn{from{opacity:0;transform:translateY(-6px)}}
+@media (max-width:860px){.sim-panel{grid-template-columns:1fr}.sim-log{grid-column:1;grid-row:auto}}
+@media (max-width:560px){.sim-state{grid-template-columns:1fr 1fr}.sim-state .sim-kpi:nth-child(2){grid-column:1/-1;order:-1}.sim-tags text{font-size:30px}.sim-sky{font-size:26px}.sim-ctl .btn{flex:1 1 auto}}
+@media (prefers-reduced-motion:reduce){.sim-flow.on,#sim-pump.on{animation:none}}
 </style>
 <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","@id":"https://aqlink.com.br/#org","name":"AQLINK™","alternateName":["AQLINK","GL-AQLINK"],"url":"https://aqlink.com.br/","logo":"https://aqlink.com.br/logo.png","email":"aqlinkbusiness@gmail.com","telephone":"+55-38-99740-6944","taxID":"70.245.907/0001-04","address":{"@type":"PostalAddress","addressLocality":"Itacarambi","addressRegion":"MG","addressCountry":"BR"},"sameAs":["https://www.instagram.com/gl_aqlink/"],"contactPoint":[{"@type":"ContactPoint","telephone":"+55-38-99740-6944","contactType":"sales","areaServed":"BR","availableLanguage":"Portuguese"},{"@type":"ContactPoint","telephone":"+55-38-99740-6944","contactType":"technical support","areaServed":"BR","availableLanguage":"Portuguese"}]},{"@context":"https://schema.org","@type":"WebSite","@id":"https://aqlink.com.br/#site","url":"https://aqlink.com.br/","name":"GL-AQLINK · AQLINK™","inLanguage":"pt-BR","publisher":{"@id":"https://aqlink.com.br/#org"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Precisa de internet ou sinal de celular?","acceptedAnswer":{"@type":"Answer","text":"Não. Os dois módulos conversam direto por rádio na faixa de 920 MHz, que é livre no Brasil. Funciona em lugares sem internet e sem sinal de celular."}},{"@type":"Question","name":"Qual a distância entre a caixa e a bomba?","acceptedAnswer":{"@type":"Answer","text":"O alcance medido em campo é de cerca de 20 km quando um ponto enxerga o outro e de cerca de 10 km com morros e mata no caminho, usando a antena que acompanha o produto."}},{"@type":"Question","name":"Precisa de tomada perto da caixa d'água?","acceptedAnswer":{"@type":"Answer","text":"Não. O módulo TX, que fica na caixa, tem painel solar e bateria. Cerca de 4 horas de sol por dia mantêm a carga."}},{"@type":"Question","name":"Funciona com qualquer bomba?","acceptedAnswer":{"@type":"Answer","text":"O módulo RX tem relé de 10 A, ideal para motorbombas menores, e para sistemas maiores aciona a contatora. Ele é alimentado com 9 a 60 V DC."}},{"@type":"Question","name":"O kit vem com fonte para o módulo RX?","acceptedAnswer":{"@type":"Answer","text":"Não. A fonte do módulo RX não acompanha o kit porque a entrada aceita de 9 a 60 V DC: qualquer fonte nessa faixa com 1 A atende. Em bombeamento solar, o RX pode usar a saída de 12 ou 24 V DC que alguns inversores têm, ou uma derivação dos painéis solares (cerca de 45 V)."}},{"@type":"Question","name":"Funciona com inversor solar ou CLP?","acceptedAnswer":{"@type":"Answer","text":"Sim. Além do relé, o módulo RX tem uma saída isolada de estado sólido (contato NF), ideal para os comandos de inversores de bombeamento solar e CLPs."}},{"@type":"Question","name":"O que acontece se o sinal cair?","acceptedAnswer":{"@type":"Answer","text":"Se o módulo RX ficar 23 minutos sem notícias da caixa, ele desliga o sistema de bombeamento sozinho e o LED mostra o motivo. Se o cabo da boia romper ou entrar em curto, ele também desliga."}},{"@type":"Question","name":"Precisa configurar ou parear?","acceptedAnswer":{"@type":"Answer","text":"Não. Os módulos saem de fábrica já pareados. É só instalar, ligar a boia e a energia."}},{"@type":"Question","name":"Serve para esvaziar reservatório?","acceptedAnswer":{"@type":"Answer","text":"Sim. A mesma boia serve para encher caixa ou esvaziar reservatório: basta inverter dois fios, como mostra a página de Suporte."}},{"@type":"Question","name":"Tem mensalidade?","acceptedAnswer":{"@type":"Answer","text":"Não. Não tem plano, operadora, aplicativo nem nuvem. Você compra o kit e usa."}},{"@type":"Question","name":"Como compro ou peço um orçamento?","acceptedAnswer":{"@type":"Answer","text":"Pelo WhatsApp (38) 99740-6944 ou pelo Direct do Instagram @gl_aqlink. Informe a sua cidade e o tipo de bombeamento para receber o orçamento."}}]}]</script>
 <meta name="robots" content="index,follow">
@@ -670,6 +711,7 @@ footer nav a:hover{color:#fff}
     <a class="brand" href="#inicio" aria-label="GL-AQLINK — início"><img src="logo.png" alt="GL-AQLINK · AQLINK™" width="640" height="276"></a>
     <nav class="main" aria-label="Seções">
       <a href="#como-funciona">Como funciona</a>
+      <a href="#simulador">Simulador</a>
       <a href="#alcance">Alcance</a>
       <a href="#aplicacoes">Aplicações</a>
       <a href="#produto">Produto</a>
@@ -689,6 +731,7 @@ footer nav a:hover{color:#fff}
     <button class="close" id="closeBtn" aria-label="Fechar menu"><svg><use href="#i-x"/></svg></button>
     <a class="lnk" href="#inicio"><svg><use href="#i-grid"/></svg>Início</a>
     <a class="lnk" href="#como-funciona"><svg><use href="#i-gear"/></svg>Como funciona</a>
+    <a class="lnk" href="#simulador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 8.5v5l4-2.5z"/><path d="M8 21h8"/></svg>Simulador do sistema</a>
     <a class="lnk" href="#alcance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12a7 7 0 0 1 2-5M19 12a7 7 0 0 0-2-5M8.5 12a3.5 3.5 0 0 1 1-2.5M15.5 12a3.5 3.5 0 0 0-1-2.5"/><circle cx="12" cy="12" r="1.5"/><path d="M12 14v7"/></svg>Alcance da caixa à bomba</a>
     <a class="lnk" href="#aplicacoes"><svg><use href="#i-drop"/></svg>Aplicações</a>
     <a class="lnk" href="#produto"><svg><use href="#i-cpu"/></svg>Produto</a>
@@ -747,6 +790,125 @@ footer nav a:hover{color:#fff}
         <img src="quadro-rx.jpg" alt="Módulo RX instalado ao lado do quadro de comando" loading="lazy" width="1376" height="768">
         <figcaption><span class="stepn">02</span><h3>O quadro obedece</h3><p>O módulo RX recebe o comando e liga ou desliga o sistema de bombeamento, direto ou pela contatora.</p></figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<section class="sim" id="simulador" aria-labelledby="sim-t">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Simulador</span>
+      <h2 id="sim-t">Veja o GL-AQLINK <span class="hl">funcionando</span></h2>
+      <p>A caixa gasta água, a boia baixa e o TX avisa o RX pelo rádio. O RX liga a bomba e, quando a caixa enche, desliga sozinho. Teste também o que acontece se o sinal cair.</p>
+    </div>
+    <div class="sim-box reveal" id="sim">
+      <svg class="sim-svg" viewBox="0 0 1000 600" role="img" aria-labelledby="sim-svg-t">
+        <title id="sim-svg-t">Animação do sistema: caixa d'água com boia e módulo TX, sinal de rádio até o módulo RX no quadro de comando e bomba no poço</title>
+        <defs>
+          <linearGradient id="sg-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1a3a"/><stop offset=".55" stop-color="#1a3560"/><stop offset="1" stop-color="#3a4f6e"/></linearGradient>
+          <linearGradient id="sg-ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3a24"/><stop offset="1" stop-color="#0c1c12"/></linearGradient>
+          <linearGradient id="sg-tank" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f5fb0"/><stop offset=".5" stop-color="#3b82d6"/><stop offset="1" stop-color="#1a4f96"/></linearGradient>
+          <linearGradient id="sg-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fe6f2"/><stop offset="1" stop-color="#138aa8"/></linearGradient>
+          <linearGradient id="sg-well" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2a1c"/><stop offset="1" stop-color="#140e09"/></linearGradient>
+          <clipPath id="sc-tank"><rect x="166" y="188" width="178" height="182" rx="8"/></clipPath>
+          <radialGradient id="sg-glow"><stop offset="0" stop-color="#28dceb" stop-opacity=".55"/><stop offset="1" stop-color="#28dceb" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="1000" height="600" fill="url(#sg-sky)"/>
+        <g fill="#fff" opacity=".7"><circle cx="40" cy="40" r="1.4"/><circle cx="230" cy="30" r="1"/><circle cx="330" cy="80" r="1.3"/><circle cx="520" cy="24" r="1.1"/><circle cx="610" cy="70" r="1.4"/><circle cx="760" cy="36" r="1"/><circle cx="880" cy="90" r="1.3"/><circle cx="960" cy="28" r="1.1"/><circle cx="470" cy="120" r=".9"/><circle cx="150" cy="110" r=".9"/></g>
+        <path d="M0 410 C120 380 220 395 330 386 C460 376 540 360 660 372 C780 384 880 366 1000 378 V600 H0Z" fill="#163020" opacity=".9"/>
+        <g fill="#0f2416"><ellipse cx="560" cy="380" rx="60" ry="26"/><ellipse cx="610" cy="372" rx="40" ry="24"/><ellipse cx="960" cy="372" rx="50" ry="22"/><ellipse cx="30" cy="392" rx="50" ry="22"/></g>
+        <rect y="430" width="1000" height="170" fill="url(#sg-ground)"/>
+        <path id="sim-arc" d="M120 92 Q420 -30 718 236" fill="none" stroke="#9fdff0" stroke-width="2.5" stroke-dasharray="2 10" stroke-linecap="round" opacity=".7"/>
+        <text x="420" y="64" text-anchor="middle" class="sim-sky">até 20 km pelo rádio</text>
+        <g id="sim-cons">
+          <path d="M182 380 V455 H0" fill="none" stroke="#7d8a96" stroke-width="10" stroke-linejoin="round"/>
+          <path class="sim-flow" id="sim-flow-out" d="M182 380 V455 H0" fill="none" stroke="#7ff4ff" stroke-width="3.5" stroke-dasharray="10 14" stroke-linecap="round"/>
+        </g>
+        <g id="sim-in">
+          <path d="M890 452 H380 V150 H322 V176" fill="none" stroke="#7d8a96" stroke-width="10" stroke-linejoin="round"/>
+          <path class="sim-flow" id="sim-flow-in" d="M890 452 H380 V150 H322 V176" fill="none" stroke="#7ff4ff" stroke-width="3.5" stroke-dasharray="10 14" stroke-linecap="round"/>
+          <path id="sim-pour" d="M322 176 V0" fill="none" stroke="#7ff4ff" stroke-width="6" stroke-linecap="round" opacity="0"/>
+        </g>
+        <g stroke="#9aa6b2" stroke-width="7" stroke-linecap="round"><path d="M170 380 L150 470"/><path d="M340 380 L360 470"/><path d="M160 425 H350"/><path d="M165 400 L345 455" stroke-width="4"/><path d="M345 400 L165 455" stroke-width="4"/></g>
+        <rect x="140" y="372" width="230" height="12" rx="3" fill="#8794a0"/>
+        <rect x="150" y="170" width="210" height="208" rx="18" fill="url(#sg-tank)"/>
+        <g opacity=".22" stroke="#fff" stroke-width="2"><path d="M150 230 H360"/><path d="M150 300 H360"/></g>
+        <rect x="166" y="188" width="178" height="182" rx="8" fill="#0b2342" opacity=".75"/>
+        <g clip-path="url(#sc-tank)">
+          <rect id="sim-water" x="166" y="300" width="178" height="80" fill="url(#sg-water)" opacity=".9"/>
+          <path id="sim-wave" d="M150 300 q22 -6 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" fill="none" stroke="#c9fbff" stroke-width="2" opacity=".8"/>
+        </g>
+        <g class="sim-lines">
+          <path d="M170 208 H340" stroke="#ffc428" stroke-width="2" stroke-dasharray="6 5"/>
+          <text x="336" y="202" text-anchor="end" class="sim-lv">desliga</text>
+          <path d="M170 325 H340" stroke="#ffc428" stroke-width="2" stroke-dasharray="6 5"/>
+          <text x="336" y="319" text-anchor="end" class="sim-lv">liga</text>
+        </g>
+        <path id="sim-cable" d="M96 180 C140 170 205 160 214 190 L214 300" fill="none" stroke="#111" stroke-width="3"/>
+        <g id="sim-boia"><rect x="200" y="0" width="28" height="36" rx="9" fill="#1f4fd1" stroke="#ffd21f" stroke-width="4"/><rect x="209" y="-6" width="10" height="8" rx="2" fill="#ffd21f"/></g>
+        <ellipse cx="255" cy="168" rx="105" ry="12" fill="#2f6fc0"/>
+        <rect x="235" y="152" width="40" height="14" rx="4" fill="#2a63ad"/>
+        <rect x="66" y="150" width="8" height="320" fill="#9aa6b2"/>
+        <g id="sim-tx">
+          <path d="M84 150 L120 92" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+          <rect x="44" y="146" width="52" height="68" rx="6" fill="#1a1d22" stroke="#33383f" stroke-width="2"/>
+          <g fill="#1f3c66"><rect x="50" y="152" width="18" height="26"/><rect x="72" y="152" width="18" height="26"/><rect x="50" y="182" width="18" height="26"/><rect x="72" y="182" width="18" height="26"/></g>
+          <circle id="sim-tx-ring" cx="120" cy="92" r="22" fill="url(#sg-glow)" opacity="0"/>
+        </g>
+        <rect x="672" y="300" width="7" height="170" fill="#9aa6b2"/>
+        <g id="sim-rx">
+          <path d="M690 300 L718 236" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+          <rect x="644" y="296" width="72" height="94" rx="8" fill="#15181d" stroke="#2c323a" stroke-width="2"/>
+          <circle id="sim-led-p" cx="662" cy="314" r="5" fill="#2bd46b"/>
+          <circle id="sim-led-s" cx="680" cy="314" r="5" fill="#123"/>
+          <circle id="sim-led-o" cx="698" cy="314" r="5" fill="#3a1414"/>
+          <text x="680" y="350" text-anchor="middle" class="sim-rxl">GL-AQLINK</text>
+          <text x="680" y="368" text-anchor="middle" class="sim-rxs">RX</text>
+          <circle id="sim-rx-ring" cx="718" cy="236" r="26" fill="url(#sg-glow)" opacity="0"/>
+        </g>
+        <path d="M716 360 C730 360 732 372 744 372" fill="none" stroke="#111" stroke-width="3"/>
+        <g id="sim-qd">
+          <rect x="756" y="430" width="8" height="40" fill="#8a96a2"/><rect x="826" y="430" width="8" height="40" fill="#8a96a2"/>
+          <rect x="742" y="282" width="106" height="150" rx="6" fill="#b9c1c8" stroke="#7e8891" stroke-width="2"/>
+          <rect x="766" y="292" width="58" height="12" rx="2" fill="#4a5560"/>
+          <circle cx="795" cy="330" r="11" fill="#e4a400"/><circle cx="795" cy="330" r="6" fill="#c0202a"/>
+          <circle id="sim-q-on" cx="776" cy="372" r="9" fill="#1c3a22" stroke="#555" stroke-width="2"/>
+          <circle id="sim-q-off" cx="814" cy="372" r="9" fill="#e0302f" stroke="#555" stroke-width="2"/>
+          <text x="776" y="398" text-anchor="middle" class="sim-q">LIGA</text><text x="814" y="398" text-anchor="middle" class="sim-q">DESL.</text>
+        </g>
+        <path d="M848 400 C866 400 868 430 880 430" fill="none" stroke="#111" stroke-width="3"/>
+        <rect x="866" y="468" width="96" height="132" fill="url(#sg-well)"/>
+        <rect x="870" y="560" width="88" height="40" fill="#0f4a66" opacity=".85"/>
+        <path d="M914 452 V585" stroke="#8a96a2" stroke-width="8"/>
+        <rect x="900" y="560" width="28" height="34" rx="5" fill="#5d6b78"/>
+        <g id="sim-pump">
+          <rect x="856" y="456" width="120" height="14" rx="3" fill="#6b7682"/>
+          <rect x="890" y="418" width="78" height="40" rx="9" fill="#2a5fae"/>
+          <g fill="#204a88"><rect x="896" y="420" width="4" height="36"/><rect x="906" y="420" width="4" height="36"/><rect x="916" y="420" width="4" height="36"/><rect x="926" y="420" width="4" height="36"/><rect x="936" y="420" width="4" height="36"/><rect x="946" y="420" width="4" height="36"/></g>
+          <circle cx="884" cy="440" r="18" fill="#8a96a2"/><circle cx="884" cy="440" r="8" fill="#5d6b78"/>
+        </g>
+        <g id="sim-pkt" opacity="0"><rect x="-38" y="-14" width="76" height="28" rx="14" fill="#28dceb"/><text id="sim-pkt-t" x="0" y="5" text-anchor="middle" class="sim-pkt">LIGAR</text></g>
+        <g id="sim-x" opacity="0"><circle r="16" fill="#ff5a4e"/><path d="M-6 -6 L6 6 M6 -6 L-6 6" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
+        <g class="sim-tags">
+          <text x="255" y="520" text-anchor="middle">Caixa d'água + TX</text>
+          <text x="745" y="520" text-anchor="middle">RX + quadro</text>
+          <text x="925" y="406" text-anchor="middle">Bomba</text>
+        </g>
+      </svg>
+      <div class="sim-panel">
+        <div class="sim-state">
+          <div class="sim-kpi"><span>Bomba</span><b id="sim-k-pump" data-on="0">Desligada</b></div>
+          <div class="sim-kpi"><span>Nível da caixa</span><b id="sim-k-lvl">60%</b><i class="sim-bar"><i id="sim-k-bar"></i></i></div>
+          <div class="sim-kpi"><span>Sinal do rádio</span><b id="sim-k-sig" data-ok="1">OK</b></div>
+        </div>
+        <p class="sim-msg" id="sim-msg" aria-live="polite">A caixa está sendo usada e o nível está baixando.</p>
+        <div class="sim-ctl">
+          <button type="button" class="btn btn-ghost btn-sm" id="sim-play" aria-pressed="false">Pausar</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="sim-use">Gastar mais água</button>
+          <button type="button" class="btn btn-sun btn-sm" id="sim-sig" aria-pressed="false">Simular queda de sinal</button>
+        </div>
+        <ol class="sim-log" id="sim-log" aria-label="Últimos eventos"></ol>
+      </div>
     </div>
   </div>
 </section>
@@ -819,10 +981,10 @@ footer nav a:hover{color:#fff}
       <h2>Onde tem água para mover, <span class="hl">tem AQLINK™</span></h2>
     </div>
     <div class="apps-grid">
-      <a class="app reveal" href="bebedouro-automatico-gado.html"><img src="bebedouro-tx.jpg" alt="" loading="lazy" style="object-position:30% center"><div><h3>Pecuária</h3><p>Bebedouros e reservatórios sempre cheios para o rebanho.</p></div></a>
-      <a class="app reveal" href="ligar-bomba-a-distancia.html"><img src="fazenda-aerea.jpg" alt="" loading="lazy"><div><h3>Irrigação</h3><p>Liga e desliga o bombeamento pela caixa ou pelo canal.</p></div></a>
-      <a class="app reveal" href="automacao-poco-artesiano.html"><img src="torre-metalica.jpg" alt="" loading="lazy"><div><h3>Abastecimento</h3><p>Caixas elevadas de sítios, condomínios e comunidades.</p></div></a>
-      <a class="app reveal" href="automacao-bomba-solar.html"><img src="painel-solar.jpg" alt="" loading="lazy"><div><h3>Bombeamento solar</h3><p>Saída isolada pronta para inversores solares e CLPs.</p></div></a>
+      <a class="app reveal" href="bebedouro-automatico-gado.html"><img src="bebedouro-tx.jpg" alt="Módulo TX no bebedouro do gado" loading="lazy" style="object-position:30% center"><div><h3>Pecuária</h3><p>Bebedouros e reservatórios sempre cheios para o rebanho.</p></div></a>
+      <a class="app reveal" href="ligar-bomba-a-distancia.html"><img src="fazenda-aerea.jpg" alt="Vista aérea de fazenda com caixa d'água e casa de bomba" loading="lazy"><div><h3>Irrigação</h3><p>Liga e desliga o bombeamento pela caixa ou pelo canal.</p></div></a>
+      <a class="app reveal" href="automacao-poco-artesiano.html"><img src="torre-metalica.jpg" alt="Caixa d'água em torre metálica" loading="lazy"><div><h3>Abastecimento</h3><p>Caixas elevadas de sítios, condomínios e comunidades.</p></div></a>
+      <a class="app reveal" href="automacao-bomba-solar.html"><img src="painel-solar.jpg" alt="Painel solar de bombeamento solar" loading="lazy"><div><h3>Bombeamento solar</h3><p>Saída isolada pronta para inversores solares e CLPs.</p></div></a>
     </div>
   </div>
 </section>
@@ -1222,6 +1384,86 @@ footer nav a:hover{color:#fff}
   draw(MIN);
   const start=()=>{rm.classList.add('go');setTimeout(()=>animateTo(3,1400),RM?0:500)};
   if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){start();io.disconnect()}},{threshold:.35});io.observe(rm)}else start();
+})();
+</script>
+<script>
+(()=>{
+  const box=document.getElementById('sim');if(!box)return;
+  const $=id=>document.getElementById(id);
+  const arc=$('sim-arc'),L=arc.getTotalLength(),pktG=$('sim-pkt'),pktR=pktG.querySelector('rect'),pktT=$('sim-pkt-t'),xG=$('sim-x');
+  const water=$('sim-water'),wave=$('sim-wave'),boia=$('sim-boia'),cable=$('sim-cable'),pour=$('sim-pour'),fIn=$('sim-flow-in'),fOut=$('sim-flow-out'),pumpG=$('sim-pump');
+  const ledS=$('sim-led-s'),ledO=$('sim-led-o'),qOn=$('sim-q-on'),qOff=$('sim-q-off'),txR=$('sim-tx-ring'),rxR=$('sim-rx-ring');
+  const kPump=$('sim-k-pump'),kLvl=$('sim-k-lvl'),kBar=$('sim-k-bar'),kSig=$('sim-k-sig'),msg=$('sim-msg'),logEl=$('sim-log');
+  const bPlay=$('sim-play'),bUse=$('sim-use'),bSig=$('sim-sig');
+  const LIGA=.25,DESL=.89,TOP=188,BOT=370,H=BOT-TOP,MIN_S=2.5,FAILSAFE=23;
+  let lvl=.6,pump=false,want=false,acked=false,sigOk=true,rxErr=false,silence=0,clock=6*60,burst=0,hbT=1.5,retryT=0,pkt=null,run=true,vis=false,txF=0,rxF=0,ledF=0,xT=0,phase=0,lastMsg='';
+  const hhmm=m=>{m=Math.floor(m)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+  function log(t,warn){const li=document.createElement('li');if(warn)li.className='warn';li.innerHTML='<time>'+hhmm(clock)+'</time><b></b>';li.querySelector('b').textContent=t;logEl.prepend(li);while(logEl.children.length>4)logEl.lastChild.remove()}
+  function say(t){if(t!==lastMsg){lastMsg=t;msg.textContent=t}}
+  function send(kind){pkt={kind,dir:1,p:0,dur:1.3};txF=.5;hbT=4;if(kind!=='presença'){retryT=3;log('TX → RX: '+kind+(kind==='LIGAR'?' (nível baixo)':' (caixa cheia)'))}}
+  function fail(){const pt=arc.getPointAtLength(L*pkt.p);xG.setAttribute('transform','translate('+pt.x+' '+pt.y+')');xT=1;log(pkt.dir>0?'O sinal não chegou ao RX':'A confirmação não chegou ao TX',true);pkt=null}
+  function arrive(){
+    if(pkt.dir>0){
+      rxF=.5;ledF=.35;silence=0;
+      if(rxErr){rxErr=false;log('RX voltou a receber a caixa')}
+      if(pkt.kind==='LIGAR'&&!pump){pump=true;log('RX ligou a bomba')}
+      else if(pkt.kind==='DESLIGAR'&&pump){pump=false;log('RX desligou a bomba')}
+      pkt={kind:'ok',dir:-1,p:0,dur:1,ack:pkt.kind};
+    }else{
+      txF=.4;if(pkt.ack==='LIGAR'||pkt.ack==='DESLIGAR')acked=pkt.ack==='LIGAR';
+      pkt=null;
+    }
+  }
+  function step(dt){
+    clock+=dt*MIN_S;burst=Math.max(0,burst-dt);
+    lvl=Math.min(1,Math.max(0,lvl+((pump?.11:0)-(.03+(burst>0?.08:0)))*dt));
+    if(lvl<=LIGA)want=true;else if(lvl>=DESL)want=false;
+    retryT-=dt;hbT-=dt;
+    if(!pkt){if(want!==acked&&retryT<=0)send(want?'LIGAR':'DESLIGAR');else if(hbT<=0)send('presença')}
+    if(pkt){pkt.p+=dt/pkt.dur;if(!sigOk&&pkt.p>=.55)fail();else if(pkt.p>=1)arrive()}
+    silence+=dt*MIN_S;
+    if(!rxErr&&silence>=FAILSAFE){rxErr=true;if(pump){pump=false;log('23 min sem sinal: RX desligou a bomba',true)}else log('23 min sem sinal: RX em alerta',true)}
+    txF=Math.max(0,txF-dt);rxF=Math.max(0,rxF-dt);ledF=Math.max(0,ledF-dt);xT=Math.max(0,xT-dt);phase+=dt;
+  }
+  function render(){
+    const wy=BOT-lvl*H;
+    water.setAttribute('y',wy.toFixed(1));water.setAttribute('height',(BOT-wy+10).toFixed(1));
+    wave.setAttribute('transform','translate('+(-(phase*30%44)).toFixed(1)+' '+(wy-300).toFixed(1)+')');
+    const by=Math.max(196,Math.min(336,wy-16));
+    boia.setAttribute('transform','translate(0 '+by.toFixed(1)+')');
+    cable.setAttribute('d','M96 180 C140 170 205 160 214 190 L214 '+(by-6).toFixed(1));
+    pour.setAttribute('d','M322 176 V'+Math.max(180,wy).toFixed(1));pour.style.opacity=pump?.9:0;
+    fIn.classList.toggle('on',pump);fOut.classList.toggle('on',lvl>.01);pumpG.classList.toggle('on',pump);
+    ledO.setAttribute('fill',pump?'#ff4040':'#3a1414');
+    let s=ledF>0;
+    if(rxErr){const c=(phase%3.2),k=Math.floor(c/.4);s=k<8&&k%2===0}
+    ledS.setAttribute('fill',s?(rxErr?'#ffb23e':'#28dceb'):'#123');
+    qOn.setAttribute('fill',pump?'#35e06d':'#1c3a22');qOff.setAttribute('fill',pump?'#4a1a1a':'#e0302f');
+    txR.setAttribute('opacity',(txF*2).toFixed(2));rxR.setAttribute('opacity',(rxF*2).toFixed(2));
+    xG.setAttribute('opacity',xT.toFixed(2));
+    if(pkt){const p=pkt.dir>0?pkt.p:1-pkt.p,pt=arc.getPointAtLength(L*Math.min(1,p)),a=Math.min(1,pkt.p*6,(1-pkt.p)*6);
+      pktG.setAttribute('transform','translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+')');pktG.setAttribute('opacity',a.toFixed(2));
+      pktT.textContent=pkt.kind==='presença'?'presença':pkt.kind==='ok'?'ok':pkt.kind;
+      pktR.setAttribute('fill',pkt.dir>0?(pkt.kind==='presença'?'#9fdff0':'#28dceb'):'#ffc428');
+      const w=pkt.kind==='DESLIGAR'?100:pkt.kind==='presença'?92:pkt.kind==='ok'?44:76;pktR.setAttribute('width',w);pktR.setAttribute('x',-w/2);
+    }else pktG.setAttribute('opacity',0);
+    kPump.textContent=pump?'Ligada':'Desligada';kPump.dataset.on=pump?1:0;
+    kLvl.textContent=Math.round(lvl*100)+'%';kBar.style.width=(lvl*100).toFixed(1)+'%';
+    kSig.dataset.ok=sigOk?1:0;kSig.textContent=sigOk?'OK':'Sem sinal · '+Math.min(FAILSAFE,Math.floor(silence))+' min';
+    if(rxErr)say('Passaram 23 minutos sem notícia da caixa: o RX desligou a bomba sozinho por segurança e o LED de status pisca 4 vezes. Restaure o sinal para voltar ao normal.');
+    else if(!sigOk)say('Sinal cortado: os avisos da caixa não chegam ao RX. Se ficar 23 minutos sem notícia, o RX desliga a bomba sozinho.');
+    else if(pkt&&pkt.kind==='LIGAR')say('Nível baixo: a boia desceu e o TX mandou o comando LIGAR pelo rádio.');
+    else if(pkt&&pkt.kind==='DESLIGAR')say('Caixa cheia: a boia subiu e o TX mandou o comando DESLIGAR.');
+    else if(pump)say('O RX recebeu o comando e ligou a bomba. A caixa está enchendo.');
+    else say('A caixa está sendo usada e o nível está baixando. Na marca "liga", o TX avisa o RX pelo rádio.');
+  }
+  let last=performance.now();
+  function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;if(run&&vis&&!document.hidden)step(dt);render();requestAnimationFrame(frame)}
+  bPlay.addEventListener('click',()=>{run=!run;bPlay.textContent=run?'Pausar':'Continuar';bPlay.setAttribute('aria-pressed',!run)});
+  bUse.addEventListener('click',()=>{burst=5;log('Consumo de água aumentou')});
+  bSig.addEventListener('click',()=>{sigOk=!sigOk;bSig.textContent=sigOk?'Simular queda de sinal':'Restaurar sinal';bSig.setAttribute('aria-pressed',!sigOk);log(sigOk?'Sinal do rádio restabelecido':'Sinal do rádio cortado',!sigOk);if(sigOk)hbT=.3});
+  if('IntersectionObserver' in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting},{threshold:.15}).observe(box);else vis=true;
+  log('Simulação iniciada');render();requestAnimationFrame(frame);
 })();
 </script>
 </body>
