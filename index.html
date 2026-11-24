@@ -561,6 +561,65 @@ footer nav a:hover{color:#fff}
 .rel-grid small{color:var(--mut);font-size:.8rem}
 @media (max-width:1020px){#guias .rel-grid{grid-template-columns:1fr 1fr!important}}
 @media (max-width:640px){#guias .rel-grid{grid-template-columns:1fr!important}}
+
+.alc{background:radial-gradient(900px 480px at 50% 0%,rgba(255,196,40,.07),transparent 70%),var(--navy)}
+.rm{border-radius:28px;background:linear-gradient(160deg,var(--navy3),var(--navy2));border:1px solid rgba(40,220,235,.22);padding:clamp(22px,4vw,40px);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.ruler{position:relative;padding-top:26px}
+.bands{position:relative;height:60px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.05)}
+.bands .b1,.bands .b2{position:absolute;top:0;bottom:0;left:0;display:flex;align-items:center;font-weight:600;font-size:.85rem;transform-origin:0 50%;transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.bands .b2{width:100%;background:linear-gradient(90deg,rgba(255,196,40,.30),rgba(255,154,46,.18));color:#ffe2a0;transition-delay:.25s}
+.bands .b1{width:50%;background:linear-gradient(90deg,rgba(40,220,235,.48),rgba(19,169,189,.36));color:#e8fdff}
+.bands .b1 span{padding-left:14px;white-space:nowrap}
+.bands .b2 span{position:absolute;left:calc(50% + 14px);white-space:nowrap}
+.rm:not(.go) .bands .b1,.rm:not(.go) .bands .b2{transform:scaleX(0)}
+.bands::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent);transform:translateX(-100%);animation:rmSweep 4s ease-in-out infinite}
+@keyframes rmSweep{60%,100%{transform:translateX(100%)}}
+.scale{display:flex;justify-content:space-between;margin-top:8px;font-size:.78rem;color:var(--mut);font-variant-numeric:tabular-nums}
+.scale .orig{font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.marker{position:absolute;top:18px;left:0;height:78px;width:3px;margin-left:-1.5px;background:var(--sun);border-radius:2px;box-shadow:0 0 14px var(--sun);transition:left .35s cubic-bezier(.2,.8,.2,1)}
+.marker::before{content:"";position:absolute;top:-8px;left:50%;width:16px;height:16px;border-radius:50%;background:var(--sun);transform:translateX(-50%)}
+.marker .rm-lb{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sun);white-space:nowrap}
+.marker.end .rm-lb{left:auto;right:0;transform:none}
+.pulse{position:absolute;top:47px;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(40,220,235,.35),0 0 18px 4px var(--cyan);opacity:0;pointer-events:none}
+.rm.go .pulse{animation:rmTravel 2.2s cubic-bezier(.45,0,.3,1) infinite}
+@keyframes rmTravel{0%{left:0;opacity:0}8%{opacity:1}78%{opacity:1}88%,100%{left:var(--to,15%);opacity:0}}
+.marker.hit::after{content:"";position:absolute;top:-8px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:2px solid var(--sun);animation:rmHit .7s ease-out}
+@keyframes rmHit{from{transform:scale(1);opacity:1}to{transform:scale(3.2);opacity:0}}
+.calc{display:grid;grid-template-columns:1fr 1.15fr;gap:28px;margin-top:32px;align-items:center}
+.calc label{font-weight:600;display:block}
+.calc output{display:block;font-size:clamp(2.6rem,6vw,3.4rem);font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:6px}
+.calc output small{font-size:.4em;color:var(--mut);margin-left:6px;font-weight:600}
+.calc input[type=range]{width:100%;accent-color:var(--sun);height:30px;margin-top:8px;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.presets button{font:inherit;font-size:.8rem;font-weight:600;padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#d6e6ee;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.presets button:hover,.presets button.on{border-color:var(--sun);color:var(--sun);background:rgba(255,196,40,.08)}
+.verdict{border-radius:18px;padding:20px 22px;background:rgba(255,255,255,.05);border:1px solid rgba(40,220,235,.4);transition:border-color .3s}
+.verdict b{display:flex;align-items:center;gap:10px;font-size:1.1rem}
+.verdict b::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:var(--c,var(--cyan));box-shadow:0 0 10px var(--c,var(--cyan))}
+.verdict p{color:var(--mut);margin:6px 0 14px;font-size:.95rem}
+.verdict[data-k=mid]{--c:var(--sun);border-color:rgba(255,196,40,.4)}
+.rm .rm-note{font-size:.85rem;color:var(--mut);margin-top:22px}
+@media (max-width:640px){.calc{grid-template-columns:1fr}.bands .b2 span{display:none}.bands .b1{font-size:.72rem}.verdict .btn{white-space:normal;text-align:center}}
+@media (prefers-reduced-motion:reduce){.rm .pulse,.bands::after{animation:none!important}.bands .b1,.bands .b2,.marker{transition:none!important}}
+.feat-real{position:relative;aspect-ratio:4/4.4}
+.feat-real img{object-position:50% 62%}
+.feat-real figcaption{position:absolute;left:16px;bottom:16px;padding:7px 12px;border-radius:999px;background:rgba(6,18,38,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);font-size:.78rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px}
+.feat-real figcaption::before{content:"";width:8px;height:8px;border-radius:50%;background:#3ddc97;box-shadow:0 0 8px #3ddc97}
+.inside{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:20px;padding:26px;border-radius:26px;background:linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.01));border:1px solid var(--line)}
+.inside-img{border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.inside-img img{transition:transform 1.2s}
+.inside:hover .inside-img img{transform:scale(1.03)}
+.inside-txt h3{font-size:clamp(1.5rem,3vw,2rem);margin:10px 0 18px}
+.inside-txt li b{color:var(--cyan)}
+.kit2{display:grid;grid-template-columns:1fr minmax(0,440px);gap:48px;align-items:center;margin-top:20px;padding:26px;border-radius:26px;background:radial-gradient(600px 400px at 80% 50%,rgba(40,220,235,.10),transparent 70%),linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.01));border:1px solid var(--line)}
+.kit2 figure{border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.kit2 .kit-txt{padding:0;max-width:none}
+.kit-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin:6px 0 22px;color:#d6e6ee;font-size:.95rem}
+.kit-list li{display:flex;gap:8px;align-items:flex-start}
+.kit-list li::before{content:"✓";color:var(--cyan);font-weight:800}
+.kit2 figure img,.inside-img img{display:block;width:100%;height:auto!important;aspect-ratio:1/1;object-fit:cover;position:static}
+@media (max-width:1020px){.inside,.kit2{grid-template-columns:1fr;gap:24px;padding:18px}.kit2 figure{order:-1}}
+@media (max-width:640px){.kit-list{grid-template-columns:1fr}}
 </style>
 <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","@id":"https://aqlink.com.br/#org","name":"AQLINK™","alternateName":["AQLINK","GL-AQLINK"],"url":"https://aqlink.com.br/","logo":"https://aqlink.com.br/logo.png","email":"aqlinkbusiness@gmail.com","telephone":"+55-38-99740-6944","taxID":"70.245.907/0001-04","address":{"@type":"PostalAddress","addressLocality":"Itacarambi","addressRegion":"MG","addressCountry":"BR"},"sameAs":["https://www.instagram.com/gl_aqlink/"],"contactPoint":[{"@type":"ContactPoint","telephone":"+55-38-99740-6944","contactType":"sales","areaServed":"BR","availableLanguage":"Portuguese"},{"@type":"ContactPoint","telephone":"+55-38-99740-6944","contactType":"technical support","areaServed":"BR","availableLanguage":"Portuguese"}]},{"@context":"https://schema.org","@type":"WebSite","@id":"https://aqlink.com.br/#site","url":"https://aqlink.com.br/","name":"GL-AQLINK · AQLINK™","inLanguage":"pt-BR","publisher":{"@id":"https://aqlink.com.br/#org"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Precisa de internet ou sinal de celular?","acceptedAnswer":{"@type":"Answer","text":"Não. Os dois módulos conversam direto por rádio na faixa de 920 MHz, que é livre no Brasil. Funciona em lugares sem internet e sem sinal de celular."}},{"@type":"Question","name":"Qual a distância entre a caixa e a bomba?","acceptedAnswer":{"@type":"Answer","text":"O alcance medido em campo é de cerca de 20 km quando um ponto enxerga o outro e de cerca de 10 km com morros e mata no caminho, usando a antena que acompanha o produto."}},{"@type":"Question","name":"Precisa de tomada perto da caixa d'água?","acceptedAnswer":{"@type":"Answer","text":"Não. O módulo TX, que fica na caixa, tem painel solar e bateria. Cerca de 4 horas de sol por dia mantêm a carga."}},{"@type":"Question","name":"Funciona com qualquer bomba?","acceptedAnswer":{"@type":"Answer","text":"O módulo RX tem relé de 10 A, ideal para motorbombas menores, e para sistemas maiores aciona a contatora. Ele é alimentado com 9 a 60 V DC."}},{"@type":"Question","name":"Funciona com inversor solar ou CLP?","acceptedAnswer":{"@type":"Answer","text":"Sim. Além do relé, o módulo RX tem uma saída isolada de estado sólido (contato NF), ideal para os comandos de inversores de bombeamento solar e CLPs."}},{"@type":"Question","name":"O que acontece se o sinal cair?","acceptedAnswer":{"@type":"Answer","text":"Se o módulo RX ficar 23 minutos sem notícias da caixa, ele desliga o sistema de bombeamento sozinho e o LED mostra o motivo. Se o cabo da boia romper ou entrar em curto, ele também desliga."}},{"@type":"Question","name":"Precisa configurar ou parear?","acceptedAnswer":{"@type":"Answer","text":"Não. Os módulos saem de fábrica já pareados. É só instalar, ligar a boia e a energia."}},{"@type":"Question","name":"Serve para esvaziar reservatório?","acceptedAnswer":{"@type":"Answer","text":"Sim. A mesma boia serve para encher caixa ou esvaziar reservatório: basta inverter dois fios, como mostra a página de Suporte."}},{"@type":"Question","name":"Tem mensalidade?","acceptedAnswer":{"@type":"Answer","text":"Não. Não tem plano, operadora, aplicativo nem nuvem. Você compra o kit e usa."}},{"@type":"Question","name":"Como compro ou peço um orçamento?","acceptedAnswer":{"@type":"Answer","text":"Pelo WhatsApp (38) 99740-6944 ou pelo Direct do Instagram @gl_aqlink. Informe a sua cidade e o tipo de bombeamento para receber o orçamento."}}]}]</script>
 <meta name="robots" content="index,follow">
@@ -598,6 +657,7 @@ footer nav a:hover{color:#fff}
     <a class="brand" href="#inicio" aria-label="GL-AQLINK — início"><img src="logo.png" alt="GL-AQLINK · AQLINK™" width="640" height="276"></a>
     <nav class="main" aria-label="Seções">
       <a href="#como-funciona">Como funciona</a>
+      <a href="#alcance">Alcance</a>
       <a href="#aplicacoes">Aplicações</a>
       <a href="#produto">Produto</a>
       <a href="#duvidas">Dúvidas</a>
@@ -616,6 +676,7 @@ footer nav a:hover{color:#fff}
     <button class="close" id="closeBtn" aria-label="Fechar menu"><svg><use href="#i-x"/></svg></button>
     <a class="lnk" href="#inicio"><svg><use href="#i-grid"/></svg>Início</a>
     <a class="lnk" href="#como-funciona"><svg><use href="#i-gear"/></svg>Como funciona</a>
+    <a class="lnk" href="#alcance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12a7 7 0 0 1 2-5M19 12a7 7 0 0 0-2-5M8.5 12a3.5 3.5 0 0 1 1-2.5M15.5 12a3.5 3.5 0 0 0-1-2.5"/><circle cx="12" cy="12" r="1.5"/><path d="M12 14v7"/></svg>Alcance da caixa à bomba</a>
     <a class="lnk" href="#aplicacoes"><svg><use href="#i-drop"/></svg>Aplicações</a>
     <a class="lnk" href="#produto"><svg><use href="#i-cpu"/></svg>Produto</a>
     <a class="lnk" href="#duvidas"><svg><use href="#i-chat"/></svg>Dúvidas frequentes</a>
@@ -679,7 +740,7 @@ footer nav a:hover{color:#fff}
 
 <section class="feat" id="vantagens">
   <div class="wrap feat-row reveal">
-    <figure class="feat-img"><img src="produtor-modulos.jpg" alt="Produtor segurando os módulos RX e TX" loading="lazy" width="1050" height="960"></figure>
+    <figure class="feat-img feat-real"><img src="campo-real.jpg" alt="Módulos GL-AQLINK em campo, na borda do bebedouro, com a casa de bomba ao fundo" loading="lazy" width="896" height="1200"><figcaption>Foto real · GL-AQLINK em campo</figcaption></figure>
     <div class="feat-txt">
       <span class="eyebrow">Simples de verdade</span>
       <h2>Tira da caixa <span class="hl">e funciona</span></h2>
@@ -706,6 +767,34 @@ footer nav a:hover{color:#fff}
   </div>
 </section>
 
+<section class="alc" id="alcance" aria-labelledby="alcance-t">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Alcance medido em campo</span>
+      <h2 id="alcance-t">Até onde a sua <span class="hl">caixa pode estar?</span></h2>
+      <p>Arraste até a distância entre a caixa d'água e a bomba. O alcance vai até 20 km, medido em campo com a antena de 40 cm que vem no kit.</p>
+    </div>
+    <div class="rm reveal" id="rm">
+      <div class="ruler">
+        <div class="bands"><div class="b2"><span>com visada · até ~20 km</span></div><div class="b1"><span>com morros e mata · até ~10 km</span></div></div>
+        <i class="pulse" aria-hidden="true"></i>
+        <div class="marker" id="mk"><span class="rm-lb" aria-hidden="true">bomba</span></div>
+        <div class="scale" aria-hidden="true"><span class="orig">caixa</span><span>5</span><span>10</span><span>15</span><span>20 km</span></div>
+      </div>
+      <div class="calc">
+        <div>
+          <label for="km">Distância caixa → bomba</label>
+          <output id="kmOut" for="km">3,0<small>km</small></output>
+          <input type="range" id="km" min="0.1" max="20" step="0.1" value="3" aria-describedby="vP">
+          <div class="presets" aria-label="Distâncias de exemplo"><button type="button" data-km="0.5">500 m</button><button type="button" data-km="3">3 km</button><button type="button" data-km="8">8 km</button><button type="button" data-km="12">12 km</button><button type="button" data-km="20">20 km</button></div>
+        </div>
+        <div class="verdict" id="verdict" data-k="ok" aria-live="polite"><b id="vT">Alcance com morros e mata</b><p id="vP">Até cerca de 10 km o sinal chega mesmo com morros e mata no caminho.</p><a class="btn btn-wa btn-sm" id="vWa" href="https://wa.me/5538997406944" target="_blank" rel="noopener">Tirar dúvida sobre o meu local</a></div>
+      </div>
+      <p class="rm-note">É o mesmo GL-AQLINK para qualquer distância até 20 km. O alcance real depende do relevo e da altura das antenas: mande a localização no WhatsApp que a gente analisa o local e o relevo do terreno.</p>
+    </div>
+  </div>
+</section>
+
 <section class="apps" id="aplicacoes">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -713,10 +802,10 @@ footer nav a:hover{color:#fff}
       <h2>Onde tem água para mover, <span class="hl">tem AQLINK™</span></h2>
     </div>
     <div class="apps-grid">
-      <a class="app reveal" href="#contato"><img src="bebedouro-tx.jpg" alt="" loading="lazy" style="object-position:30% center"><div><h3>Pecuária</h3><p>Bebedouros e reservatórios sempre cheios para o rebanho.</p></div></a>
-      <a class="app reveal" href="#contato"><img src="fazenda-aerea.jpg" alt="" loading="lazy"><div><h3>Irrigação</h3><p>Liga e desliga o bombeamento pela caixa ou pelo canal.</p></div></a>
-      <a class="app reveal" href="#contato"><img src="torre-metalica.jpg" alt="" loading="lazy"><div><h3>Abastecimento</h3><p>Caixas elevadas de sítios, condomínios e comunidades.</p></div></a>
-      <a class="app reveal" href="#contato"><img src="painel-solar.jpg" alt="" loading="lazy"><div><h3>Bombeamento solar</h3><p>Saída isolada pronta para inversores solares e CLPs.</p></div></a>
+      <a class="app reveal" href="bebedouro-automatico-gado.html"><img src="bebedouro-tx.jpg" alt="" loading="lazy" style="object-position:30% center"><div><h3>Pecuária</h3><p>Bebedouros e reservatórios sempre cheios para o rebanho.</p></div></a>
+      <a class="app reveal" href="ligar-bomba-a-distancia.html"><img src="fazenda-aerea.jpg" alt="" loading="lazy"><div><h3>Irrigação</h3><p>Liga e desliga o bombeamento pela caixa ou pelo canal.</p></div></a>
+      <a class="app reveal" href="automacao-poco-artesiano.html"><img src="torre-metalica.jpg" alt="" loading="lazy"><div><h3>Abastecimento</h3><p>Caixas elevadas de sítios, condomínios e comunidades.</p></div></a>
+      <a class="app reveal" href="automacao-bomba-solar.html"><img src="painel-solar.jpg" alt="" loading="lazy"><div><h3>Bombeamento solar</h3><p>Saída isolada pronta para inversores solares e CLPs.</p></div></a>
     </div>
   </div>
 </section>
@@ -745,14 +834,27 @@ footer nav a:hover{color:#fff}
         <dl><div><dt>Alimentação</dt><dd>9 a 60 V DC</dd></div><div><dt>Saídas</dt><dd>Relé 10 A + SSR NF</dd></div><div><dt>Proteção</dt><dd>IP65</dd></div></dl>
       </article>
     </div>
-    <div class="kit reveal">
-      <img src="kit-aqlink.jpg" alt="Kit GL-AQLINK: módulo RX, módulo TX e chave-boia" loading="lazy" width="1376" height="768">
+    <div class="inside reveal">
+      <figure class="inside-img"><img src="por-dentro-tx-rx.jpg" alt="Módulos TX e RX abertos: bateria 18650 e placa do transmissor, relé e bornes do receptor" loading="lazy" width="1024" height="1024"></figure>
+      <div class="inside-txt">
+        <span class="eyebrow">Por dentro</span>
+        <h3>Tecnologia interna, <span class="hl">feita para o campo</span></h3>
+        <ul class="ticks">
+          <li><span><b>TX:</b> bateria 18650 recarregável com circuito de gestão de carga solar</span></li>
+          <li><span><b>RX:</b> relé integrado para acionar bombas e motores, mais saída isolada para inversor solar ou CLP</span></li>
+          <li>Rádio 920 MHz com comando criptografado AES-128</li>
+          <li>Caixa vedada IP65, antena com conector SMA e prensa-cabos na entrada dos fios</li>
+        </ul>
+      </div>
+    </div>
+    <div class="kit2 reveal">
       <div class="kit-txt">
         <span class="eyebrow">O que vem na caixa</span>
         <h3>Kit completo, pronto para instalar</h3>
-        <p>Módulo TX solar · Módulo RX · Chave-boia com contrapeso · Duas antenas de 40 cm · Suportes e parafusos</p>
+        <ul class="kit-list"><li>Módulo TX solar</li><li>Módulo RX</li><li>Chave-boia com contrapeso</li><li>Duas antenas de 40 cm</li><li>Suportes e parafusos</li></ul>
         <a class="btn btn-ghost btn-sm" href="suporte.html#ficha">Ver ficha técnica completa →</a>
       </div>
+      <figure><img src="kit-tx-rx-boia.jpg" alt="Kit GL-AQLINK: módulo TX com painel solar, módulo RX chave interruptora e boia de nível" loading="lazy" width="1024" height="1024"></figure>
     </div>
   </div>
 </section>
@@ -1053,6 +1155,40 @@ footer nav a:hover{color:#fff}
 
   }
   if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+})();
+</script>
+<script>
+(()=>{
+  const rm=document.getElementById('rm');if(!rm)return;
+  const r=document.getElementById('km'),o=document.getElementById('kmOut'),mk=document.getElementById('mk'),v=document.getElementById('verdict'),wa=document.getElementById('vWa'),ps=[...rm.querySelectorAll('.presets button')];
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches,MAX=20;
+  const fmt=km=>km.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+  const msg=km=>km<=10
+    ?{k:'ok',t:'Alcance com morros e mata',p:'Até cerca de 10 km o sinal chega mesmo com morros e mata no caminho.'}
+    :{k:'mid',t:'Alcance com visada',p:'De 10 a 20 km o sinal chega quando a caixa e a bomba se enxergam. Com morros ou mata no caminho, vale analisar o local antes.'};
+  function draw(km){
+    km=Math.min(MAX,Math.max(.1,km));
+    const pct=km/MAX*100;
+    o.innerHTML=fmt(km)+'<small>km</small>';
+    mk.style.left=pct+'%';mk.classList.toggle('end',pct>92);
+    rm.style.setProperty('--to',pct+'%');
+    const m=msg(km);v.dataset.k=m.k;
+    document.getElementById('vT').textContent=m.t;document.getElementById('vP').textContent=m.p;
+    wa.href='https://wa.me/5538997406944?text='+encodeURIComponent('Olá! Vim pelo site do GL-AQLINK. Minha caixa d\'água fica a cerca de '+fmt(km)+' km da bomba. Quero tirar uma dúvida sobre o alcance no meu local e o relevo do terreno.');
+    ps.forEach(b=>b.classList.toggle('on',+b.dataset.km===km));
+  }
+  r.addEventListener('input',()=>draw(+r.value));
+  rm.addEventListener('animationiteration',e=>{if(e.target.classList.contains('pulse')){mk.classList.remove('hit');void mk.offsetWidth;mk.classList.add('hit')}});
+  function animateTo(to,dur){
+    if(RM){r.value=to;draw(to);return}
+    const from=+r.value,t0=performance.now();
+    const f=n=>{const k=Math.min(1,(n-t0)/dur),e=1-Math.pow(1-k,3),val=Math.round((from+(to-from)*e)*10)/10;r.value=val;draw(val);if(k<1)requestAnimationFrame(f)};
+    requestAnimationFrame(f);
+  }
+  ps.forEach(b=>b.addEventListener('click',()=>animateTo(+b.dataset.km,700)));
+  r.value=.1;draw(.1);
+  const start=()=>{rm.classList.add('go');animateTo(3,1600)};
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){start();io.disconnect()}},{threshold:.35});io.observe(rm)}else start();
 })();
 </script>
 </body>

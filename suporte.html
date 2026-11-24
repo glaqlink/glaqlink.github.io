@@ -1041,5 +1041,48 @@ footer nav a:hover{color:#fff}
   if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();
 </script>
+<script>
+(()=>{
+  const ua=navigator.userAgent||'';
+  const inApp=/Instagram|FBAN|FBAV|FB_IAB|Line\/|TikTok|; wv\)/i.test(ua);
+  const isAndroid=/Android/i.test(ua),isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const toast=document.getElementById('toast');
+  const tip=(b,s,ms)=>{if(!toast)return;const u=toast.querySelector('use');if(u)u.setAttribute('href','#i-down');toast.querySelector('b').textContent=b;toast.querySelector('span').textContent=s;toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');if(u)setTimeout(()=>u.setAttribute('href','#i-igc'),400)},ms||8000)};
+  const btns=[...document.querySelectorAll('a[download][href$=".pdf"]')];
+  const key=a=>a.pathname.split('/').pop().replace(/\.pdf$/,'');
+  async function baixar(a){
+    if(a.dataset.busy)return;a.dataset.busy='1';
+    const name=a.getAttribute('download')||a.pathname.split('/').pop(),lbl=a.lastChild,old=lbl.textContent;
+    lbl.textContent='Baixando…';
+    try{
+      const r=await fetch(a.href,{cache:'no-store'});if(!r.ok)throw new Error(r.status);
+      const blob=new Blob([await r.arrayBuffer()],{type:'application/octet-stream'});
+      const url=URL.createObjectURL(blob),t=document.createElement('a');
+      t.href=url;t.download=name;t.style.display='none';document.body.appendChild(t);t.click();t.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+      tip('Download iniciado',name+' · veja na pasta de downloads do aparelho.');
+    }catch(_){location.href=a.href}
+    finally{lbl.textContent=old;delete a.dataset.busy}
+  }
+  const avisoApp=()=>tip('Abra no navegador para baixar','O navegador do Instagram não permite downloads. Toque em ⋮ ou ··· no canto da tela e escolha Abrir no navegador.',12000);
+  function sairDoApp(a){
+    const alvo=location.origin+location.pathname+'?baixar='+encodeURIComponent(key(a));
+    if(isAndroid){
+      location.href='intent://'+alvo.replace(/^https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent(alvo)+';end';
+    }else if(isIOS){
+      location.href='x-safari-'+alvo;
+      setTimeout(()=>{if(document.visibilityState==='visible')avisoApp()},1800);
+    }else avisoApp();
+  }
+  btns.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(inApp)sairDoApp(a);else baixar(a)}));
+  const pedido=new URLSearchParams(location.search).get('baixar');
+  const alvo=pedido&&btns.find(a=>key(a)===pedido);
+  if(alvo){
+    try{history.replaceState(null,'',location.pathname+'#manuais')}catch(_){}
+    if(inApp)avisoApp();
+    else setTimeout(()=>{alvo.scrollIntoView({block:'center'});baixar(alvo)},600);
+  }
+})();
+</script>
 </body>
 </html>
